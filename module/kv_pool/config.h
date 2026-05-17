@@ -1,0 +1,60 @@
+#ifndef KV_POOL_CONFIG_H
+#define KV_POOL_CONFIG_H
+
+#ifndef KV_POOL_ALIGN
+#define KV_POOL_ALIGN 8
+#endif
+
+#ifndef KV_POOL_MAX_BYTES
+#define KV_POOL_MAX_BYTES 128
+#endif
+
+#ifndef KV_POOL_LARGE_MAX
+#define KV_POOL_LARGE_MAX 32768
+#endif
+
+#ifndef KV_POOL_FREELISTS
+#define KV_POOL_FREELISTS 16
+#endif
+
+#ifndef KV_POOL_PAGE_SHIFT
+#define KV_POOL_PAGE_SHIFT 12
+#endif
+
+#ifndef KV_POOL_PAGE_SIZE
+#define KV_POOL_PAGE_SIZE (1u << KV_POOL_PAGE_SHIFT)
+#endif
+
+#ifndef KV_POOL_REFILL_BATCH
+#define KV_POOL_REFILL_BATCH 128
+#endif
+
+#ifndef KV_POOL_LOCAL_MAX
+#define KV_POOL_LOCAL_MAX 0
+#endif
+
+#ifndef KV_POOL_FAST_SAME_THREAD
+#define KV_POOL_FAST_SAME_THREAD 0
+#endif
+
+#ifndef KV_POOL_TCACHE_MAX
+#define KV_POOL_TCACHE_MAX KV_POOL_LOCAL_MAX
+#endif
+
+#ifndef KV_POOL_UNTAGGED_MAX
+#define KV_POOL_UNTAGGED_MAX 8
+#endif
+
+#ifndef KV_POOL_REMOTE_BATCH
+#define KV_POOL_REMOTE_BATCH 64
+#endif
+
+#ifndef KV_POOL_DEFER_CHUNK_REGISTER
+#define KV_POOL_DEFER_CHUNK_REGISTER 1
+#endif
+
+#ifndef KV_POOL_ARENA_COUNT
+#define KV_POOL_ARENA_COUNT 0
+#endif
+
+#endif  // KV_POOL_CONFIG_H

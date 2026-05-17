@@ -1,0 +1,7 @@
+# 构建产物
+build/
+bin/
+
+# 编辑器
+.vscode/
+*.swp
