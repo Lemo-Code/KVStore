@@ -1,10 +1,10 @@
 /**
  * @file appender.cc
- * @brief LogAppender / StdoutLogAppender / FileLogAppender 实现。
  */
 #include "log/appender.h"
+#include "log/appender_util.h"
+#include "log/async_sink.h"
 #include "log/file_sink.h"
-#include "log/logger.h"
 #include "config.h"
 
 #include <ctime>
@@ -12,113 +12,61 @@
 
 namespace net {
 
-namespace {
-
-/** 日志事件时间（秒），用于切日/切小时边界，不用刷盘时刻的 time(nullptr) */
-time_t EventUnixTime(LogEvent::ptr event) {
-  return static_cast<time_t>(event->getTime());
-}
-
-}  // namespace
-
-/** 基类构造：级别默认 DEBUG，格式器为空 */
-LogAppender::LogAppender(const std::string& /*name*/)
+LogAppender::LogAppender()
     : level_(LogLevel::DEBUG),
       formatter_(nullptr),
-      has_formatter_(false),
-      async_(nullptr) {}
+      has_formatter_(false) {}
 
-/** 设置 Appender 级格式器，并更新 has_formatter_ 标记 */
 void LogAppender::setFormatter(LogFormatter::ptr formatter) {
   std::lock_guard<MutexType> lock(mutex_);
   formatter_ = formatter;
   has_formatter_ = static_cast<bool>(formatter_);
 }
 
-/** 线程安全地返回格式器指针 */
 LogFormatter::ptr LogAppender::getFormatter() {
   std::lock_guard<MutexType> lock(mutex_);
   return formatter_;
 }
 
-StdoutLogAppender::StdoutLogAppender(const std::string& /*name*/) {}
-
-/**
- * 输出到标准输出。
- * 异步模式：格式化后入队并由 AsyncLogManager 后台刷出；
- * 同步模式：直接 cout，由 mutex_ 保证多线程不乱序。
- */
-void StdoutLogAppender::log(std::shared_ptr<Logger> logger,
-                            LogLevel::Level level, LogEvent::ptr event,
-                            bool async_mode) {
-  if (level < level_) {
+void StdoutLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level,
+                            LogEvent::ptr event, bool async_mode) {
+  if (!appender_util::ShouldEmit(level, level_)) {
     return;
   }
-
-  LogFormatter::ptr fmt;
-  {
-    std::lock_guard<MutexType> lock(mutex_);
-    fmt = formatter_;
-  }
-  if (!fmt) {
-    fmt = logger->getFormatter();
-  }
-
-  std::string line = fmt->format(logger, level, event);
+  std::string line = appender_util::FormatLine(*this, logger, level, event);
   if (async_mode) {
     AsyncEnqueueStdout(std::move(line));
     return;
   }
-
   std::lock_guard<MutexType> lock(mutex_);
   std::cout << line;
 }
 
-/** 以追加模式打开目标文件，并注册 FILE 类型异步通道 */
 FileLogAppender::FileLogAppender(const std::string& filename)
     : filename_(filename), last_reopen_sec_(0) {
   filestream_.open(filename_, std::ios::app);
 }
 
-/**
- * 输出到文件。
- * 同步模式每秒 reopen 一次，防止日志文件被外部删除后无法感知；
- * 异步模式：固定 path，入队即确定目标。
- */
-void FileLogAppender::log(std::shared_ptr<Logger> logger,
-                          LogLevel::Level level, LogEvent::ptr event,
-                          bool async_mode) {
-  if (level < level_) {
+void FileLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level,
+                          LogEvent::ptr event, bool async_mode) {
+  if (!appender_util::ShouldEmit(level, level_)) {
     return;
   }
-
-  LogFormatter::ptr fmt;
-  {
-    std::lock_guard<MutexType> lock(mutex_);
-    fmt = formatter_;
-  }
-  if (!fmt) {
-    fmt = logger->getFormatter();
-  }
-
-  std::string line = fmt->format(logger, level, event);
+  std::string line = appender_util::FormatLine(*this, logger, level, event);
   if (async_mode) {
     AsyncEnqueueFile(filename_, std::move(line));
     return;
   }
-
   const uint64_t now = static_cast<uint64_t>(time(nullptr));
   if (now - last_reopen_sec_ >= static_cast<uint64_t>(NET_LOG_FILE_REOPEN_SEC)) {
     reopen();
     last_reopen_sec_ = now;
   }
-
   std::lock_guard<MutexType> lock(mutex_);
   filestream_ << line;
   filestream_.flush();
 }
 
-/** 关闭后重新以 ios::app 打开，返回是否成功 */
 bool FileLogAppender::reopen() {
   std::lock_guard<MutexType> lock(mutex_);
   uint64_t size = 0;
@@ -145,31 +93,22 @@ void RollingFileLogAppender::openCurrent() {
   last_roll_time_ = time(nullptr);
 }
 
-void RollingFileLogAppender::rollBySizeLocked(bool async_mode) {
+void RollingFileLogAppender::rollLocked(RollOp op, const std::string& time_suffix,
+                                        bool async_mode, time_t event_time) {
   if (async_mode) {
     AsyncLogMgr::GetInstance()->flushFile(filepath_);
   }
   filestream_.close();
-  file_sink::RollBySize(filepath_, max_files_);
+  if (op == RollOp::SIZE) {
+    file_sink::RollBySize(filepath_, max_files_);
+  } else {
+    file_sink::RollByTimeSuffix(filepath_, time_suffix);
+    last_roll_time_ = event_time;
+  }
   if (async_mode) {
     AsyncLogMgr::GetInstance()->reopenFile(filepath_);
   }
   file_sink::ReopenAppend(filestream_, filepath_, &current_size_);
-}
-
-void RollingFileLogAppender::rollByTimeLocked(const std::string& suffix,
-                                              bool async_mode,
-                                              time_t event_time) {
-  if (async_mode) {
-    AsyncLogMgr::GetInstance()->flushFile(filepath_);
-  }
-  filestream_.close();
-  file_sink::RollByTimeSuffix(filepath_, suffix);
-  if (async_mode) {
-    AsyncLogMgr::GetInstance()->reopenFile(filepath_);
-  }
-  file_sink::ReopenAppend(filestream_, filepath_, &current_size_);
-  last_roll_time_ = event_time;
 }
 
 void RollingFileLogAppender::writeLineLocked(const std::string& line) {
@@ -184,61 +123,40 @@ void RollingFileLogAppender::writeLineLocked(const std::string& line) {
 void RollingFileLogAppender::log(std::shared_ptr<Logger> logger,
                                  LogLevel::Level level, LogEvent::ptr event,
                                  bool async_mode) {
-  if (level < level_) {
+  if (!appender_util::ShouldEmit(level, level_)) {
     return;
   }
-
-  LogFormatter::ptr fmt;
-  {
-    std::lock_guard<MutexType> lock(mutex_);
-    fmt = formatter_;
-  }
-  if (!fmt) {
-    fmt = logger->getFormatter();
-  }
-
-  std::string line = fmt->format(logger, level, event);
-  const time_t event_time = EventUnixTime(event);
+  std::string line = appender_util::FormatLine(*this, logger, level, event);
+  const time_t event_time = appender_util::EventTime(event);
   const uint64_t add = line.size();
 
   if (async_mode) {
-    std::string dest;
-    {
-      std::lock_guard<MutexType> lock(mutex_);
-      const bool time_roll = file_sink::ShouldRollByTime(
-          roll_interval_, event_time, last_roll_time_);
-      if (time_roll) {
-        rollByTimeLocked(file_sink::MakeTimeSuffix(roll_interval_, event_time),
-                         true, event_time);
-      } else if (max_file_size_ > 0 && current_size_ + add >= max_file_size_) {
-        rollBySizeLocked(true);
-      }
-      dest = filepath_;
-      current_size_ += add;
+    std::lock_guard<MutexType> lock(mutex_);
+    if (file_sink::ShouldRollByTime(roll_interval_, event_time, last_roll_time_)) {
+      rollLocked(RollOp::TIME,
+                 file_sink::MakeTimeSuffix(roll_interval_, event_time), true,
+                 event_time);
+    } else if (max_file_size_ > 0 && current_size_ + add >= max_file_size_) {
+      rollLocked(RollOp::SIZE, "", true, event_time);
     }
-    AsyncEnqueueFile(dest, std::move(line));
+    current_size_ += add;
+    AsyncEnqueueFile(filepath_, std::move(line));
     return;
   }
 
   std::lock_guard<MutexType> lock(mutex_);
-  const bool time_roll =
-      file_sink::ShouldRollByTime(roll_interval_, event_time, last_roll_time_);
-
-  if (time_roll) {
-    rollByTimeLocked(file_sink::MakeTimeSuffix(roll_interval_, event_time),
-                     false, event_time);
+  if (file_sink::ShouldRollByTime(roll_interval_, event_time, last_roll_time_)) {
+    rollLocked(RollOp::TIME, file_sink::MakeTimeSuffix(roll_interval_, event_time),
+               false, event_time);
   } else if (max_file_size_ > 0 && current_size_ + add >= max_file_size_) {
-    rollBySizeLocked(false);
+    rollLocked(RollOp::SIZE, "", false, event_time);
   }
-
   writeLineLocked(line);
 }
 
 TimeRotateFileLogAppender::TimeRotateFileLogAppender(
     const std::string& base_path, file_sink::RollInterval interval)
-    : base_path_(base_path),
-      roll_interval_(interval),
-      last_period_(0) {
+    : base_path_(base_path), roll_interval_(interval), last_period_(0) {
   std::lock_guard<MutexType> lock(mutex_);
   openDatedLocked(time(nullptr));
 }
@@ -250,28 +168,18 @@ void TimeRotateFileLogAppender::openDatedLocked(time_t event_time) {
 }
 
 void TimeRotateFileLogAppender::log(std::shared_ptr<Logger> logger,
-                                    LogLevel::Level level,
-                                    LogEvent::ptr event, bool async_mode) {
-  if (level < level_) {
+                                    LogLevel::Level level, LogEvent::ptr event,
+                                    bool async_mode) {
+  if (!appender_util::ShouldEmit(level, level_)) {
     return;
   }
-
-  LogFormatter::ptr fmt;
-  {
-    std::lock_guard<MutexType> lock(mutex_);
-    fmt = formatter_;
-  }
-  if (!fmt) {
-    fmt = logger->getFormatter();
-  }
-  std::string line = fmt->format(logger, level, event);
-
-  const time_t event_time = EventUnixTime(event);
-  const std::string dest =
+  std::string line = appender_util::FormatLine(*this, logger, level, event);
+  const time_t event_time = appender_util::EventTime(event);
+  const std::string path =
       file_sink::DatedPath(base_path_, roll_interval_, event_time);
 
   if (async_mode) {
-    AsyncEnqueueFile(dest, std::move(line));
+    AsyncEnqueueFile(path, std::move(line));
     return;
   }
 
@@ -309,11 +217,10 @@ void CircularFileLogAppender::openSlotLocked(uint32_t slot, bool truncate_slot,
                                              bool async_mode) {
   current_slot_ = slot % slot_count_;
   const std::string& path = slot_paths_[current_slot_];
-  if (truncate_slot && async_mode) {
-    AsyncLogMgr::GetInstance()->flushFile(path);
-    AsyncLogMgr::GetInstance()->reopenFile(path);
-  }
   if (truncate_slot) {
+    if (async_mode) {
+      appender_util::AsyncPrepareFileMutation(path);
+    }
     file_sink::OpenTruncate(filestream_, path);
     current_size_ = 0;
   } else {
@@ -322,40 +229,30 @@ void CircularFileLogAppender::openSlotLocked(uint32_t slot, bool truncate_slot,
 }
 
 void CircularFileLogAppender::advanceSlotLocked(bool async_mode) {
-  const uint32_t next = (current_slot_ + 1) % slot_count_;
   filestream_.close();
-  openSlotLocked(next, true, async_mode);
+  openSlotLocked((current_slot_ + 1) % slot_count_, true, async_mode);
 }
 
 void CircularFileLogAppender::log(std::shared_ptr<Logger> logger,
                                   LogLevel::Level level, LogEvent::ptr event,
                                   bool async_mode) {
-  if (level < level_) {
+  if (!appender_util::ShouldEmit(level, level_)) {
     return;
   }
-
-  LogFormatter::ptr fmt;
-  {
-    std::lock_guard<MutexType> lock(mutex_);
-    fmt = formatter_;
-  }
-  if (!fmt) {
-    fmt = logger->getFormatter();
-  }
-  std::string line = fmt->format(logger, level, event);
+  std::string line = appender_util::FormatLine(*this, logger, level, event);
   const uint64_t add = line.size();
 
   if (async_mode) {
-    std::string dest;
+    std::string path;
     {
       std::lock_guard<MutexType> lock(mutex_);
       if (max_bytes_per_slot_ > 0 && current_size_ + add >= max_bytes_per_slot_) {
         advanceSlotLocked(true);
       }
-      dest = slot_paths_[current_slot_];
+      path = slot_paths_[current_slot_];
       current_size_ += add;
     }
-    AsyncEnqueueFile(dest, std::move(line));
+    AsyncEnqueueFile(path, std::move(line));
     return;
   }
 

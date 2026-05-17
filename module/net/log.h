@@ -14,7 +14,6 @@
 #include "singleton.h"
 #include "util.h"
 #include "log/level.h"
-#include "log/util.h"
 #include "log/event.h"
 #include "log/wrap.h"
 #include "log/formatter.h"

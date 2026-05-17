@@ -2,7 +2,6 @@
 #define NET_LOG_ASYNC_SINK_H
 
 #include "config.h"
-#include "log/async_record.h"
 #include "log/file_writer.h"
 #include "log/lockfree_mpsc_queue.h"
 #include "singleton.h"
@@ -24,58 +23,40 @@ class AsyncLogManager;
 
 namespace detail {
 
-inline std::atomic<size_t>& AsyncLogPendingCount() {
-  static std::atomic<size_t> count(0);
-  return count;
+inline std::atomic<size_t>& PendingCount() {
+  static std::atomic<size_t> n(0);
+  return n;
 }
 
-inline bool ShouldEnqueueAsyncLog() {
+inline bool AllowEnqueue() {
 #if NET_LOG_DEGRADE_MODE == 1
-  const size_t pending =
-      AsyncLogPendingCount().load(std::memory_order_relaxed);
-  if (pending >= static_cast<size_t>(NET_LOG_ASYNC_SOFT_CAP)) {
+  if (PendingCount().load(std::memory_order_relaxed) >=
+      static_cast<size_t>(NET_LOG_ASYNC_SOFT_CAP)) {
     return false;
   }
 #endif
   return true;
 }
 
-inline void OnAsyncLogEnqueued() {
-  AsyncLogPendingCount().fetch_add(1, std::memory_order_relaxed);
-}
-
-inline void OnAsyncLogDrained(size_t drained_count) {
-  if (drained_count == 0) {
-    return;
-  }
-  AsyncLogPendingCount().fetch_sub(drained_count, std::memory_order_relaxed);
-}
-
 }  // namespace detail
 
-enum class AsyncSinkType {
-  STDOUT = 0,
-  FILE = 1,
-};
+enum class AsyncSinkType { STDOUT = 0, FILE = 1 };
+
+/** 标准输出通道固定键 */
+inline const char* StdoutDestination() { return "@stdout"; }
 
 /**
- * @brief 单路 MPSC 队列；元素为已格式化记录。
- *
- * flush 时由 AsyncLogManager 将 payload 追加到对应 FileWriter/StdoutWriter 的
- * 固定 ByteBuffer，达到阈值后批量 write，而非逐条写文件。
+ * @brief 单路 MPSC；队列元素仅为已格式化文本，目标路径由 channel 持有。
  */
 class AsyncLogChannel {
  public:
   typedef std::shared_ptr<AsyncLogChannel> ptr;
 
-  AsyncLogChannel(AsyncSinkType type, const std::string& destination);
+  AsyncLogChannel(AsyncSinkType type, std::string destination);
 
-  void enqueue(AsyncLogRecord&& record);
-
-  /** 弹出全部记录交给 manager 聚合（仅后台线程） */
+  void enqueue(std::string payload);
   size_t drainTo(AsyncLogManager& manager);
 
-  std::string key() const { return key_; }
   AsyncSinkType type() const { return type_; }
   const std::string& destination() const { return destination_; }
 
@@ -85,12 +66,10 @@ class AsyncLogChannel {
   AsyncSinkType type_;
   std::string destination_;
   std::string key_;
-  LockFreeMpscQueue<AsyncLogRecord> queue_;
+  LockFreeMpscQueue<std::string> queue_;
 };
 
-/**
- * @brief 异步日志管理器：MPSC → ByteBuffer 聚合 → 批量 write。
- */
+/** MPSC → 按路径 ByteBuffer 聚合 → 批量 write */
 class AsyncLogManager {
  public:
   typedef std::mutex MutexType;
@@ -98,33 +77,29 @@ class AsyncLogManager {
   AsyncLogManager();
   ~AsyncLogManager();
 
-  AsyncLogChannel::ptr emplaceChannel(AsyncSinkType type,
-                                      const std::string& destination);
+  void enqueue(AsyncSinkType type, const std::string& destination,
+               std::string payload);
 
   void notify();
-
-  /** 轮转/truncate 前：排空该路径队列并刷缓冲 */
   void flushFile(const std::string& destination);
-
-  /** rename 后：关闭旧 fd 并重新 open(O_APPEND) 新文件 */
   void reopenFile(const std::string& destination);
-
-  /** 由 AsyncLogChannel::drainTo 调用（仅后台线程） */
-  void ingestRecord(AsyncSinkType type, const std::string& destination,
-                    std::string&& payload);
 
  private:
   friend class AsyncLogChannel;
 
+  AsyncLogChannel::ptr channelFor(AsyncSinkType type,
+                                  const std::string& destination);
+  void ingest(AsyncSinkType type, const std::string& destination,
+              std::string&& payload);
+  void flushAllBuffers();
+  FileWriter& writerFor(const std::string& path);
   void run();
-  void flushAllSinkBuffers();
-  FileWriter& fileWriterFor(const std::string& path);
 
   std::map<std::string, AsyncLogChannel::ptr> channels_;
   MutexType ch_mtx_;
 
-  std::unordered_map<std::string, std::unique_ptr<FileWriter>> file_writers_;
-  StdoutWriter stdout_writer_;
+  std::unordered_map<std::string, std::unique_ptr<FileWriter>> writers_;
+  StdoutWriter stdout_;
   MutexType sink_mtx_;
 
   std::atomic<bool> running_;
@@ -138,21 +113,13 @@ class AsyncLogManager {
 
 typedef Singleton<AsyncLogManager> AsyncLogMgr;
 
-inline void AsyncEnqueue(AsyncSinkType type, const std::string& destination,
-                         std::string payload) {
-  AsyncLogMgr::GetInstance()
-      ->emplaceChannel(type, destination)
-      ->enqueue(AsyncLogRecord(destination, std::move(payload)));
-  AsyncLogMgr::GetInstance()->notify();
-}
-
-inline void AsyncEnqueueFile(const std::string& destination, std::string line) {
-  AsyncEnqueue(AsyncSinkType::FILE, destination, std::move(line));
+inline void AsyncEnqueueFile(const std::string& path, std::string line) {
+  AsyncLogMgr::GetInstance()->enqueue(AsyncSinkType::FILE, path, std::move(line));
 }
 
 inline void AsyncEnqueueStdout(std::string line) {
-  static const std::string kStdoutDest = "@stdout";
-  AsyncEnqueue(AsyncSinkType::STDOUT, kStdoutDest, std::move(line));
+  AsyncLogMgr::GetInstance()->enqueue(AsyncSinkType::STDOUT, StdoutDestination(),
+                                      std::move(line));
 }
 
 }  // namespace net

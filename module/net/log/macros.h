@@ -3,7 +3,7 @@
 
 #include "log/event.h"
 #include "log/manager.h"
-#include "log/util.h"
+#include "util.h"
 #include "log/wrap.h"
 
 #include <ctime>

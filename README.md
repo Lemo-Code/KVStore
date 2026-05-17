@@ -9,8 +9,9 @@
 ```
 KVStore/
 ├── module/
-│   ├── lstl/memory/          # 空间配置模块（header-only）
-│   ├── enginer/              # 容器层（vector 等）
+│   ├── lstl/
+│   │   ├── memory/           # 空间配置模块（header-only）
+│   │   └── container/        # 容器（vector 等）
 │   ├── kv_pool/              # 多线程内存池
 │   │   ├── kv_pool.h
 │   │   ├── config.h
@@ -19,7 +20,8 @@ KVStore/
 │       ├── log.h
 │       └── log/
 ├── tests/
-│   ├── memory/               # lstl 单元测试
+│   ├── memory/               # lstl 空间配置测试
+│   ├── container/            # lstl 容器测试
 │   ├── kv_pool/
 │   └── net/
 ├── docs/lstl/                # 设计文档（含 spatial_allocator_summary.md）

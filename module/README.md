@@ -4,20 +4,21 @@
 
 ```
 module/
-├── lstl/memory/  # 空间配置器（header-only，C++11 STL/SGI 同构）
-├── enginer/      # 容器层（vector 等，基于 lstl）
-├── kv_pool/      # 多线程二级内存池（TCache + Arena + MPSC）
-└── net/          # 异步日志（log 子模块）
+├── lstl/
+│   ├── memory/     # 空间配置器（header-only，C++11 STL/SGI 同构）
+│   └── container/  # 容器（vector 等，基于 memory）
+├── kv_pool/        # 多线程二级内存池（TCache + Arena + MPSC）
+└── net/            # 异步日志（log 子模块）
 ```
 
 | 模块 | 构建开关 | 测试目录 | 产物目录 |
 |------|----------|----------|----------|
-| lstl | 默认开启 | `tests/memory/` | `bin/memory/` |
-| enginer | `LSTL_BUILD_ENGINER` | `tests/enginer/` | `bin/enginer/` |
+| lstl memory | 默认开启 | `tests/memory/` | `bin/memory/` |
+| lstl container | `LSTL_BUILD_CONTAINER` | `tests/container/` | `bin/container/` |
 | kv_pool | `LSTL_BUILD_KV_POOL` | `tests/kv_pool/` | `bin/kv_pool/` |
 | net | `LSTL_BUILD_NET_LOG` | `tests/net/` | `bin/net/` |
 
-`lstl` 在根 `CMakeLists.txt` 中以 `lstl_memory` INTERFACE 库导出；`kv_pool`、`net` 由 `module/CMakeLists.txt` 按选项 `add_subdirectory`。
+`lstl_memory` 在根 `CMakeLists.txt` 中导出 memory 与 container 的 include 路径；`kv_pool`、`net` 由 `module/CMakeLists.txt` 按选项 `add_subdirectory`。
 
 设计文档：
 

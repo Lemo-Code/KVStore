@@ -1,49 +1,52 @@
 /**
  * @file manager.cc
- * @brief LoggerManager / AsyncLoggerManager 实现。
  */
 #include "log/manager.h"
 
 namespace net {
 
-LoggerManager::LoggerManager() {
-  root_.reset(new Logger("root", false));
-  root_->addAppender(LogAppender::ptr(new StdoutLogAppender("root")));
+namespace {
+
+Logger::ptr CreateRoot(bool async) {
+  Logger::ptr root(new Logger("root", async));
+  root->addAppender(LogAppender::ptr(new StdoutLogAppender()));
+  return root;
+}
+
+Logger::ptr FindOrCreateLogger(std::map<std::string, Logger::ptr>& loggers,
+                               Logger::ptr root, const std::string& name,
+                               bool async, std::mutex& mtx) {
+  std::lock_guard<std::mutex> lock(mtx);
+  const auto it = loggers.find(name);
+  if (it != loggers.end()) {
+    return it->second;
+  }
+  Logger::ptr logger(new Logger(name, async));
+  logger->root_ = root;
+  loggers[name] = logger;
+  return logger;
+}
+
+}  // namespace
+
+LoggerManager::LoggerManager() : root_(CreateRoot(false)) {
   loggers_[root_->getName()] = root_;
 }
 
 Logger::ptr LoggerManager::getLogger(const std::string& name) {
-  std::lock_guard<MutexType> lock(mutex_);
-  const auto it = loggers_.find(name);
-  if (it != loggers_.end()) {
-    return it->second;
-  }
-  Logger::ptr logger(new Logger(name, false));
-  logger->root_ = root_;
-  loggers_[name] = logger;
-  return logger;
+  return FindOrCreateLogger(loggers_, root_, name, false, mutex_);
 }
 
 Logger::ptr LoggerManager::getRoot() {
   return root_;
 }
 
-AsyncLoggerManager::AsyncLoggerManager() {
-  root_.reset(new Logger("root", true));
-  root_->addAppender(LogAppender::ptr(new StdoutLogAppender("root")));
+AsyncLoggerManager::AsyncLoggerManager() : root_(CreateRoot(true)) {
   loggers_[root_->getName()] = root_;
 }
 
 Logger::ptr AsyncLoggerManager::getLogger(const std::string& name) {
-  std::lock_guard<MutexType> lock(mutex_);
-  const auto it = loggers_.find(name);
-  if (it != loggers_.end()) {
-    return it->second;
-  }
-  Logger::ptr logger(new Logger(name, true));
-  logger->root_ = root_;
-  loggers_[name] = logger;
-  return logger;
+  return FindOrCreateLogger(loggers_, root_, name, true, mutex_);
 }
 
 Logger::ptr AsyncLoggerManager::getRoot() {
