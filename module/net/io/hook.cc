@@ -1,5 +1,6 @@
 #include "io/hook.h"
 
+#include "common/util.h"
 #include "fiber/fiber.h"
 #include "fiber/timer.h"
 #include "io/fdmanager.h"
@@ -14,8 +15,13 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/uio.h>
+#include <sys/syscall.h>
 #include <time.h>
 #include <unistd.h>
+
+#ifndef SYS_fcntl
+#define SYS_fcntl __NR_fcntl
+#endif
 
 #include <memory>
 
@@ -191,11 +197,18 @@ int do_connect(int fd, const struct sockaddr* addr, socklen_t addrlen,
     return connect_f(fd, addr, addrlen);
   }
 
+  int flags = static_cast<int>(syscall(SYS_fcntl, fd, F_GETFL, 0));
+  if (flags >= 0 && !(flags & O_NONBLOCK)) {
+    syscall(SYS_fcntl, fd, F_SETFL, flags | O_NONBLOCK);
+    ctx->setSysNonBlock(true);
+  }
+
+  const uint64_t start_ms = GetCurrentMS();
   int n = connect_f(fd, addr, addrlen);
   if (n == 0) {
     return 0;
   }
-  if (n != -1 || errno != EINPROGRESS) {
+  if (n != -1 || (errno != EINPROGRESS && errno != EALREADY)) {
     return n;
   }
 
@@ -235,6 +248,12 @@ int do_connect(int fd, const struct sockaddr* addr, socklen_t addrlen,
   }
   if (tinfo->cancelled != 0) {
     errno = tinfo->cancelled;
+    return -1;
+  }
+  if (timeout_ms != UINT64_MAX &&
+      GetCurrentMS() - start_ms >= timeout_ms) {
+    iom->cancelEvent(fd, IOManager::WRITE);
+    errno = ETIMEDOUT;
     return -1;
   }
 
