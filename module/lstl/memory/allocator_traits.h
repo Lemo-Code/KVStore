@@ -2,7 +2,6 @@
 #define LSTL_ALLOCATOR_TRAITS_H
 
 #include <cstddef>
-#include <limits>
 #include <new>
 
 #include "construct.h"

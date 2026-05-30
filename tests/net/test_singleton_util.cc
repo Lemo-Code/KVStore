@@ -1,8 +1,9 @@
 #include "test_common.h"
 
-#include "singleton.h"
-#include "util.h"
+#include "common/singleton.h"
+#include "common/util.h"
 
+#include <cstdint>
 #include <string>
 
 namespace {
@@ -21,7 +22,7 @@ int main() {
   NET_CHECK(net::GetThreadId() > 0);
   NET_CHECK(net::GetFiberId() == 0);
   NET_CHECK(!net::GetThreadName().empty());
-  NET_CHECK(net::GetElapseMs() >= 0);
+  NET_CHECK(net::GetElapseMs() < UINT32_MAX);
   NET_CHECK(net::GetCurrentMS() > 0);
   NET_CHECK(net::GetCurrentUS() > net::GetCurrentMS());
   NET_CHECK(!net::Time2Str(time(nullptr)).empty());

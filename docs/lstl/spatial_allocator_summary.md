@@ -573,7 +573,7 @@ memory.h
 
 ## 16. 测试体系
 
-**目录**：`tests/memory/`  
+**目录**：`tests/lstl/memory/`  
 **CMake**：`lstl_add_module_tests(memory TESTS …)`  
 **输出**：`bin/memory/<test_name>`
 

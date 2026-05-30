@@ -1,14 +1,13 @@
 #include "test_common.h"
 
-#include "log.h"
+#include "log/log.h"
 
-#include <chrono>
 #include <fstream>
 #include <string>
-#include <thread>
+#include <vector>
 
 int main() {
-  const std::string log_path = "/tmp/net_log_async_test.log";
+  const std::string log_path = net_test::LogPath("async_test.log");
 
   auto logger = net::AsyncLoggerMgr::GetInstance()->getLogger("async_test");
   logger->clearAppenders();
@@ -23,14 +22,16 @@ int main() {
     }
   };
 
-  std::thread t1(worker, 0, 50);
-  std::thread t2(worker, 50, 100);
-  t1.join();
-  t2.join();
+  std::vector<net::Thread::ptr> threads;
+  threads.push_back(net::Thread::ptr(
+      new net::Thread(std::bind(worker, 0, 50), "async_w0")));
+  threads.push_back(net::Thread::ptr(
+      new net::Thread(std::bind(worker, 50, 100), "async_w1")));
+  for (auto& t : threads) {
+    t->join();
+  }
 
-  // 等待后台刷盘线程写出
-  std::this_thread::sleep_for(std::chrono::milliseconds(
-      NET_LOG_ASYNC_FLUSH_MS + 200));
+  net_test::FlushAsyncLogs();
 
   {
     std::ifstream ifs(log_path.c_str());

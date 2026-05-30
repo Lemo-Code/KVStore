@@ -5,14 +5,22 @@
 #include "log/event.h"
 #include "log/formatter.h"
 #include "log/level.h"
-#include "config.h"
+#include "log/config/build_config.h"
+
+#include "thread/mutex.h"
 
 #include <list>
 #include <memory>
-#include <mutex>
 #include <string>
 
 namespace net {
+
+class Logger;
+
+namespace detail {
+void AttachRoot(const std::shared_ptr<Logger>& child,
+                const std::shared_ptr<Logger>& root);
+}
 
 /**
  * @brief 日志器，聚合格式器与多个 Appender。
@@ -23,9 +31,11 @@ namespace net {
 class Logger : public std::enable_shared_from_this<Logger> {
   friend class LoggerManager;
   friend class AsyncLoggerManager;
+  friend void detail::AttachRoot(const std::shared_ptr<Logger>&,
+                                 const std::shared_ptr<Logger>&);
 
  public:
-  typedef std::mutex MutexType;
+  typedef Spinlock MutexType;
   typedef std::shared_ptr<Logger> ptr;
 
   // 参数的初始化

@@ -4,103 +4,65 @@
 #include "log/async_sink.h"
 
 #include <chrono>
+#include <functional>
+#include <thread>
 
 namespace net {
 
-namespace {
-
-std::string ChannelKey(AsyncSinkType type, const std::string& dst) {
-  return std::to_string(static_cast<int>(type)) + "|" + dst;
-}
-
-}  // namespace
-
-AsyncLogChannel::AsyncLogChannel(AsyncSinkType type, std::string destination)
-    : type_(type),
-      destination_(std::move(destination)),
-      key_(ChannelKey(type_, destination_)) {}
-
-void AsyncLogChannel::enqueue(std::string payload) {
-  if (!detail::AllowEnqueue() || payload.empty()) {
-    return;
-  }
-  queue_.push(std::move(payload));
-  detail::PendingCount().fetch_add(1, std::memory_order_relaxed);
-}
-
-size_t AsyncLogChannel::drainTo(AsyncLogManager& manager) {
-  size_t n = 0;
-  std::string line;
-  while (queue_.try_pop(line)) {
-    manager.ingest(type_, destination_, std::move(line));
-    ++n;
-  }
-  if (n > 0) {
-    detail::PendingCount().fetch_sub(n, std::memory_order_relaxed);
-  }
-  return n;
-}
-
 AsyncLogManager::AsyncLogManager()
-    : stdout_(NET_LOG_ASYNC_BUF_BYTES, NET_LOG_ASYNC_FLUSH_THRESHOLD),
+    : stdout_(LogConfig::instance().bufBytes(),
+              LogConfig::instance().flushThreshold()),
       running_(true),
-      flush_interval_ms_(NET_LOG_ASYNC_FLUSH_MS),
-      buf_capacity_(NET_LOG_ASYNC_BUF_BYTES),
-      flush_threshold_(NET_LOG_ASYNC_FLUSH_THRESHOLD) {
-  worker_ = std::thread(&AsyncLogManager::run, this);
+      wake_(false),
+      flush_interval_ms_(LogConfig::instance().flushIntervalMs()),
+      buf_capacity_(LogConfig::instance().bufBytes()),
+      flush_threshold_(LogConfig::instance().flushThreshold()) {
+  worker_.reset(new Thread(std::bind(&AsyncLogManager::run, this),
+                           NET_LOG_ASYNC_WORKER_NAME));
 }
 
 AsyncLogManager::~AsyncLogManager() {
   running_.store(false, std::memory_order_release);
   notify();
-  if (worker_.joinable()) {
-    worker_.join();
+  if (worker_) {
+    worker_->join();
+    worker_.reset();
   }
-
-  std::vector<AsyncLogChannel::ptr> snapshot;
-  {
-    std::lock_guard<MutexType> lock(ch_mtx_);
-    snapshot.reserve(channels_.size());
-    for (auto& kv : channels_) {
-      snapshot.push_back(kv.second);
-    }
-  }
-  for (const auto& ch : snapshot) {
-    ch->drainTo(*this);
-  }
+  drainGlobalQueue();
   flushAllBuffers();
 
-  std::lock_guard<MutexType> lock(sink_mtx_);
+  MutexType::Lock lock(sink_mtx_);
   for (auto& kv : writers_) {
     kv.second->close();
   }
   writers_.clear();
-
-  std::lock_guard<MutexType> ch_lock(ch_mtx_);
-  channels_.clear();
-}
-
-AsyncLogChannel::ptr AsyncLogManager::channelFor(AsyncSinkType type,
-                                               const std::string& destination) {
-  const std::string key = ChannelKey(type, destination);
-  std::lock_guard<MutexType> lock(ch_mtx_);
-  const auto it = channels_.find(key);
-  if (it != channels_.end()) {
-    return it->second;
-  }
-  auto ch = std::make_shared<AsyncLogChannel>(type, destination);
-  channels_.emplace(key, ch);
-  return ch;
 }
 
 void AsyncLogManager::enqueue(AsyncSinkType type, const std::string& destination,
                               std::string payload) {
-  channelFor(type, destination)->enqueue(std::move(payload));
-  notify();
+  if (!detail::AllowEnqueue() || payload.empty()) {
+    return;
+  }
+  queue_.push(AsyncLogRecord(type, destination, std::move(payload)));
+  detail::PendingCount().fetch_add(1, std::memory_order_relaxed);
+  LogConfig::instance().recordEnqueueAccepted();
 }
 
 void AsyncLogManager::notify() {
-  cv_.notify_one();
+  wake_.store(true, std::memory_order_release);
+}
+
+void AsyncLogManager::ingest(AsyncSinkType type, const std::string& destination,
+                             std::string&& payload) {
+  if (payload.empty()) {
+    return;
+  }
+  MutexType::Lock lock(sink_mtx_);
+  if (type == AsyncSinkType::STDOUT) {
+    stdout_.append(payload);
+  } else {
+    writerFor(destination).append(payload);
+  }
 }
 
 FileWriter& AsyncLogManager::writerFor(const std::string& path) {
@@ -115,29 +77,51 @@ FileWriter& AsyncLogManager::writerFor(const std::string& path) {
   return ref;
 }
 
-void AsyncLogManager::ingest(AsyncSinkType type, const std::string& destination,
-                             std::string&& payload) {
-  if (payload.empty()) {
-    return;
+void AsyncLogManager::drainGlobalQueue() {
+  MutexType::Lock lock(drain_mtx_);
+  AsyncLogRecord rec;
+  while (queue_.try_pop(rec)) {
+    ingest(rec.type, rec.destination, std::move(rec.payload));
+    detail::PendingCount().fetch_sub(1, std::memory_order_relaxed);
   }
-  std::lock_guard<MutexType> lock(sink_mtx_);
-  if (type == AsyncSinkType::STDOUT) {
-    stdout_.append(payload);
-    return;
+}
+
+void AsyncLogManager::drainGlobalQueueForPath(const std::string& destination) {
+  MutexType::Lock lock(drain_mtx_);
+  std::vector<AsyncLogRecord> deferred;
+  deferred.reserve(64);
+
+  AsyncLogRecord rec;
+  while (queue_.try_pop(rec)) {
+    detail::PendingCount().fetch_sub(1, std::memory_order_relaxed);
+    if (rec.type == AsyncSinkType::FILE && rec.destination == destination) {
+      ingest(rec.type, rec.destination, std::move(rec.payload));
+    } else {
+      deferred.push_back(std::move(rec));
+      detail::PendingCount().fetch_add(1, std::memory_order_relaxed);
+    }
   }
-  writerFor(destination).append(payload);
+
+  for (auto& item : deferred) {
+    queue_.push(std::move(item));
+  }
 }
 
 void AsyncLogManager::flushAllBuffers() {
-  std::lock_guard<MutexType> lock(sink_mtx_);
+  MutexType::Lock lock(sink_mtx_);
   for (auto& kv : writers_) {
     kv.second->flush_buffer();
   }
   stdout_.flush_buffer();
 }
 
+void AsyncLogManager::flush() {
+  drainGlobalQueue();
+  flushAllBuffers();
+}
+
 void AsyncLogManager::reopenFile(const std::string& destination) {
-  std::lock_guard<MutexType> lock(sink_mtx_);
+  MutexType::Lock lock(sink_mtx_);
   const auto it = writers_.find(destination);
   if (it != writers_.end()) {
     it->second->close();
@@ -146,42 +130,30 @@ void AsyncLogManager::reopenFile(const std::string& destination) {
 }
 
 void AsyncLogManager::flushFile(const std::string& destination) {
-  AsyncLogChannel::ptr ch;
-  {
-    std::lock_guard<MutexType> lock(ch_mtx_);
-    const auto it = channels_.find(ChannelKey(AsyncSinkType::FILE, destination));
-    if (it != channels_.end()) {
-      ch = it->second;
-    }
-  }
-  if (ch) {
-    ch->drainTo(*this);
-  }
-  std::lock_guard<MutexType> lock(sink_mtx_);
-  const auto wit = writers_.find(destination);
-  if (wit != writers_.end()) {
-    wit->second->flush_buffer();
+  drainGlobalQueueForPath(destination);
+  MutexType::Lock lock(sink_mtx_);
+  const auto it = writers_.find(destination);
+  if (it != writers_.end()) {
+    it->second->flush_buffer();
   }
 }
 
 void AsyncLogManager::run() {
+  using Clock = std::chrono::steady_clock;
   while (running_.load(std::memory_order_acquire)) {
-    {
-      std::unique_lock<MutexType> lk(cv_mtx_);
-      cv_.wait_for(lk, std::chrono::milliseconds(flush_interval_ms_));
-    }
-
-    std::vector<AsyncLogChannel::ptr> snapshot;
-    {
-      std::lock_guard<MutexType> lock(ch_mtx_);
-      snapshot.reserve(channels_.size());
-      for (auto& kv : channels_) {
-        snapshot.push_back(kv.second);
+    flush_interval_ms_ = LogConfig::instance().flushIntervalMs();
+    const auto deadline =
+        Clock::now() + std::chrono::milliseconds(flush_interval_ms_);
+    while (running_.load(std::memory_order_acquire)) {
+      if (wake_.exchange(false, std::memory_order_acq_rel)) {
+        break;
       }
+      if (Clock::now() >= deadline) {
+        break;
+      }
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
-    for (const auto& ch : snapshot) {
-      ch->drainTo(*this);
-    }
+    drainGlobalQueue();
     flushAllBuffers();
   }
 }

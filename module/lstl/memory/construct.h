@@ -5,6 +5,7 @@
 
 #include "internal/detail/iterator_facet.h"
 #include "type_traits.h"
+#include "utility.h"
 
 namespace lstl {
 
@@ -20,12 +21,12 @@ inline void construct(T* p, const V& value) {
 
 template <typename T>
 inline void construct(T* p, T&& value) {
-  new (static_cast<void*>(p)) T(static_cast<T&&>(value));
+  new (static_cast<void*>(p)) T(lstl::move(value));
 }
 
 template <typename T, typename... Args>
 inline void construct(T* p, Args&&... args) {
-  new (static_cast<void*>(p)) T(static_cast<Args&&>(args)...);
+  new (static_cast<void*>(p)) T(lstl::forward<Args>(args)...);
 }
 
 template <typename T>

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -g CMakeFiles/test_log_appender.dir/__/__/tests/net/test_log_appender.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/test_log_appender  libnet_log.a -lyaml-cpp -ldl 

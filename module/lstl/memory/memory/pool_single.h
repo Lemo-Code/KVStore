@@ -3,9 +3,9 @@
 
 #include <cstdint>
 #include <cstdlib>
-#include <cstring>
 
 #include "../config.h"
+#include "../memory_ops.h"
 #include "freelist.h"
 #include "large.h"
 #include "malloc_alloc.h"
@@ -32,7 +32,7 @@ struct PoolSingle {
 #endif
 
   PoolSingle() : bump_start(0), bump_end(0), heap_size(0) {
-    std::memset(free_list, 0, sizeof(free_list));
+    lstl::memset(free_list, 0, sizeof(free_list));
 #ifndef LSTL_POOL_DISABLE_STATS
     alloc_count = 0;
     free_count = 0;
@@ -280,7 +280,7 @@ struct PoolSingle {
 
   static void init_span(SpanHeader* span, size_t size_class, uint16_t block_size,
                         void* base, size_t size) {
-    std::memset(span, 0, sizeof(SpanHeader));
+    lstl::memset(span, 0, sizeof(SpanHeader));
     span->magic = LSTL_SPAN_MAGIC;
     span->size_class = static_cast<uint16_t>(size_class);
     span->block_size = block_size;

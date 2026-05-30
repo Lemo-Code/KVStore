@@ -15,14 +15,14 @@ Logger::ptr CreateRoot(bool async) {
 
 Logger::ptr FindOrCreateLogger(std::map<std::string, Logger::ptr>& loggers,
                                Logger::ptr root, const std::string& name,
-                               bool async, std::mutex& mtx) {
-  std::lock_guard<std::mutex> lock(mtx);
+                               bool async, Spinlock& mtx) {
+  Spinlock::Lock lock(mtx);
   const auto it = loggers.find(name);
   if (it != loggers.end()) {
     return it->second;
   }
   Logger::ptr logger(new Logger(name, async));
-  logger->root_ = root;
+  detail::AttachRoot(logger, root);
   loggers[name] = logger;
   return logger;
 }

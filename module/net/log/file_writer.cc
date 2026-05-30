@@ -87,13 +87,6 @@ void FileWriter::flush_buffer() {
   buf_.clear();
 }
 
-void FileWriter::flush_all() {
-  flush_buffer();
-  if (fd_ >= 0) {
-    ::fdatasync(fd_);
-  }
-}
-
 void FileWriter::close() {
   if (fd_ >= 0) {
     flush_buffer();

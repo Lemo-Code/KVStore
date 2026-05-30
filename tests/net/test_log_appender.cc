@@ -1,6 +1,6 @@
 #include "test_common.h"
 
-#include "log.h"
+#include "log/log.h"
 
 #include <fstream>
 #include <string>
@@ -16,13 +16,14 @@ std::string ReadFile(const std::string& path) {
 }  // namespace
 
 int main() {
-  const std::string fixed = "/tmp/net_sink_fixed.log";
-  const std::string para_a = "/tmp/net_sink_para_a.log";
-  const std::string para_b = "/tmp/net_sink_para_b.log";
-  const std::string ring0 = "/tmp/net_sink_ring.0";
-  const std::string ring1 = "/tmp/net_sink_ring.1";
-  const std::string ring2 = "/tmp/net_sink_ring.2";
-  const std::string time_base = "/tmp/net_sink_time";
+  const std::string fixed = net_test::LogPath("sink_fixed.log");
+  const std::string para_a = net_test::LogPath("sink_para_a.log");
+  const std::string para_b = net_test::LogPath("sink_para_b.log");
+  const std::string ring_base = net_test::LogPath("sink_ring");
+  const std::string ring0 = ring_base + ".0";
+  const std::string ring1 = ring_base + ".1";
+  const std::string ring2 = ring_base + ".2";
+  const std::string time_base = net_test::LogPath("sink_time");
 
   auto logger = net::LoggerMgr::GetInstance()->getLogger("sink_schemes");
   logger->setFormatter("%m");
@@ -43,8 +44,7 @@ int main() {
   // 每槽 9 字节（约 3 条 "rXX"），写 40 条会绕满 3 槽并回到 0 覆盖
   net::ApplySinkSet(
       ring_logger,
-      net::SinkSet::CircularRing("/tmp/net_sink_ring", 3, 9,
-                                 {ring0, ring1, ring2}));
+      net::SinkSet::CircularRing(ring_base, 3, 9, {ring0, ring1, ring2}));
   for (int i = 0; i < 40; ++i) {
     NET_LOG_FMT_INFO(ring_logger, "r%02d", i);
   }

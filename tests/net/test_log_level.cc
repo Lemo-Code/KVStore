@@ -1,6 +1,6 @@
 #include "test_common.h"
 
-#include "log.h"
+#include "log/log.h"
 
 #include <string>
 

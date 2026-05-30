@@ -18,9 +18,4 @@ LogEventWrap::~LogEventWrap() {
   event_->getLogger()->log(event_->getLevel(), event_);
 }
 
-/** 返回底层消息流，供 operator<< 链式写入 */
-std::stringstream& LogEventWrap::getSS() {
-  return event_->getSS();
-}
-
 }  // namespace net

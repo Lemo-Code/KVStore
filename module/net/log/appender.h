@@ -1,16 +1,17 @@
 #ifndef NET_LOG_APPENDER_H
 #define NET_LOG_APPENDER_H
 
-#include "config.h"
+#include "log/config/build_config.h"
 #include "log/event.h"
 #include "log/file_sink.h"
 #include "log/formatter.h"
 #include "log/level.h"
 
+#include "thread/mutex.h"
+
 #include <cstdint>
 #include <fstream>
 #include <memory>
-#include <mutex>
 #include <string>
 #include <vector>
 
@@ -27,7 +28,7 @@ class LogAppender {
   friend class Logger;
 
  public:
-  typedef std::mutex MutexType;
+  typedef Spinlock MutexType;
   typedef std::shared_ptr<LogAppender> ptr;
 
   LogAppender();
@@ -53,6 +54,9 @@ class LogAppender {
 class StdoutLogAppender : public LogAppender {
  public:
   typedef std::shared_ptr<StdoutLogAppender> ptr;
+
+  explicit StdoutLogAppender(const std::string& /*name*/ = "");
+
   void log(std::shared_ptr<Logger> logger, LogLevel::Level level,
            LogEvent::ptr event, bool async_mode) override;
 };

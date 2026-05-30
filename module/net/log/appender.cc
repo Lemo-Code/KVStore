@@ -5,7 +5,8 @@
 #include "log/appender_util.h"
 #include "log/async_sink.h"
 #include "log/file_sink.h"
-#include "config.h"
+#include "log/config/log_config.h"
+#include "log/config/build_config.h"
 
 #include <ctime>
 #include <iostream>
@@ -18,15 +19,17 @@ LogAppender::LogAppender()
       has_formatter_(false) {}
 
 void LogAppender::setFormatter(LogFormatter::ptr formatter) {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   formatter_ = formatter;
   has_formatter_ = static_cast<bool>(formatter_);
 }
 
 LogFormatter::ptr LogAppender::getFormatter() {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   return formatter_;
 }
+
+StdoutLogAppender::StdoutLogAppender(const std::string& /*name*/) {}
 
 void StdoutLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level,
                             LogEvent::ptr event, bool async_mode) {
@@ -38,7 +41,7 @@ void StdoutLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level leve
     AsyncEnqueueStdout(std::move(line));
     return;
   }
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   std::cout << line;
 }
 
@@ -58,17 +61,19 @@ void FileLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level,
     return;
   }
   const uint64_t now = static_cast<uint64_t>(time(nullptr));
-  if (now - last_reopen_sec_ >= static_cast<uint64_t>(NET_LOG_FILE_REOPEN_SEC)) {
+  const int reopen_sec = LogConfig::instance().fileReopenSec();
+  if (reopen_sec > 0 &&
+      now - last_reopen_sec_ >= static_cast<uint64_t>(reopen_sec)) {
     reopen();
     last_reopen_sec_ = now;
   }
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   filestream_ << line;
   filestream_.flush();
 }
 
 bool FileLogAppender::reopen() {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   uint64_t size = 0;
   return file_sink::ReopenAppend(filestream_, filename_, &size);
 }
@@ -79,8 +84,9 @@ RollingFileLogAppender::RollingFileLogAppender(const std::string& filepath,
                                                file_sink::RollInterval roll_interval)
     : filepath_(filepath),
       max_file_size_(max_file_size > 0 ? max_file_size
-                                       : NET_LOG_ROLL_DEFAULT_MAX_BYTES),
-      max_files_(max_files > 0 ? max_files : NET_LOG_ROLL_DEFAULT_MAX_FILES),
+                                       : LogConfig::instance().rollMaxBytes()),
+      max_files_(max_files > 0 ? max_files
+                                : LogConfig::instance().rollMaxFiles()),
       roll_interval_(roll_interval),
       current_size_(0),
       last_roll_time_(0) {
@@ -88,7 +94,7 @@ RollingFileLogAppender::RollingFileLogAppender(const std::string& filepath,
 }
 
 void RollingFileLogAppender::openCurrent() {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   file_sink::ReopenAppend(filestream_, filepath_, &current_size_);
   last_roll_time_ = time(nullptr);
 }
@@ -131,7 +137,7 @@ void RollingFileLogAppender::log(std::shared_ptr<Logger> logger,
   const uint64_t add = line.size();
 
   if (async_mode) {
-    std::lock_guard<MutexType> lock(mutex_);
+    MutexType::Lock lock(mutex_);
     if (file_sink::ShouldRollByTime(roll_interval_, event_time, last_roll_time_)) {
       rollLocked(RollOp::TIME,
                  file_sink::MakeTimeSuffix(roll_interval_, event_time), true,
@@ -144,7 +150,7 @@ void RollingFileLogAppender::log(std::shared_ptr<Logger> logger,
     return;
   }
 
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   if (file_sink::ShouldRollByTime(roll_interval_, event_time, last_roll_time_)) {
     rollLocked(RollOp::TIME, file_sink::MakeTimeSuffix(roll_interval_, event_time),
                false, event_time);
@@ -157,7 +163,7 @@ void RollingFileLogAppender::log(std::shared_ptr<Logger> logger,
 TimeRotateFileLogAppender::TimeRotateFileLogAppender(
     const std::string& base_path, file_sink::RollInterval interval)
     : base_path_(base_path), roll_interval_(interval), last_period_(0) {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   openDatedLocked(time(nullptr));
 }
 
@@ -183,7 +189,7 @@ void TimeRotateFileLogAppender::log(std::shared_ptr<Logger> logger,
     return;
   }
 
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   if (file_sink::ShouldRollByTime(roll_interval_, event_time, last_period_)) {
     openDatedLocked(event_time);
   }
@@ -209,7 +215,7 @@ CircularFileLogAppender::CircularFileLogAppender(
       slot_paths_.push_back(file_sink::SlotPath(base_path, i));
     }
   }
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   openSlotLocked(0, false, false);
 }
 
@@ -245,7 +251,7 @@ void CircularFileLogAppender::log(std::shared_ptr<Logger> logger,
   if (async_mode) {
     std::string path;
     {
-      std::lock_guard<MutexType> lock(mutex_);
+      MutexType::Lock lock(mutex_);
       if (max_bytes_per_slot_ > 0 && current_size_ + add >= max_bytes_per_slot_) {
         advanceSlotLocked(true);
       }
@@ -256,7 +262,7 @@ void CircularFileLogAppender::log(std::shared_ptr<Logger> logger,
     return;
   }
 
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   if (max_bytes_per_slot_ > 0 && current_size_ + add >= max_bytes_per_slot_) {
     advanceSlotLocked(false);
   }

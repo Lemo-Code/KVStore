@@ -1,13 +1,13 @@
 #include "test_common.h"
 
-#include "log.h"
+#include "log/log.h"
 
 #include <cstdio>
 #include <fstream>
 #include <string>
 
 int main() {
-  const std::string log_path = "/tmp/net_log_sync_test.log";
+  const std::string log_path = net_test::LogPath("sync_test.log");
 
   auto logger = net::LoggerMgr::GetInstance()->getLogger("sync_test");
   logger->clearAppenders();

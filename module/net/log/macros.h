@@ -3,7 +3,7 @@
 
 #include "log/event.h"
 #include "log/manager.h"
-#include "util.h"
+#include "common/util.h"
 #include "log/wrap.h"
 
 #include <ctime>
@@ -27,7 +27,7 @@
 
 /** 按级别输出（流式 <<） */
 #define NET_LOG_LEVEL(logger, level)                                         \
-  if ((logger)->getLevel() <= (level)) NET_LOG_EVENT(logger, level).getSS()
+  if ((logger)->getLevel() <= (level)) NET_LOG_EVENT(logger, level).stream()
 
 #define NET_LOG_DEBUG(logger) NET_LOG_LEVEL(logger, net::LogLevel::DEBUG)
 #define NET_LOG_INFO(logger) NET_LOG_LEVEL(logger, net::LogLevel::INFO)

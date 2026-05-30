@@ -1,22 +1,21 @@
 #ifndef LSTL_MEMORY_OOM_H
 #define LSTL_MEMORY_OOM_H
 
+#include <cstdio>
 #include <cstdlib>
-#include <new>
 
-#ifdef LSTL_OOM_MODE_CERR
-#include <iostream>
-#endif
+#include "../exception.h"
 
 namespace lstl {
 namespace detail {
 
 inline void lstl_oom_fail() {
 #ifdef LSTL_OOM_MODE_CERR
-  std::cerr << "lstl: out of memory\n";
-  std::abort();
+  const char msg[] = "lstl: out of memory\n";
+  (void)::fwrite(msg, 1, sizeof(msg) - 1, stderr);
+  ::abort();
 #else
-  throw std::bad_alloc();
+  throw bad_alloc();
 #endif
 }
 

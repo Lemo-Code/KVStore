@@ -2,8 +2,9 @@
 #define LSTL_ALLOCATOR_H
 
 #include <cstddef>
-#include <limits>
 #include <new>
+
+#include "exception.h"
 
 #include "alloc.h"
 #include "construct.h"
@@ -37,7 +38,7 @@ class allocator {
       return 0;
     }
     if (n > max_size()) {
-      throw std::bad_alloc();
+      throw bad_alloc();
     }
     return static_cast<pointer>(alloc::allocate(n * sizeof(T)));
   }
@@ -54,7 +55,7 @@ class allocator {
   void destroy(pointer p) { lstl::destroy(p); }
 
   size_type max_size() const throw() {
-    return std::numeric_limits<size_type>::max() / sizeof(T);
+    return static_cast<size_type>(-1) / sizeof(T);
   }
 };
 

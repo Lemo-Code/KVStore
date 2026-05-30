@@ -1,6 +1,6 @@
 #include "test_common.h"
 
-#include "log.h"
+#include "log/log.h"
 
 #include <memory>
 #include <string>
@@ -16,7 +16,7 @@ int main() {
       logger, net::LogLevel::INFO, __FILE__, __LINE__, net::GetElapseMs(),
       net::GetThreadId(), net::GetFiberId(),
       static_cast<uint64_t>(time(nullptr)), net::GetThreadName()));
-  event->getSS() << "hello";
+  event->stream() << "hello";
 
   const std::string out = fmt->format(logger, net::LogLevel::INFO, event);
   NET_CHECK(out.find("[INFO]") != std::string::npos);

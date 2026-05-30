@@ -15,21 +15,21 @@ struct malloc_alloc_t {
     if (n == 0) {
       return 0;
     }
-    void* p = std::malloc(n);
+    void* p = ::malloc(n);
     while (!p) {
       void (*handler)() = oom_handler();
       if (!handler) {
         detail::lstl_oom_fail();
       }
       handler();
-      p = std::malloc(n);
+      p = ::malloc(n);
     }
     return p;
   }
 
   static void deallocate(void* p, size_t /*n*/) {
     if (p) {
-      std::free(p);
+      ::free(p);
     }
   }
 

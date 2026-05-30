@@ -6,7 +6,8 @@
 #include <cstdarg>
 #include <cstdint>
 #include <memory>
-#include <sstream>
+#include "log/event_stream.h"
+
 #include <string>
 
 namespace net {
@@ -52,8 +53,10 @@ class LogEvent {
   // 获得本条日志的级别
   LogLevel::Level getLevel() const { return level_; }
 
-  // 用户消息流：log << "hello" 即 ss_ << "hello"
-  std::stringstream& getSS() { return ss_; }
+  /** 用户消息：NET_LOG_INFO(logger) << "hello" */
+  LogMessageStream stream() { return LogMessageStream(message_); }
+
+  const std::string& getMessage() const { return message_; }
 
   // 获得日志输出的线程名
   std::string getThreadName() const { return thread_name_; }
@@ -72,7 +75,7 @@ class LogEvent {
   uint32_t fiber_id_;               // 协程号
   uint64_t time_;                   // 当前时间戳
   std::string thread_name_;         // 线程名
-  std::stringstream ss_;            // 日志输出的内容（message）
+  std::string message_;
   std::shared_ptr<Logger> logger_;  // logger（方便获得 logger 成员）
   LogLevel::Level level_;           // 日志的级别
 };

@@ -661,7 +661,7 @@ module/kv_pool/
     atomic_freelist.h remote_queue.h
     pool.cc           占位 TU（链接用）
 
-tests/memory/test_pool_single.cc
+tests/lstl/memory/test_pool_single.cc
 tests/kv_pool/test_pool_mt.cc
 tests/kv_pool/test_cross_thread.cc
 tests/kv_pool/benchmarks/bench_kv_pool.cc

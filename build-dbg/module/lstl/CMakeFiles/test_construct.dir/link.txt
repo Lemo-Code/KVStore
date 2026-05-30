@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -g CMakeFiles/test_construct.dir/__/__/tests/lstl/memory/test_construct.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lstl/memory/test_construct 

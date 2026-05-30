@@ -1,9 +1,8 @@
 #ifndef LSTL_UNINITIALIZED_H
 #define LSTL_UNINITIALIZED_H
 
-#include <cstring>
-
 #include "construct.h"
+#include "memory_ops.h"
 #include "internal/detail/iterator_facet.h"
 #include "type_traits.h"
 
@@ -40,8 +39,8 @@ inline ForwardIterator uninitialized_copy_aux(InputIterator first, InputIterator
   typedef typename iterator_traits<ForwardIterator>::value_type value_type;
   const ptrdiff_t n = last - first;
   if (n > 0) {
-    std::memcpy(static_cast<void*>(&*result), static_cast<const void*>(&*first),
-                static_cast<size_t>(n) * sizeof(value_type));
+    lstl::memcpy(static_cast<void*>(&*result), static_cast<const void*>(&*first),
+                 static_cast<size_t>(n) * sizeof(value_type));
   }
   return result + n;
 }

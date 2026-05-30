@@ -132,6 +132,61 @@ struct __type_traits<long double> {
   typedef __true_type this_type_is_POD_type;
 };
 
+// 区分 (n, value) 与 (first, last) 构造/赋值（SGI __is_integer）
+template <typename T>
+struct __is_integer {
+  typedef __false_type _Integral;
+};
+
+template <>
+struct __is_integer<bool> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<char> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<signed char> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<unsigned char> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<short> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<unsigned short> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<int> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<unsigned int> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<long> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<unsigned long> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<long long> {
+  typedef __true_type _Integral;
+};
+template <>
+struct __is_integer<unsigned long long> {
+  typedef __true_type _Integral;
+};
+
 }  // namespace lstl
 
 #endif  // LSTL_TYPE_TRAITS_H

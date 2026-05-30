@@ -3,11 +3,12 @@
 
 #include "log/appender.h"
 #include "log/logger.h"
-#include "singleton.h"
+#include "common/singleton.h"
+
+#include "thread/mutex.h"
 
 #include <map>
 #include <memory>
-#include <mutex>
 #include <string>
 
 namespace net {
@@ -19,7 +20,7 @@ namespace net {
  */
 class LoggerManager {
  public:
-  typedef std::mutex MutexType;
+  typedef Spinlock MutexType;
   typedef std::map<std::string, Logger::ptr> LoggerMap;
 
   LoggerManager();
@@ -38,7 +39,7 @@ class LoggerManager {
  */
 class AsyncLoggerManager {
  public:
-  typedef std::mutex MutexType;
+  typedef Spinlock MutexType;
   typedef std::map<std::string, Logger::ptr> LoggerMap;
 
   AsyncLoggerManager();

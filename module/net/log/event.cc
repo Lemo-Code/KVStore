@@ -38,10 +38,9 @@ void LogEvent::format(const char* fmt, va_list al) {
   char* buf = nullptr;
   const int len = vasprintf(&buf, fmt, al);
   if (len != -1) {
-    ss_ << std::string(buf, static_cast<size_t>(len));
+    message_.append(buf, static_cast<size_t>(len));
     free(buf);
   }
 }
 
-/** 清空 stringstream 内部缓冲，供对象复用 */
 }  // namespace net

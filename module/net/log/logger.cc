@@ -4,16 +4,28 @@
  */
 #include "log/logger.h"
 
+#include "log/config/log_config.h"
+
 #include <iostream>
 
 namespace net {
 
+namespace detail {
+
+void AttachRoot(const std::shared_ptr<Logger>& child,
+                const std::shared_ptr<Logger>& root) {
+  child->root_ = root;
+}
+
+}  // namespace detail
+
+/** 初始化名称、级别、默认格式器；Appender 由 Manager 或用户添加 */
 /** 初始化名称、级别、默认格式器；Appender 由 Manager 或用户添加 */
 Logger::Logger(const std::string& name, bool async_mode)
     : async_mode_(async_mode),
       name_(name),
-      level_(static_cast<LogLevel::Level>(NET_LOG_DEFAULT_LEVEL)),
-      formatter_(new LogFormatter(NET_LOG_DEFAULT_PATTERN)),
+      level_(static_cast<LogLevel::Level>(LogConfig::instance().defaultLevel())),
+      formatter_(new LogFormatter(LogConfig::instance().defaultPattern())),
       root_(nullptr) {}
 
 /**
@@ -21,9 +33,9 @@ Logger::Logger(const std::string& name, bool async_mode)
  * 避免 formatter 为 nullptr 导致输出时段错误。
  */
 void Logger::addAppender(LogAppender::ptr appender) {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   if (!appender->getFormatter()) {
-    std::lock_guard<LogAppender::MutexType> app_lock(appender->mutex_);
+    LogAppender::MutexType::Lock app_lock(appender->mutex_);
     appender->formatter_ = formatter_;
   }
   appenders_.push_back(appender);
@@ -31,7 +43,7 @@ void Logger::addAppender(LogAppender::ptr appender) {
 
 /** 按指针相等删除第一个匹配的 Appender */
 void Logger::delAppender(LogAppender::ptr appender) {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   for (auto it = appenders_.begin(); it != appenders_.end(); ++it) {
     if (*it == appender) {
       appenders_.erase(it);
@@ -42,7 +54,7 @@ void Logger::delAppender(LogAppender::ptr appender) {
 
 /** 移除全部 Appender，此后输出将回退到 root_ */
 void Logger::clearAppenders() {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   appenders_.clear();
 }
 
@@ -61,10 +73,10 @@ bool Logger::isAppenderExists(LogAppender::ptr appender) const {
  * 未显式配置的 Appender 在输出时仍动态继承 Logger 格式器。
  */
 void Logger::setFormatter(LogFormatter::ptr formatter) {
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   formatter_ = formatter;
   for (auto& app : appenders_) {
-    std::lock_guard<LogAppender::MutexType> app_lock(app->mutex_);
+    LogAppender::MutexType::Lock app_lock(app->mutex_);
     if (app->hasFormatter()) {
       app->formatter_ = formatter_;
     }
@@ -102,7 +114,7 @@ void Logger::log(LogLevel::Level level, LogEvent::ptr event) {
   }
 
   const auto self = shared_from_this();
-  std::lock_guard<MutexType> lock(mutex_);
+  MutexType::Lock lock(mutex_);
   if (!appenders_.empty()) {
     for (auto& app : appenders_) {
       app->log(self, level, event, async_mode_);

@@ -5,7 +5,6 @@
 #include "log/level.h"
 
 #include <memory>
-#include <ostream>
 #include <string>
 #include <vector>
 
@@ -30,6 +29,10 @@ class LogFormatter {
   std::string format(std::shared_ptr<Logger> logger, LogLevel::Level level,
                      LogEvent::ptr event);
 
+  // 直接追加到 out，减少临时对象（FormatLine 热路径）
+  void formatTo(std::string& out, std::shared_ptr<Logger> logger,
+                LogLevel::Level level, LogEvent::ptr event);
+
   // 获得日志的格式
   const std::string& getPattern() const { return pattern_; }
 
@@ -53,9 +56,8 @@ class LogFormatter {
     explicit FormatItem(const std::string& /*str*/ = "") {}
     virtual ~FormatItem() {}
 
-    // 把指定的参数传入 os
-    virtual void format(std::ostream& os, std::shared_ptr<Logger> logger,
-                        LogLevel::Level level, LogEvent::ptr event) = 0;
+    virtual void appendTo(std::string& out, std::shared_ptr<Logger> logger,
+                          LogLevel::Level level, LogEvent::ptr event) = 0;
   };
 
  private:

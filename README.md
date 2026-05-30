@@ -1,31 +1,42 @@
-# KVStore / LSTL
+# KVStore
 
-本仓库目录名为 **KVStore**，当前实现 **LSTL**（Light STL）——与 SGI/STL 同构的 **C++11 空间配置模块**（构造、未初始化算法、`allocator`、traits 等）。
+本仓库实现 **KVStore** 分层组件库，底层为 **LSTL**（Light STL）——与 SGI/STL 同构的 C++11 空间配置与容器子集，向上提供存储引擎、内存池与网络基础设施。
 
-**不包含内置内存池。** 默认分配策略为 `malloc`/`free`；池化由客户端自选实现并注入（见 `module/kv_pool/`）。
+## 分层架构
+
+```
+lstl (memory + container)
+  ├── storage/lsmtree     LSM 存储引擎
+  ├── kv_pool             多线程二级内存池
+  └── net                 基础设施（base / runtime / log）
+```
 
 ## 目录结构
 
 ```
 KVStore/
+├── cmake/
+│   ├── KVStoreHelpers.cmake    # 统一测试注册与构建辅助
+│   └── LSTLHelpers.cmake       # 兼容入口
 ├── module/
-│   ├── lstl/
-│   │   ├── memory/           # 空间配置模块（header-only）
-│   │   └── container/        # 容器（vector 等）
-│   ├── kv_pool/              # 多线程内存池
-│   │   ├── kv_pool.h
-│   │   ├── config.h
-│   │   └── memory/
-│   └── net/                  # 日志模块
-│       ├── log.h
-│       └── log/
+│   ├── lstl/                   # 层 1：STL 子集（header-only）
+│   │   ├── memory/
+│   │   └── container/
+│   ├── storage/                # 层 2：存储引擎
+│   │   └── lsmtree/
+│   ├── kv_pool/                # 层 3：多线程内存池
+│   └── net/                    # 层 4：基础设施
+│       ├── common/ config/ thread/   # base
+│       ├── fiber/                    # runtime
+│       └── log/                      # log
 ├── tests/
-│   ├── memory/               # lstl 空间配置测试
-│   ├── container/            # lstl 容器测试
+│   ├── common/                 # 公共测试头
+│   ├── lstl/{memory,container}/
+│   ├── storage/lsmtree/
 │   ├── kv_pool/
 │   └── net/
-├── docs/lstl/                # 设计文档（含 spatial_allocator_summary.md）
-└── cmake/                    # CMake 辅助
+├── docs/
+└── third_party/sylars/         # 参考实现（独立构建）
 ```
 
 ## 构建与测试
@@ -39,32 +50,44 @@ make -j$(nproc)
 ctest --output-on-failure
 ```
 
-可选：`-DLSTL_BUILD_BENCH=ON` 构建 `bin/memory/bench_alloc_compare`、`bin/kv_pool/bench_kv_pool`。
+常用 target：
 
-## 使用自定义分配器
+| target | 说明 |
+|--------|------|
+| `run_tests` | 运行全部测试 |
+| `run_tests_lstl` | 仅 lstl 层（`lstl.memory.*` / `lstl.container.*`） |
+| `run_tests_memory` | 仅 `lstl.memory.*`（兼容旧名） |
+
+可选：`-DLSTL_BUILD_BENCH=ON` 构建压测。
+
+## 使用示例
+
+### LSTL 分配器
 
 ```cpp
-namespace my {
-struct kv_pool {
-  static void* allocate(size_t n);
-  static void deallocate(void* p, size_t n);
-};
-}
-
-#define LSTL_USER_ALLOC my::kv_pool
-#include "memory.h"
-
-lstl::simple_alloc<Obj, my::kv_pool> alloc;
+#include "alloc.h"
+lstl::simple_alloc<Obj> alloc;
 ```
 
-或仅对某容器指定：`simple_alloc<T, my::kv_pool>`。
+### LSM 树
+
+```cpp
+#include "lsmtree.h"
+lstl::lsm::LsmTree<int, int> db;
+db.put(1, 100);
+```
+
+### 自定义内存池注入
+
+```cpp
+#define LSTL_USER_ALLOC kv::pool_alloc
+#include "memory.h"
+```
 
 ## 文档
 
 | 文档 | 说明 |
 |------|------|
-| [`docs/lstl/allocator_design.md`](docs/lstl/allocator_design.md) | 空间配置器架构（v2.0 边界） |
-| [`docs/lstl/spatial_allocator_summary.md`](docs/lstl/spatial_allocator_summary.md) | **空间配置模块完整设计总结（非常详细）** |
-| [`docs/lstl/memory_pool_design.md`](docs/lstl/memory_pool_design.md) | 内存池蓝图 |
-| [`docs/memory_pool_summary.md`](docs/memory_pool_summary.md) | 两种内存池实现与优化总结（详细） |
-| [`module/README.md`](module/README.md) | 模块目录说明 |
+| [`module/README.md`](module/README.md) | 模块分层与 include 约定 |
+| [`docs/lstl/spatial_allocator_summary.md`](docs/lstl/spatial_allocator_summary.md) | 空间配置模块设计 |
+| [`docs/memory_pool_summary.md`](docs/memory_pool_summary.md) | 内存池实现总结 |
