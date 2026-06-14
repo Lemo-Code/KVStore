@@ -139,11 +139,56 @@ LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timing_wheel.cc.s: cm
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timing_wheel.cc.s"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/timing_wheel.cc -o CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timing_wheel.cc.s
 
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/flags.make
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o: /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_mutex.cc
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o -MF CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o.d -o CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_mutex.cc
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.i"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_mutex.cc > CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.i
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.s"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_mutex.cc -o CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.s
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/flags.make
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o: /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_semaphore.cc
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o -MF CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o.d -o CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_semaphore.cc
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.i"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_semaphore.cc > CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.i
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.s"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_semaphore.cc -o CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.s
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/flags.make
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o: /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_local.cc
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o -MF CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o.d -o CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_local.cc
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.i"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_local.cc > CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.i
+
+LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.s"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/fiber/sync/fiber_local.cc -o CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.s
+
 nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/fiber.cc.o
 nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/fiber_pool.cc.o
 nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/scheduler.cc.o
 nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timer.cc.o
 nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timing_wheel.cc.o
+nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o
+nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o
+nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o
 nettycore_fiber_obj: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make
 .PHONY : nettycore_fiber_obj
 

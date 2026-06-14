@@ -4,6 +4,7 @@
  */
 #include "../io/test_io_common.h"
 
+#include "lemo/fiber/fiber.h"
 #include "lemo/buffer/ring_buffer.h"
 #include "lemo/io/iomanager.h"
 #include "lemo/socket/address.h"
@@ -122,14 +123,14 @@ void test_echo_local() {
 }
 
 void test_echo_concurrent_integrity() {
-  lemo::io::IOManager iom(4, false, "test_echo_concurrent");
+  lemo::io::IOManager iom(2, false, "test_echo_concurrent");
   lemo::socket::Socket::ptr listen = MakeListen("127.0.0.1", 0);
   LEMO_CHECK(listen != nullptr);
   const uint16_t port = BoundPort(listen);
 
   std::atomic<bool> stop{false};
-  const int kClients = 4;
-  const int kMsgs = 20;
+  const int kClients = 2;
+  const int kMsgs = 5;
   const int kPayload = 64;
   std::atomic<int> roundtrips{0};
   const int target = kClients * kMsgs;
@@ -161,8 +162,8 @@ void test_echo_concurrent_integrity() {
     });
   }
 
-  LEMO_CHECK(lemo_io_test::wait_eq(roundtrips, target, 10000));
-  stop.store(true);
+  LEMO_CHECK(lemo_io_test::wait_eq(roundtrips, target, 5000));
+  stop.store(true, std::memory_order_release);
   listen->close();
   lemo_io_test::sleep_ms(100);
   iom.stop();

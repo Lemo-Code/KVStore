@@ -92,6 +92,7 @@ test_address_nettycore_EXTERNAL_OBJECTS =
 
 /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address: LemoNettyCore/CMakeFiles/test_address_nettycore.dir/__/tests/lemo/socket/test_address.cc.o
 /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address: LemoNettyCore/CMakeFiles/test_address_nettycore.dir/build.make
+/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address: LemoNettyCore/libnettycore_server.a
 /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address: LemoNettyCore/libnettycore_socket.a
 /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address: LemoNettyCore/libnettycore_io.a
 /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address: LemoNettyCore/libnettycore_fiber.a

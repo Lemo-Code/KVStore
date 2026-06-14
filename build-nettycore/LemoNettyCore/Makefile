@@ -95,6 +95,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore//CMakeFiles/progress.marks
@@ -323,6 +368,90 @@ nettycore_socket/fast:
 .PHONY : nettycore_socket/fast
 
 # Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/rule
+
+# Convenience name for target.
+nettycore_server_obj: LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/rule
+.PHONY : nettycore_server_obj
+
+# fast build rule for target.
+nettycore_server_obj/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build
+.PHONY : nettycore_server_obj/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_server.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_server.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_server.dir/rule
+
+# Convenience name for target.
+nettycore_server: LemoNettyCore/CMakeFiles/nettycore_server.dir/rule
+.PHONY : nettycore_server
+
+# fast build rule for target.
+nettycore_server/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server.dir/build
+.PHONY : nettycore_server/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/rule
+
+# Convenience name for target.
+nettycore_log_obj: LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/rule
+.PHONY : nettycore_log_obj
+
+# fast build rule for target.
+nettycore_log_obj/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build
+.PHONY : nettycore_log_obj/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_log.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_log.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_log.dir/rule
+
+# Convenience name for target.
+nettycore_log: LemoNettyCore/CMakeFiles/nettycore_log.dir/rule
+.PHONY : nettycore_log
+
+# fast build rule for target.
+nettycore_log/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log.dir/build
+.PHONY : nettycore_log/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/rule
+
+# Convenience name for target.
+nettycore_config_obj: LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/rule
+.PHONY : nettycore_config_obj
+
+# fast build rule for target.
+nettycore_config_obj/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build
+.PHONY : nettycore_config_obj/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_config.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_config.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_config.dir/rule
+
+# Convenience name for target.
+nettycore_config: LemoNettyCore/CMakeFiles/nettycore_config.dir/rule
+.PHONY : nettycore_config
+
+# fast build rule for target.
+nettycore_config/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config.dir/build
+.PHONY : nettycore_config/fast
+
+# Convenience name for target.
 LemoNettyCore/CMakeFiles/nettycore.dir/rule:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore.dir/rule
 .PHONY : LemoNettyCore/CMakeFiles/nettycore.dir/rule
@@ -335,6 +464,20 @@ nettycore: LemoNettyCore/CMakeFiles/nettycore.dir/rule
 nettycore/fast:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore.dir/build.make LemoNettyCore/CMakeFiles/nettycore.dir/build
 .PHONY : nettycore/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/lemo_nettycore.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/lemo_nettycore.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/lemo_nettycore.dir/rule
+
+# Convenience name for target.
+lemo_nettycore: LemoNettyCore/CMakeFiles/lemo_nettycore.dir/rule
+.PHONY : lemo_nettycore
+
+# fast build rule for target.
+lemo_nettycore/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/lemo_nettycore.dir/build.make LemoNettyCore/CMakeFiles/lemo_nettycore.dir/build
+.PHONY : lemo_nettycore/fast
 
 # Convenience name for target.
 LemoNettyCore/CMakeFiles/bench_echo_server_nettycore.dir/rule:
@@ -491,6 +634,48 @@ test_fiber_sleep_iomanager_nettycore/fast:
 .PHONY : test_fiber_sleep_iomanager_nettycore/fast
 
 # Convenience name for target.
+LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/rule
+
+# Convenience name for target.
+test_fiber_mutex_nettycore: LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/rule
+.PHONY : test_fiber_mutex_nettycore
+
+# fast build rule for target.
+test_fiber_mutex_nettycore/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/build
+.PHONY : test_fiber_mutex_nettycore/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/rule
+
+# Convenience name for target.
+test_fiber_semaphore_nettycore: LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/rule
+.PHONY : test_fiber_semaphore_nettycore
+
+# fast build rule for target.
+test_fiber_semaphore_nettycore/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/build
+.PHONY : test_fiber_semaphore_nettycore/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/rule
+
+# Convenience name for target.
+test_fiber_local_nettycore: LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/rule
+.PHONY : test_fiber_local_nettycore
+
+# fast build rule for target.
+test_fiber_local_nettycore/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/build
+.PHONY : test_fiber_local_nettycore/fast
+
+# Convenience name for target.
 LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/rule:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/rule
 .PHONY : LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/rule
@@ -503,6 +688,20 @@ test_ring_buffer_nettycore: LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.
 test_ring_buffer_nettycore/fast:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/build
 .PHONY : test_ring_buffer_nettycore/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/rule
+
+# Convenience name for target.
+test_byte_array_nettycore: LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/rule
+.PHONY : test_byte_array_nettycore
+
+# fast build rule for target.
+test_byte_array_nettycore/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/build
+.PHONY : test_byte_array_nettycore/fast
 
 # Convenience name for target.
 LemoNettyCore/CMakeFiles/test_address_nettycore.dir/rule:
@@ -533,6 +732,20 @@ test_echo_server_nettycore/fast:
 .PHONY : test_echo_server_nettycore/fast
 
 # Convenience name for target.
+LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/rule
+
+# Convenience name for target.
+test_tcp_server_nettycore: LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/rule
+.PHONY : test_tcp_server_nettycore
+
+# fast build rule for target.
+test_tcp_server_nettycore/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/build
+.PHONY : test_tcp_server_nettycore/fast
+
+# Convenience name for target.
 LemoNettyCore/CMakeFiles/run_tests_nettycore.dir/rule:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/run_tests_nettycore.dir/rule
 .PHONY : LemoNettyCore/CMakeFiles/run_tests_nettycore.dir/rule
@@ -560,6 +773,542 @@ bench_echo_server_nettycore_quick/fast:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/bench_echo_server_nettycore_quick.dir/build.make LemoNettyCore/CMakeFiles/bench_echo_server_nettycore_quick.dir/build
 .PHONY : bench_echo_server_nettycore_quick/fast
 
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/rule
+
+# Convenience name for target.
+test_netty_config_nettycore: LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/rule
+.PHONY : test_netty_config_nettycore
+
+# fast build rule for target.
+test_netty_config_nettycore/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/build
+.PHONY : test_netty_config_nettycore/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/rule
+
+# Convenience name for target.
+nettycore_config_demo: LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/rule
+.PHONY : nettycore_config_demo
+
+# fast build rule for target.
+nettycore_config_demo/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/build
+.PHONY : nettycore_config_demo/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/nettycore_config_demo_run.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/nettycore_config_demo_run.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/nettycore_config_demo_run.dir/rule
+
+# Convenience name for target.
+nettycore_config_demo_run: LemoNettyCore/CMakeFiles/nettycore_config_demo_run.dir/rule
+.PHONY : nettycore_config_demo_run
+
+# fast build rule for target.
+nettycore_config_demo_run/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_demo_run.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_demo_run.dir/build
+.PHONY : nettycore_config_demo_run/fast
+
+# Convenience name for target.
+LemoNettyCore/CMakeFiles/run_tests_nettycore_config.dir/rule:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LemoNettyCore/CMakeFiles/run_tests_nettycore_config.dir/rule
+.PHONY : LemoNettyCore/CMakeFiles/run_tests_nettycore_config.dir/rule
+
+# Convenience name for target.
+run_tests_nettycore_config: LemoNettyCore/CMakeFiles/run_tests_nettycore_config.dir/rule
+.PHONY : run_tests_nettycore_config
+
+# fast build rule for target.
+run_tests_nettycore_config/fast:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/run_tests_nettycore_config.dir/build.make LemoNettyCore/CMakeFiles/run_tests_nettycore_config.dir/build
+.PHONY : run_tests_nettycore_config/fast
+
+__/lemo/src/config/config_center.o: __/lemo/src/config/config_center.cc.o
+.PHONY : __/lemo/src/config/config_center.o
+
+# target to build an object file
+__/lemo/src/config/config_center.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_center.cc.o
+.PHONY : __/lemo/src/config/config_center.cc.o
+
+__/lemo/src/config/config_center.i: __/lemo/src/config/config_center.cc.i
+.PHONY : __/lemo/src/config/config_center.i
+
+# target to preprocess a source file
+__/lemo/src/config/config_center.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_center.cc.i
+.PHONY : __/lemo/src/config/config_center.cc.i
+
+__/lemo/src/config/config_center.s: __/lemo/src/config/config_center.cc.s
+.PHONY : __/lemo/src/config/config_center.s
+
+# target to generate assembly for a file
+__/lemo/src/config/config_center.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_center.cc.s
+.PHONY : __/lemo/src/config/config_center.cc.s
+
+__/lemo/src/config/config_printer.o: __/lemo/src/config/config_printer.cc.o
+.PHONY : __/lemo/src/config/config_printer.o
+
+# target to build an object file
+__/lemo/src/config/config_printer.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_printer.cc.o
+.PHONY : __/lemo/src/config/config_printer.cc.o
+
+__/lemo/src/config/config_printer.i: __/lemo/src/config/config_printer.cc.i
+.PHONY : __/lemo/src/config/config_printer.i
+
+# target to preprocess a source file
+__/lemo/src/config/config_printer.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_printer.cc.i
+.PHONY : __/lemo/src/config/config_printer.cc.i
+
+__/lemo/src/config/config_printer.s: __/lemo/src/config/config_printer.cc.s
+.PHONY : __/lemo/src/config/config_printer.s
+
+# target to generate assembly for a file
+__/lemo/src/config/config_printer.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_printer.cc.s
+.PHONY : __/lemo/src/config/config_printer.cc.s
+
+__/lemo/src/config/config_var.o: __/lemo/src/config/config_var.cc.o
+.PHONY : __/lemo/src/config/config_var.o
+
+# target to build an object file
+__/lemo/src/config/config_var.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_var.cc.o
+.PHONY : __/lemo/src/config/config_var.cc.o
+
+__/lemo/src/config/config_var.i: __/lemo/src/config/config_var.cc.i
+.PHONY : __/lemo/src/config/config_var.i
+
+# target to preprocess a source file
+__/lemo/src/config/config_var.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_var.cc.i
+.PHONY : __/lemo/src/config/config_var.cc.i
+
+__/lemo/src/config/config_var.s: __/lemo/src/config/config_var.cc.s
+.PHONY : __/lemo/src/config/config_var.s
+
+# target to generate assembly for a file
+__/lemo/src/config/config_var.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_var.cc.s
+.PHONY : __/lemo/src/config/config_var.cc.s
+
+__/lemo/src/config/log_config.o: __/lemo/src/config/log_config.cc.o
+.PHONY : __/lemo/src/config/log_config.o
+
+# target to build an object file
+__/lemo/src/config/log_config.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/log_config.cc.o
+.PHONY : __/lemo/src/config/log_config.cc.o
+
+__/lemo/src/config/log_config.i: __/lemo/src/config/log_config.cc.i
+.PHONY : __/lemo/src/config/log_config.i
+
+# target to preprocess a source file
+__/lemo/src/config/log_config.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/log_config.cc.i
+.PHONY : __/lemo/src/config/log_config.cc.i
+
+__/lemo/src/config/log_config.s: __/lemo/src/config/log_config.cc.s
+.PHONY : __/lemo/src/config/log_config.s
+
+# target to generate assembly for a file
+__/lemo/src/config/log_config.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/log_config.cc.s
+.PHONY : __/lemo/src/config/log_config.cc.s
+
+__/lemo/src/config/property_loader.o: __/lemo/src/config/property_loader.cc.o
+.PHONY : __/lemo/src/config/property_loader.o
+
+# target to build an object file
+__/lemo/src/config/property_loader.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/property_loader.cc.o
+.PHONY : __/lemo/src/config/property_loader.cc.o
+
+__/lemo/src/config/property_loader.i: __/lemo/src/config/property_loader.cc.i
+.PHONY : __/lemo/src/config/property_loader.i
+
+# target to preprocess a source file
+__/lemo/src/config/property_loader.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/property_loader.cc.i
+.PHONY : __/lemo/src/config/property_loader.cc.i
+
+__/lemo/src/config/property_loader.s: __/lemo/src/config/property_loader.cc.s
+.PHONY : __/lemo/src/config/property_loader.s
+
+# target to generate assembly for a file
+__/lemo/src/config/property_loader.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/property_loader.cc.s
+.PHONY : __/lemo/src/config/property_loader.cc.s
+
+__/lemo/src/log/appender.o: __/lemo/src/log/appender.cc.o
+.PHONY : __/lemo/src/log/appender.o
+
+# target to build an object file
+__/lemo/src/log/appender.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/appender.cc.o
+.PHONY : __/lemo/src/log/appender.cc.o
+
+__/lemo/src/log/appender.i: __/lemo/src/log/appender.cc.i
+.PHONY : __/lemo/src/log/appender.i
+
+# target to preprocess a source file
+__/lemo/src/log/appender.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/appender.cc.i
+.PHONY : __/lemo/src/log/appender.cc.i
+
+__/lemo/src/log/appender.s: __/lemo/src/log/appender.cc.s
+.PHONY : __/lemo/src/log/appender.s
+
+# target to generate assembly for a file
+__/lemo/src/log/appender.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/appender.cc.s
+.PHONY : __/lemo/src/log/appender.cc.s
+
+__/lemo/src/log/appender_registry.o: __/lemo/src/log/appender_registry.cc.o
+.PHONY : __/lemo/src/log/appender_registry.o
+
+# target to build an object file
+__/lemo/src/log/appender_registry.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/appender_registry.cc.o
+.PHONY : __/lemo/src/log/appender_registry.cc.o
+
+__/lemo/src/log/appender_registry.i: __/lemo/src/log/appender_registry.cc.i
+.PHONY : __/lemo/src/log/appender_registry.i
+
+# target to preprocess a source file
+__/lemo/src/log/appender_registry.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/appender_registry.cc.i
+.PHONY : __/lemo/src/log/appender_registry.cc.i
+
+__/lemo/src/log/appender_registry.s: __/lemo/src/log/appender_registry.cc.s
+.PHONY : __/lemo/src/log/appender_registry.s
+
+# target to generate assembly for a file
+__/lemo/src/log/appender_registry.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/appender_registry.cc.s
+.PHONY : __/lemo/src/log/appender_registry.cc.s
+
+__/lemo/src/log/async_appender.o: __/lemo/src/log/async_appender.cc.o
+.PHONY : __/lemo/src/log/async_appender.o
+
+# target to build an object file
+__/lemo/src/log/async_appender.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/async_appender.cc.o
+.PHONY : __/lemo/src/log/async_appender.cc.o
+
+__/lemo/src/log/async_appender.i: __/lemo/src/log/async_appender.cc.i
+.PHONY : __/lemo/src/log/async_appender.i
+
+# target to preprocess a source file
+__/lemo/src/log/async_appender.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/async_appender.cc.i
+.PHONY : __/lemo/src/log/async_appender.cc.i
+
+__/lemo/src/log/async_appender.s: __/lemo/src/log/async_appender.cc.s
+.PHONY : __/lemo/src/log/async_appender.s
+
+# target to generate assembly for a file
+__/lemo/src/log/async_appender.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/async_appender.cc.s
+.PHONY : __/lemo/src/log/async_appender.cc.s
+
+__/lemo/src/log/console_appender.o: __/lemo/src/log/console_appender.cc.o
+.PHONY : __/lemo/src/log/console_appender.o
+
+# target to build an object file
+__/lemo/src/log/console_appender.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/console_appender.cc.o
+.PHONY : __/lemo/src/log/console_appender.cc.o
+
+__/lemo/src/log/console_appender.i: __/lemo/src/log/console_appender.cc.i
+.PHONY : __/lemo/src/log/console_appender.i
+
+# target to preprocess a source file
+__/lemo/src/log/console_appender.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/console_appender.cc.i
+.PHONY : __/lemo/src/log/console_appender.cc.i
+
+__/lemo/src/log/console_appender.s: __/lemo/src/log/console_appender.cc.s
+.PHONY : __/lemo/src/log/console_appender.s
+
+# target to generate assembly for a file
+__/lemo/src/log/console_appender.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/console_appender.cc.s
+.PHONY : __/lemo/src/log/console_appender.cc.s
+
+__/lemo/src/log/event.o: __/lemo/src/log/event.cc.o
+.PHONY : __/lemo/src/log/event.o
+
+# target to build an object file
+__/lemo/src/log/event.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/event.cc.o
+.PHONY : __/lemo/src/log/event.cc.o
+
+__/lemo/src/log/event.i: __/lemo/src/log/event.cc.i
+.PHONY : __/lemo/src/log/event.i
+
+# target to preprocess a source file
+__/lemo/src/log/event.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/event.cc.i
+.PHONY : __/lemo/src/log/event.cc.i
+
+__/lemo/src/log/event.s: __/lemo/src/log/event.cc.s
+.PHONY : __/lemo/src/log/event.s
+
+# target to generate assembly for a file
+__/lemo/src/log/event.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/event.cc.s
+.PHONY : __/lemo/src/log/event.cc.s
+
+__/lemo/src/log/file_appender.o: __/lemo/src/log/file_appender.cc.o
+.PHONY : __/lemo/src/log/file_appender.o
+
+# target to build an object file
+__/lemo/src/log/file_appender.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/file_appender.cc.o
+.PHONY : __/lemo/src/log/file_appender.cc.o
+
+__/lemo/src/log/file_appender.i: __/lemo/src/log/file_appender.cc.i
+.PHONY : __/lemo/src/log/file_appender.i
+
+# target to preprocess a source file
+__/lemo/src/log/file_appender.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/file_appender.cc.i
+.PHONY : __/lemo/src/log/file_appender.cc.i
+
+__/lemo/src/log/file_appender.s: __/lemo/src/log/file_appender.cc.s
+.PHONY : __/lemo/src/log/file_appender.s
+
+# target to generate assembly for a file
+__/lemo/src/log/file_appender.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/file_appender.cc.s
+.PHONY : __/lemo/src/log/file_appender.cc.s
+
+__/lemo/src/log/level.o: __/lemo/src/log/level.cc.o
+.PHONY : __/lemo/src/log/level.o
+
+# target to build an object file
+__/lemo/src/log/level.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/level.cc.o
+.PHONY : __/lemo/src/log/level.cc.o
+
+__/lemo/src/log/level.i: __/lemo/src/log/level.cc.i
+.PHONY : __/lemo/src/log/level.i
+
+# target to preprocess a source file
+__/lemo/src/log/level.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/level.cc.i
+.PHONY : __/lemo/src/log/level.cc.i
+
+__/lemo/src/log/level.s: __/lemo/src/log/level.cc.s
+.PHONY : __/lemo/src/log/level.s
+
+# target to generate assembly for a file
+__/lemo/src/log/level.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/level.cc.s
+.PHONY : __/lemo/src/log/level.cc.s
+
+__/lemo/src/log/log_paths.o: __/lemo/src/log/log_paths.cc.o
+.PHONY : __/lemo/src/log/log_paths.o
+
+# target to build an object file
+__/lemo/src/log/log_paths.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/log_paths.cc.o
+.PHONY : __/lemo/src/log/log_paths.cc.o
+
+__/lemo/src/log/log_paths.i: __/lemo/src/log/log_paths.cc.i
+.PHONY : __/lemo/src/log/log_paths.i
+
+# target to preprocess a source file
+__/lemo/src/log/log_paths.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/log_paths.cc.i
+.PHONY : __/lemo/src/log/log_paths.cc.i
+
+__/lemo/src/log/log_paths.s: __/lemo/src/log/log_paths.cc.s
+.PHONY : __/lemo/src/log/log_paths.s
+
+# target to generate assembly for a file
+__/lemo/src/log/log_paths.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/log_paths.cc.s
+.PHONY : __/lemo/src/log/log_paths.cc.s
+
+__/lemo/src/log/log_runtime.o: __/lemo/src/log/log_runtime.cc.o
+.PHONY : __/lemo/src/log/log_runtime.o
+
+# target to build an object file
+__/lemo/src/log/log_runtime.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/log_runtime.cc.o
+.PHONY : __/lemo/src/log/log_runtime.cc.o
+
+__/lemo/src/log/log_runtime.i: __/lemo/src/log/log_runtime.cc.i
+.PHONY : __/lemo/src/log/log_runtime.i
+
+# target to preprocess a source file
+__/lemo/src/log/log_runtime.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/log_runtime.cc.i
+.PHONY : __/lemo/src/log/log_runtime.cc.i
+
+__/lemo/src/log/log_runtime.s: __/lemo/src/log/log_runtime.cc.s
+.PHONY : __/lemo/src/log/log_runtime.s
+
+# target to generate assembly for a file
+__/lemo/src/log/log_runtime.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/log_runtime.cc.s
+.PHONY : __/lemo/src/log/log_runtime.cc.s
+
+__/lemo/src/log/logger.o: __/lemo/src/log/logger.cc.o
+.PHONY : __/lemo/src/log/logger.o
+
+# target to build an object file
+__/lemo/src/log/logger.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/logger.cc.o
+.PHONY : __/lemo/src/log/logger.cc.o
+
+__/lemo/src/log/logger.i: __/lemo/src/log/logger.cc.i
+.PHONY : __/lemo/src/log/logger.i
+
+# target to preprocess a source file
+__/lemo/src/log/logger.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/logger.cc.i
+.PHONY : __/lemo/src/log/logger.cc.i
+
+__/lemo/src/log/logger.s: __/lemo/src/log/logger.cc.s
+.PHONY : __/lemo/src/log/logger.s
+
+# target to generate assembly for a file
+__/lemo/src/log/logger.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/logger.cc.s
+.PHONY : __/lemo/src/log/logger.cc.s
+
+__/lemo/src/log/logger_repository.o: __/lemo/src/log/logger_repository.cc.o
+.PHONY : __/lemo/src/log/logger_repository.o
+
+# target to build an object file
+__/lemo/src/log/logger_repository.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/logger_repository.cc.o
+.PHONY : __/lemo/src/log/logger_repository.cc.o
+
+__/lemo/src/log/logger_repository.i: __/lemo/src/log/logger_repository.cc.i
+.PHONY : __/lemo/src/log/logger_repository.i
+
+# target to preprocess a source file
+__/lemo/src/log/logger_repository.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/logger_repository.cc.i
+.PHONY : __/lemo/src/log/logger_repository.cc.i
+
+__/lemo/src/log/logger_repository.s: __/lemo/src/log/logger_repository.cc.s
+.PHONY : __/lemo/src/log/logger_repository.s
+
+# target to generate assembly for a file
+__/lemo/src/log/logger_repository.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/logger_repository.cc.s
+.PHONY : __/lemo/src/log/logger_repository.cc.s
+
+__/lemo/src/log/mdc.o: __/lemo/src/log/mdc.cc.o
+.PHONY : __/lemo/src/log/mdc.o
+
+# target to build an object file
+__/lemo/src/log/mdc.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/mdc.cc.o
+.PHONY : __/lemo/src/log/mdc.cc.o
+
+__/lemo/src/log/mdc.i: __/lemo/src/log/mdc.cc.i
+.PHONY : __/lemo/src/log/mdc.i
+
+# target to preprocess a source file
+__/lemo/src/log/mdc.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/mdc.cc.i
+.PHONY : __/lemo/src/log/mdc.cc.i
+
+__/lemo/src/log/mdc.s: __/lemo/src/log/mdc.cc.s
+.PHONY : __/lemo/src/log/mdc.s
+
+# target to generate assembly for a file
+__/lemo/src/log/mdc.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/mdc.cc.s
+.PHONY : __/lemo/src/log/mdc.cc.s
+
+__/lemo/src/log/pattern_layout.o: __/lemo/src/log/pattern_layout.cc.o
+.PHONY : __/lemo/src/log/pattern_layout.o
+
+# target to build an object file
+__/lemo/src/log/pattern_layout.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/pattern_layout.cc.o
+.PHONY : __/lemo/src/log/pattern_layout.cc.o
+
+__/lemo/src/log/pattern_layout.i: __/lemo/src/log/pattern_layout.cc.i
+.PHONY : __/lemo/src/log/pattern_layout.i
+
+# target to preprocess a source file
+__/lemo/src/log/pattern_layout.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/pattern_layout.cc.i
+.PHONY : __/lemo/src/log/pattern_layout.cc.i
+
+__/lemo/src/log/pattern_layout.s: __/lemo/src/log/pattern_layout.cc.s
+.PHONY : __/lemo/src/log/pattern_layout.s
+
+# target to generate assembly for a file
+__/lemo/src/log/pattern_layout.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/pattern_layout.cc.s
+.PHONY : __/lemo/src/log/pattern_layout.cc.s
+
+__/lemo/src/log/rolling_file_appender.o: __/lemo/src/log/rolling_file_appender.cc.o
+.PHONY : __/lemo/src/log/rolling_file_appender.o
+
+# target to build an object file
+__/lemo/src/log/rolling_file_appender.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/rolling_file_appender.cc.o
+.PHONY : __/lemo/src/log/rolling_file_appender.cc.o
+
+__/lemo/src/log/rolling_file_appender.i: __/lemo/src/log/rolling_file_appender.cc.i
+.PHONY : __/lemo/src/log/rolling_file_appender.i
+
+# target to preprocess a source file
+__/lemo/src/log/rolling_file_appender.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/rolling_file_appender.cc.i
+.PHONY : __/lemo/src/log/rolling_file_appender.cc.i
+
+__/lemo/src/log/rolling_file_appender.s: __/lemo/src/log/rolling_file_appender.cc.s
+.PHONY : __/lemo/src/log/rolling_file_appender.s
+
+# target to generate assembly for a file
+__/lemo/src/log/rolling_file_appender.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_log_obj.dir/__/lemo/src/log/rolling_file_appender.cc.s
+.PHONY : __/lemo/src/log/rolling_file_appender.cc.s
+
+__/tests/lemo/buffer/test_byte_array.o: __/tests/lemo/buffer/test_byte_array.cc.o
+.PHONY : __/tests/lemo/buffer/test_byte_array.o
+
+# target to build an object file
+__/tests/lemo/buffer/test_byte_array.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/__/tests/lemo/buffer/test_byte_array.cc.o
+.PHONY : __/tests/lemo/buffer/test_byte_array.cc.o
+
+__/tests/lemo/buffer/test_byte_array.i: __/tests/lemo/buffer/test_byte_array.cc.i
+.PHONY : __/tests/lemo/buffer/test_byte_array.i
+
+# target to preprocess a source file
+__/tests/lemo/buffer/test_byte_array.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/__/tests/lemo/buffer/test_byte_array.cc.i
+.PHONY : __/tests/lemo/buffer/test_byte_array.cc.i
+
+__/tests/lemo/buffer/test_byte_array.s: __/tests/lemo/buffer/test_byte_array.cc.s
+.PHONY : __/tests/lemo/buffer/test_byte_array.s
+
+# target to generate assembly for a file
+__/tests/lemo/buffer/test_byte_array.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/__/tests/lemo/buffer/test_byte_array.cc.s
+.PHONY : __/tests/lemo/buffer/test_byte_array.cc.s
+
 __/tests/lemo/buffer/test_ring_buffer.o: __/tests/lemo/buffer/test_ring_buffer.cc.o
 .PHONY : __/tests/lemo/buffer/test_ring_buffer.o
 
@@ -583,6 +1332,54 @@ __/tests/lemo/buffer/test_ring_buffer.s: __/tests/lemo/buffer/test_ring_buffer.c
 __/tests/lemo/buffer/test_ring_buffer.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/__/tests/lemo/buffer/test_ring_buffer.cc.s
 .PHONY : __/tests/lemo/buffer/test_ring_buffer.cc.s
+
+__/tests/lemo/config/nettycore_config_demo.o: __/tests/lemo/config/nettycore_config_demo.cc.o
+.PHONY : __/tests/lemo/config/nettycore_config_demo.o
+
+# target to build an object file
+__/tests/lemo/config/nettycore_config_demo.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/__/tests/lemo/config/nettycore_config_demo.cc.o
+.PHONY : __/tests/lemo/config/nettycore_config_demo.cc.o
+
+__/tests/lemo/config/nettycore_config_demo.i: __/tests/lemo/config/nettycore_config_demo.cc.i
+.PHONY : __/tests/lemo/config/nettycore_config_demo.i
+
+# target to preprocess a source file
+__/tests/lemo/config/nettycore_config_demo.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/__/tests/lemo/config/nettycore_config_demo.cc.i
+.PHONY : __/tests/lemo/config/nettycore_config_demo.cc.i
+
+__/tests/lemo/config/nettycore_config_demo.s: __/tests/lemo/config/nettycore_config_demo.cc.s
+.PHONY : __/tests/lemo/config/nettycore_config_demo.s
+
+# target to generate assembly for a file
+__/tests/lemo/config/nettycore_config_demo.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_demo.dir/__/tests/lemo/config/nettycore_config_demo.cc.s
+.PHONY : __/tests/lemo/config/nettycore_config_demo.cc.s
+
+__/tests/lemo/config/test_netty_config.o: __/tests/lemo/config/test_netty_config.cc.o
+.PHONY : __/tests/lemo/config/test_netty_config.o
+
+# target to build an object file
+__/tests/lemo/config/test_netty_config.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/__/tests/lemo/config/test_netty_config.cc.o
+.PHONY : __/tests/lemo/config/test_netty_config.cc.o
+
+__/tests/lemo/config/test_netty_config.i: __/tests/lemo/config/test_netty_config.cc.i
+.PHONY : __/tests/lemo/config/test_netty_config.i
+
+# target to preprocess a source file
+__/tests/lemo/config/test_netty_config.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/__/tests/lemo/config/test_netty_config.cc.i
+.PHONY : __/tests/lemo/config/test_netty_config.cc.i
+
+__/tests/lemo/config/test_netty_config.s: __/tests/lemo/config/test_netty_config.cc.s
+.PHONY : __/tests/lemo/config/test_netty_config.s
+
+# target to generate assembly for a file
+__/tests/lemo/config/test_netty_config.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_netty_config_nettycore.dir/__/tests/lemo/config/test_netty_config.cc.s
+.PHONY : __/tests/lemo/config/test_netty_config.cc.s
 
 __/tests/lemo/fiber/bench_scheduler.o: __/tests/lemo/fiber/bench_scheduler.cc.o
 .PHONY : __/tests/lemo/fiber/bench_scheduler.o
@@ -631,6 +1428,78 @@ __/tests/lemo/fiber/test_fiber.s: __/tests/lemo/fiber/test_fiber.cc.s
 __/tests/lemo/fiber/test_fiber.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_nettycore.dir/__/tests/lemo/fiber/test_fiber.cc.s
 .PHONY : __/tests/lemo/fiber/test_fiber.cc.s
+
+__/tests/lemo/fiber/test_fiber_local.o: __/tests/lemo/fiber/test_fiber_local.cc.o
+.PHONY : __/tests/lemo/fiber/test_fiber_local.o
+
+# target to build an object file
+__/tests/lemo/fiber/test_fiber_local.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/__/tests/lemo/fiber/test_fiber_local.cc.o
+.PHONY : __/tests/lemo/fiber/test_fiber_local.cc.o
+
+__/tests/lemo/fiber/test_fiber_local.i: __/tests/lemo/fiber/test_fiber_local.cc.i
+.PHONY : __/tests/lemo/fiber/test_fiber_local.i
+
+# target to preprocess a source file
+__/tests/lemo/fiber/test_fiber_local.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/__/tests/lemo/fiber/test_fiber_local.cc.i
+.PHONY : __/tests/lemo/fiber/test_fiber_local.cc.i
+
+__/tests/lemo/fiber/test_fiber_local.s: __/tests/lemo/fiber/test_fiber_local.cc.s
+.PHONY : __/tests/lemo/fiber/test_fiber_local.s
+
+# target to generate assembly for a file
+__/tests/lemo/fiber/test_fiber_local.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/__/tests/lemo/fiber/test_fiber_local.cc.s
+.PHONY : __/tests/lemo/fiber/test_fiber_local.cc.s
+
+__/tests/lemo/fiber/test_fiber_mutex.o: __/tests/lemo/fiber/test_fiber_mutex.cc.o
+.PHONY : __/tests/lemo/fiber/test_fiber_mutex.o
+
+# target to build an object file
+__/tests/lemo/fiber/test_fiber_mutex.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/__/tests/lemo/fiber/test_fiber_mutex.cc.o
+.PHONY : __/tests/lemo/fiber/test_fiber_mutex.cc.o
+
+__/tests/lemo/fiber/test_fiber_mutex.i: __/tests/lemo/fiber/test_fiber_mutex.cc.i
+.PHONY : __/tests/lemo/fiber/test_fiber_mutex.i
+
+# target to preprocess a source file
+__/tests/lemo/fiber/test_fiber_mutex.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/__/tests/lemo/fiber/test_fiber_mutex.cc.i
+.PHONY : __/tests/lemo/fiber/test_fiber_mutex.cc.i
+
+__/tests/lemo/fiber/test_fiber_mutex.s: __/tests/lemo/fiber/test_fiber_mutex.cc.s
+.PHONY : __/tests/lemo/fiber/test_fiber_mutex.s
+
+# target to generate assembly for a file
+__/tests/lemo/fiber/test_fiber_mutex.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/__/tests/lemo/fiber/test_fiber_mutex.cc.s
+.PHONY : __/tests/lemo/fiber/test_fiber_mutex.cc.s
+
+__/tests/lemo/fiber/test_fiber_semaphore.o: __/tests/lemo/fiber/test_fiber_semaphore.cc.o
+.PHONY : __/tests/lemo/fiber/test_fiber_semaphore.o
+
+# target to build an object file
+__/tests/lemo/fiber/test_fiber_semaphore.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/__/tests/lemo/fiber/test_fiber_semaphore.cc.o
+.PHONY : __/tests/lemo/fiber/test_fiber_semaphore.cc.o
+
+__/tests/lemo/fiber/test_fiber_semaphore.i: __/tests/lemo/fiber/test_fiber_semaphore.cc.i
+.PHONY : __/tests/lemo/fiber/test_fiber_semaphore.i
+
+# target to preprocess a source file
+__/tests/lemo/fiber/test_fiber_semaphore.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/__/tests/lemo/fiber/test_fiber_semaphore.cc.i
+.PHONY : __/tests/lemo/fiber/test_fiber_semaphore.cc.i
+
+__/tests/lemo/fiber/test_fiber_semaphore.s: __/tests/lemo/fiber/test_fiber_semaphore.cc.s
+.PHONY : __/tests/lemo/fiber/test_fiber_semaphore.s
+
+# target to generate assembly for a file
+__/tests/lemo/fiber/test_fiber_semaphore.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/__/tests/lemo/fiber/test_fiber_semaphore.cc.s
+.PHONY : __/tests/lemo/fiber/test_fiber_semaphore.cc.s
 
 __/tests/lemo/fiber/test_fiber_sleep_iomanager.o: __/tests/lemo/fiber/test_fiber_sleep_iomanager.cc.o
 .PHONY : __/tests/lemo/fiber/test_fiber_sleep_iomanager.o
@@ -800,6 +1669,30 @@ __/tests/lemo/io/test_iomanager.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_iomanager_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_iomanager_nettycore.dir/__/tests/lemo/io/test_iomanager.cc.s
 .PHONY : __/tests/lemo/io/test_iomanager.cc.s
 
+__/tests/lemo/server/test_tcp_server.o: __/tests/lemo/server/test_tcp_server.cc.o
+.PHONY : __/tests/lemo/server/test_tcp_server.o
+
+# target to build an object file
+__/tests/lemo/server/test_tcp_server.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/__/tests/lemo/server/test_tcp_server.cc.o
+.PHONY : __/tests/lemo/server/test_tcp_server.cc.o
+
+__/tests/lemo/server/test_tcp_server.i: __/tests/lemo/server/test_tcp_server.cc.i
+.PHONY : __/tests/lemo/server/test_tcp_server.i
+
+# target to preprocess a source file
+__/tests/lemo/server/test_tcp_server.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/__/tests/lemo/server/test_tcp_server.cc.i
+.PHONY : __/tests/lemo/server/test_tcp_server.cc.i
+
+__/tests/lemo/server/test_tcp_server.s: __/tests/lemo/server/test_tcp_server.cc.s
+.PHONY : __/tests/lemo/server/test_tcp_server.s
+
+# target to generate assembly for a file
+__/tests/lemo/server/test_tcp_server.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/__/tests/lemo/server/test_tcp_server.cc.s
+.PHONY : __/tests/lemo/server/test_tcp_server.cc.s
+
 __/tests/lemo/socket/bench_echo_server.o: __/tests/lemo/socket/bench_echo_server.cc.o
 .PHONY : __/tests/lemo/socket/bench_echo_server.o
 
@@ -872,6 +1765,30 @@ __/tests/lemo/socket/test_echo_server.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_echo_server_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_echo_server_nettycore.dir/__/tests/lemo/socket/test_echo_server.cc.s
 .PHONY : __/tests/lemo/socket/test_echo_server.cc.s
 
+src/buffer/byte_array.o: src/buffer/byte_array.cc.o
+.PHONY : src/buffer/byte_array.o
+
+# target to build an object file
+src/buffer/byte_array.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/byte_array.cc.o
+.PHONY : src/buffer/byte_array.cc.o
+
+src/buffer/byte_array.i: src/buffer/byte_array.cc.i
+.PHONY : src/buffer/byte_array.i
+
+# target to preprocess a source file
+src/buffer/byte_array.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/byte_array.cc.i
+.PHONY : src/buffer/byte_array.cc.i
+
+src/buffer/byte_array.s: src/buffer/byte_array.cc.s
+.PHONY : src/buffer/byte_array.s
+
+# target to generate assembly for a file
+src/buffer/byte_array.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/byte_array.cc.s
+.PHONY : src/buffer/byte_array.cc.s
+
 src/buffer/ring_buffer.o: src/buffer/ring_buffer.cc.o
 .PHONY : src/buffer/ring_buffer.o
 
@@ -895,6 +1812,54 @@ src/buffer/ring_buffer.s: src/buffer/ring_buffer.cc.s
 src/buffer/ring_buffer.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/ring_buffer.cc.s
 .PHONY : src/buffer/ring_buffer.cc.s
+
+src/config/netty_config.o: src/config/netty_config.cc.o
+.PHONY : src/config/netty_config.o
+
+# target to build an object file
+src/config/netty_config.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/src/config/netty_config.cc.o
+.PHONY : src/config/netty_config.cc.o
+
+src/config/netty_config.i: src/config/netty_config.cc.i
+.PHONY : src/config/netty_config.i
+
+# target to preprocess a source file
+src/config/netty_config.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/src/config/netty_config.cc.i
+.PHONY : src/config/netty_config.cc.i
+
+src/config/netty_config.s: src/config/netty_config.cc.s
+.PHONY : src/config/netty_config.s
+
+# target to generate assembly for a file
+src/config/netty_config.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/src/config/netty_config.cc.s
+.PHONY : src/config/netty_config.cc.s
+
+src/config/yaml_loader.o: src/config/yaml_loader.cc.o
+.PHONY : src/config/yaml_loader.o
+
+# target to build an object file
+src/config/yaml_loader.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/src/config/yaml_loader.cc.o
+.PHONY : src/config/yaml_loader.cc.o
+
+src/config/yaml_loader.i: src/config/yaml_loader.cc.i
+.PHONY : src/config/yaml_loader.i
+
+# target to preprocess a source file
+src/config/yaml_loader.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/src/config/yaml_loader.cc.i
+.PHONY : src/config/yaml_loader.cc.i
+
+src/config/yaml_loader.s: src/config/yaml_loader.cc.s
+.PHONY : src/config/yaml_loader.s
+
+# target to generate assembly for a file
+src/config/yaml_loader.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_config_obj.dir/src/config/yaml_loader.cc.s
+.PHONY : src/config/yaml_loader.cc.s
 
 src/fiber/fiber.o: src/fiber/fiber.cc.o
 .PHONY : src/fiber/fiber.o
@@ -967,6 +1932,78 @@ src/fiber/scheduler.s: src/fiber/scheduler.cc.s
 src/fiber/scheduler.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/scheduler.cc.s
 .PHONY : src/fiber/scheduler.cc.s
+
+src/fiber/sync/fiber_local.o: src/fiber/sync/fiber_local.cc.o
+.PHONY : src/fiber/sync/fiber_local.o
+
+# target to build an object file
+src/fiber/sync/fiber_local.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o
+.PHONY : src/fiber/sync/fiber_local.cc.o
+
+src/fiber/sync/fiber_local.i: src/fiber/sync/fiber_local.cc.i
+.PHONY : src/fiber/sync/fiber_local.i
+
+# target to preprocess a source file
+src/fiber/sync/fiber_local.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.i
+.PHONY : src/fiber/sync/fiber_local.cc.i
+
+src/fiber/sync/fiber_local.s: src/fiber/sync/fiber_local.cc.s
+.PHONY : src/fiber/sync/fiber_local.s
+
+# target to generate assembly for a file
+src/fiber/sync/fiber_local.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.s
+.PHONY : src/fiber/sync/fiber_local.cc.s
+
+src/fiber/sync/fiber_mutex.o: src/fiber/sync/fiber_mutex.cc.o
+.PHONY : src/fiber/sync/fiber_mutex.o
+
+# target to build an object file
+src/fiber/sync/fiber_mutex.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o
+.PHONY : src/fiber/sync/fiber_mutex.cc.o
+
+src/fiber/sync/fiber_mutex.i: src/fiber/sync/fiber_mutex.cc.i
+.PHONY : src/fiber/sync/fiber_mutex.i
+
+# target to preprocess a source file
+src/fiber/sync/fiber_mutex.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.i
+.PHONY : src/fiber/sync/fiber_mutex.cc.i
+
+src/fiber/sync/fiber_mutex.s: src/fiber/sync/fiber_mutex.cc.s
+.PHONY : src/fiber/sync/fiber_mutex.s
+
+# target to generate assembly for a file
+src/fiber/sync/fiber_mutex.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.s
+.PHONY : src/fiber/sync/fiber_mutex.cc.s
+
+src/fiber/sync/fiber_semaphore.o: src/fiber/sync/fiber_semaphore.cc.o
+.PHONY : src/fiber/sync/fiber_semaphore.o
+
+# target to build an object file
+src/fiber/sync/fiber_semaphore.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o
+.PHONY : src/fiber/sync/fiber_semaphore.cc.o
+
+src/fiber/sync/fiber_semaphore.i: src/fiber/sync/fiber_semaphore.cc.i
+.PHONY : src/fiber/sync/fiber_semaphore.i
+
+# target to preprocess a source file
+src/fiber/sync/fiber_semaphore.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.i
+.PHONY : src/fiber/sync/fiber_semaphore.cc.i
+
+src/fiber/sync/fiber_semaphore.s: src/fiber/sync/fiber_semaphore.cc.s
+.PHONY : src/fiber/sync/fiber_semaphore.s
+
+# target to generate assembly for a file
+src/fiber/sync/fiber_semaphore.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.s
+.PHONY : src/fiber/sync/fiber_semaphore.cc.s
 
 src/fiber/timer.o: src/fiber/timer.cc.o
 .PHONY : src/fiber/timer.o
@@ -1136,6 +2173,30 @@ src/io/reactor.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/reactor.cc.s
 .PHONY : src/io/reactor.cc.s
 
+src/io/runtime.o: src/io/runtime.cc.o
+.PHONY : src/io/runtime.o
+
+# target to build an object file
+src/io/runtime.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o
+.PHONY : src/io/runtime.cc.o
+
+src/io/runtime.i: src/io/runtime.cc.i
+.PHONY : src/io/runtime.i
+
+# target to preprocess a source file
+src/io/runtime.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.i
+.PHONY : src/io/runtime.cc.i
+
+src/io/runtime.s: src/io/runtime.cc.s
+.PHONY : src/io/runtime.s
+
+# target to generate assembly for a file
+src/io/runtime.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.s
+.PHONY : src/io/runtime.cc.s
+
 src/memory/stack_pool.o: src/memory/stack_pool.cc.o
 .PHONY : src/memory/stack_pool.o
 
@@ -1159,6 +2220,78 @@ src/memory/stack_pool.s: src/memory/stack_pool.cc.s
 src/memory/stack_pool.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_memory_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_memory_obj.dir/src/memory/stack_pool.cc.s
 .PHONY : src/memory/stack_pool.cc.s
+
+src/server/acceptor.o: src/server/acceptor.cc.o
+.PHONY : src/server/acceptor.o
+
+# target to build an object file
+src/server/acceptor.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/acceptor.cc.o
+.PHONY : src/server/acceptor.cc.o
+
+src/server/acceptor.i: src/server/acceptor.cc.i
+.PHONY : src/server/acceptor.i
+
+# target to preprocess a source file
+src/server/acceptor.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/acceptor.cc.i
+.PHONY : src/server/acceptor.cc.i
+
+src/server/acceptor.s: src/server/acceptor.cc.s
+.PHONY : src/server/acceptor.s
+
+# target to generate assembly for a file
+src/server/acceptor.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/acceptor.cc.s
+.PHONY : src/server/acceptor.cc.s
+
+src/server/tcp_server.o: src/server/tcp_server.cc.o
+.PHONY : src/server/tcp_server.o
+
+# target to build an object file
+src/server/tcp_server.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/tcp_server.cc.o
+.PHONY : src/server/tcp_server.cc.o
+
+src/server/tcp_server.i: src/server/tcp_server.cc.i
+.PHONY : src/server/tcp_server.i
+
+# target to preprocess a source file
+src/server/tcp_server.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/tcp_server.cc.i
+.PHONY : src/server/tcp_server.cc.i
+
+src/server/tcp_server.s: src/server/tcp_server.cc.s
+.PHONY : src/server/tcp_server.s
+
+# target to generate assembly for a file
+src/server/tcp_server.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/tcp_server.cc.s
+.PHONY : src/server/tcp_server.cc.s
+
+src/server/worker_group.o: src/server/worker_group.cc.o
+.PHONY : src/server/worker_group.o
+
+# target to build an object file
+src/server/worker_group.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/worker_group.cc.o
+.PHONY : src/server/worker_group.cc.o
+
+src/server/worker_group.i: src/server/worker_group.cc.i
+.PHONY : src/server/worker_group.i
+
+# target to preprocess a source file
+src/server/worker_group.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/worker_group.cc.i
+.PHONY : src/server/worker_group.cc.i
+
+src/server/worker_group.s: src/server/worker_group.cc.s
+.PHONY : src/server/worker_group.s
+
+# target to generate assembly for a file
+src/server/worker_group.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/src/server/worker_group.cc.s
+.PHONY : src/server/worker_group.cc.s
 
 src/socket/address.o: src/socket/address.cc.o
 .PHONY : src/socket/address.o
@@ -1207,6 +2340,30 @@ src/socket/socket.s: src/socket/socket.cc.s
 src/socket/socket.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.s
 .PHONY : src/socket/socket.cc.s
+
+src/socket/stream.o: src/socket/stream.cc.o
+.PHONY : src/socket/stream.o
+
+# target to build an object file
+src/socket/stream.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o
+.PHONY : src/socket/stream.cc.o
+
+src/socket/stream.i: src/socket/stream.cc.i
+.PHONY : src/socket/stream.i
+
+# target to preprocess a source file
+src/socket/stream.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.i
+.PHONY : src/socket/stream.cc.i
+
+src/socket/stream.s: src/socket/stream.cc.s
+.PHONY : src/socket/stream.s
+
+# target to generate assembly for a file
+src/socket/stream.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore && $(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.s
+.PHONY : src/socket/stream.cc.s
 
 src/thread/semaphore.o: src/thread/semaphore.cc.o
 .PHONY : src/thread/semaphore.o
@@ -1335,22 +2492,36 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... bench_echo_server_nettycore_quick"
 	@echo "... bench_nettycore_perf"
+	@echo "... nettycore_config_demo_run"
 	@echo "... run_tests_nettycore"
+	@echo "... run_tests_nettycore_config"
 	@echo "... bench_echo_server_nettycore"
 	@echo "... bench_scheduler_nettycore"
+	@echo "... lemo_nettycore"
 	@echo "... nettycore"
 	@echo "... nettycore_buffer"
 	@echo "... nettycore_buffer_obj"
+	@echo "... nettycore_config"
+	@echo "... nettycore_config_demo"
+	@echo "... nettycore_config_obj"
 	@echo "... nettycore_fiber"
 	@echo "... nettycore_fiber_obj"
 	@echo "... nettycore_io"
 	@echo "... nettycore_io_obj"
+	@echo "... nettycore_log"
+	@echo "... nettycore_log_obj"
 	@echo "... nettycore_memory"
 	@echo "... nettycore_memory_obj"
+	@echo "... nettycore_server"
+	@echo "... nettycore_server_obj"
 	@echo "... nettycore_socket"
 	@echo "... nettycore_socket_obj"
 	@echo "... nettycore_thread"
@@ -1358,25 +2529,106 @@ help:
 	@echo "... nettycore_utils"
 	@echo "... nettycore_utils_obj"
 	@echo "... test_address_nettycore"
+	@echo "... test_byte_array_nettycore"
 	@echo "... test_echo_server_nettycore"
+	@echo "... test_fiber_local_nettycore"
+	@echo "... test_fiber_mutex_nettycore"
 	@echo "... test_fiber_nettycore"
+	@echo "... test_fiber_semaphore_nettycore"
 	@echo "... test_fiber_sleep_iomanager_nettycore"
 	@echo "... test_hook_nettycore"
 	@echo "... test_iomanager_nettycore"
+	@echo "... test_netty_config_nettycore"
 	@echo "... test_ring_buffer_nettycore"
 	@echo "... test_scheduler_nettycore"
 	@echo "... test_stack_pool_nettycore"
+	@echo "... test_tcp_server_nettycore"
 	@echo "... test_timer_nettycore"
 	@echo "... test_timer_wheel_nettycore"
+	@echo "... __/lemo/src/config/config_center.o"
+	@echo "... __/lemo/src/config/config_center.i"
+	@echo "... __/lemo/src/config/config_center.s"
+	@echo "... __/lemo/src/config/config_printer.o"
+	@echo "... __/lemo/src/config/config_printer.i"
+	@echo "... __/lemo/src/config/config_printer.s"
+	@echo "... __/lemo/src/config/config_var.o"
+	@echo "... __/lemo/src/config/config_var.i"
+	@echo "... __/lemo/src/config/config_var.s"
+	@echo "... __/lemo/src/config/log_config.o"
+	@echo "... __/lemo/src/config/log_config.i"
+	@echo "... __/lemo/src/config/log_config.s"
+	@echo "... __/lemo/src/config/property_loader.o"
+	@echo "... __/lemo/src/config/property_loader.i"
+	@echo "... __/lemo/src/config/property_loader.s"
+	@echo "... __/lemo/src/log/appender.o"
+	@echo "... __/lemo/src/log/appender.i"
+	@echo "... __/lemo/src/log/appender.s"
+	@echo "... __/lemo/src/log/appender_registry.o"
+	@echo "... __/lemo/src/log/appender_registry.i"
+	@echo "... __/lemo/src/log/appender_registry.s"
+	@echo "... __/lemo/src/log/async_appender.o"
+	@echo "... __/lemo/src/log/async_appender.i"
+	@echo "... __/lemo/src/log/async_appender.s"
+	@echo "... __/lemo/src/log/console_appender.o"
+	@echo "... __/lemo/src/log/console_appender.i"
+	@echo "... __/lemo/src/log/console_appender.s"
+	@echo "... __/lemo/src/log/event.o"
+	@echo "... __/lemo/src/log/event.i"
+	@echo "... __/lemo/src/log/event.s"
+	@echo "... __/lemo/src/log/file_appender.o"
+	@echo "... __/lemo/src/log/file_appender.i"
+	@echo "... __/lemo/src/log/file_appender.s"
+	@echo "... __/lemo/src/log/level.o"
+	@echo "... __/lemo/src/log/level.i"
+	@echo "... __/lemo/src/log/level.s"
+	@echo "... __/lemo/src/log/log_paths.o"
+	@echo "... __/lemo/src/log/log_paths.i"
+	@echo "... __/lemo/src/log/log_paths.s"
+	@echo "... __/lemo/src/log/log_runtime.o"
+	@echo "... __/lemo/src/log/log_runtime.i"
+	@echo "... __/lemo/src/log/log_runtime.s"
+	@echo "... __/lemo/src/log/logger.o"
+	@echo "... __/lemo/src/log/logger.i"
+	@echo "... __/lemo/src/log/logger.s"
+	@echo "... __/lemo/src/log/logger_repository.o"
+	@echo "... __/lemo/src/log/logger_repository.i"
+	@echo "... __/lemo/src/log/logger_repository.s"
+	@echo "... __/lemo/src/log/mdc.o"
+	@echo "... __/lemo/src/log/mdc.i"
+	@echo "... __/lemo/src/log/mdc.s"
+	@echo "... __/lemo/src/log/pattern_layout.o"
+	@echo "... __/lemo/src/log/pattern_layout.i"
+	@echo "... __/lemo/src/log/pattern_layout.s"
+	@echo "... __/lemo/src/log/rolling_file_appender.o"
+	@echo "... __/lemo/src/log/rolling_file_appender.i"
+	@echo "... __/lemo/src/log/rolling_file_appender.s"
+	@echo "... __/tests/lemo/buffer/test_byte_array.o"
+	@echo "... __/tests/lemo/buffer/test_byte_array.i"
+	@echo "... __/tests/lemo/buffer/test_byte_array.s"
 	@echo "... __/tests/lemo/buffer/test_ring_buffer.o"
 	@echo "... __/tests/lemo/buffer/test_ring_buffer.i"
 	@echo "... __/tests/lemo/buffer/test_ring_buffer.s"
+	@echo "... __/tests/lemo/config/nettycore_config_demo.o"
+	@echo "... __/tests/lemo/config/nettycore_config_demo.i"
+	@echo "... __/tests/lemo/config/nettycore_config_demo.s"
+	@echo "... __/tests/lemo/config/test_netty_config.o"
+	@echo "... __/tests/lemo/config/test_netty_config.i"
+	@echo "... __/tests/lemo/config/test_netty_config.s"
 	@echo "... __/tests/lemo/fiber/bench_scheduler.o"
 	@echo "... __/tests/lemo/fiber/bench_scheduler.i"
 	@echo "... __/tests/lemo/fiber/bench_scheduler.s"
 	@echo "... __/tests/lemo/fiber/test_fiber.o"
 	@echo "... __/tests/lemo/fiber/test_fiber.i"
 	@echo "... __/tests/lemo/fiber/test_fiber.s"
+	@echo "... __/tests/lemo/fiber/test_fiber_local.o"
+	@echo "... __/tests/lemo/fiber/test_fiber_local.i"
+	@echo "... __/tests/lemo/fiber/test_fiber_local.s"
+	@echo "... __/tests/lemo/fiber/test_fiber_mutex.o"
+	@echo "... __/tests/lemo/fiber/test_fiber_mutex.i"
+	@echo "... __/tests/lemo/fiber/test_fiber_mutex.s"
+	@echo "... __/tests/lemo/fiber/test_fiber_semaphore.o"
+	@echo "... __/tests/lemo/fiber/test_fiber_semaphore.i"
+	@echo "... __/tests/lemo/fiber/test_fiber_semaphore.s"
 	@echo "... __/tests/lemo/fiber/test_fiber_sleep_iomanager.o"
 	@echo "... __/tests/lemo/fiber/test_fiber_sleep_iomanager.i"
 	@echo "... __/tests/lemo/fiber/test_fiber_sleep_iomanager.s"
@@ -1398,6 +2650,9 @@ help:
 	@echo "... __/tests/lemo/io/test_iomanager.o"
 	@echo "... __/tests/lemo/io/test_iomanager.i"
 	@echo "... __/tests/lemo/io/test_iomanager.s"
+	@echo "... __/tests/lemo/server/test_tcp_server.o"
+	@echo "... __/tests/lemo/server/test_tcp_server.i"
+	@echo "... __/tests/lemo/server/test_tcp_server.s"
 	@echo "... __/tests/lemo/socket/bench_echo_server.o"
 	@echo "... __/tests/lemo/socket/bench_echo_server.i"
 	@echo "... __/tests/lemo/socket/bench_echo_server.s"
@@ -1407,9 +2662,18 @@ help:
 	@echo "... __/tests/lemo/socket/test_echo_server.o"
 	@echo "... __/tests/lemo/socket/test_echo_server.i"
 	@echo "... __/tests/lemo/socket/test_echo_server.s"
+	@echo "... src/buffer/byte_array.o"
+	@echo "... src/buffer/byte_array.i"
+	@echo "... src/buffer/byte_array.s"
 	@echo "... src/buffer/ring_buffer.o"
 	@echo "... src/buffer/ring_buffer.i"
 	@echo "... src/buffer/ring_buffer.s"
+	@echo "... src/config/netty_config.o"
+	@echo "... src/config/netty_config.i"
+	@echo "... src/config/netty_config.s"
+	@echo "... src/config/yaml_loader.o"
+	@echo "... src/config/yaml_loader.i"
+	@echo "... src/config/yaml_loader.s"
 	@echo "... src/fiber/fiber.o"
 	@echo "... src/fiber/fiber.i"
 	@echo "... src/fiber/fiber.s"
@@ -1419,6 +2683,15 @@ help:
 	@echo "... src/fiber/scheduler.o"
 	@echo "... src/fiber/scheduler.i"
 	@echo "... src/fiber/scheduler.s"
+	@echo "... src/fiber/sync/fiber_local.o"
+	@echo "... src/fiber/sync/fiber_local.i"
+	@echo "... src/fiber/sync/fiber_local.s"
+	@echo "... src/fiber/sync/fiber_mutex.o"
+	@echo "... src/fiber/sync/fiber_mutex.i"
+	@echo "... src/fiber/sync/fiber_mutex.s"
+	@echo "... src/fiber/sync/fiber_semaphore.o"
+	@echo "... src/fiber/sync/fiber_semaphore.i"
+	@echo "... src/fiber/sync/fiber_semaphore.s"
 	@echo "... src/fiber/timer.o"
 	@echo "... src/fiber/timer.i"
 	@echo "... src/fiber/timer.s"
@@ -1440,15 +2713,30 @@ help:
 	@echo "... src/io/reactor.o"
 	@echo "... src/io/reactor.i"
 	@echo "... src/io/reactor.s"
+	@echo "... src/io/runtime.o"
+	@echo "... src/io/runtime.i"
+	@echo "... src/io/runtime.s"
 	@echo "... src/memory/stack_pool.o"
 	@echo "... src/memory/stack_pool.i"
 	@echo "... src/memory/stack_pool.s"
+	@echo "... src/server/acceptor.o"
+	@echo "... src/server/acceptor.i"
+	@echo "... src/server/acceptor.s"
+	@echo "... src/server/tcp_server.o"
+	@echo "... src/server/tcp_server.i"
+	@echo "... src/server/tcp_server.s"
+	@echo "... src/server/worker_group.o"
+	@echo "... src/server/worker_group.i"
+	@echo "... src/server/worker_group.s"
 	@echo "... src/socket/address.o"
 	@echo "... src/socket/address.i"
 	@echo "... src/socket/address.s"
 	@echo "... src/socket/socket.o"
 	@echo "... src/socket/socket.i"
 	@echo "... src/socket/socket.s"
+	@echo "... src/socket/stream.o"
+	@echo "... src/socket/stream.i"
+	@echo "... src/socket/stream.s"
 	@echo "... src/thread/semaphore.o"
 	@echo "... src/thread/semaphore.i"
 	@echo "... src/thread/semaphore.s"

@@ -4,6 +4,10 @@ if(NOT DEFINED KVSTORE_BIN_ROOT)
   set(KVSTORE_BIN_ROOT "${CMAKE_SOURCE_DIR}/bin" CACHE PATH "KVStore 可执行文件根目录")
 endif()
 
+if(NOT DEFINED KVSTORE_LIB_ROOT)
+  set(KVSTORE_LIB_ROOT "${CMAKE_SOURCE_DIR}/lib" CACHE PATH "KVStore 动态库/静态库根目录")
+endif()
+
 set(LSTL_BIN_ROOT "${KVSTORE_BIN_ROOT}" CACHE PATH "兼容：可执行文件根目录")
 
 set(KVSTORE_ALL_TEST_TARGETS "" CACHE INTERNAL "all kvstore test executables")

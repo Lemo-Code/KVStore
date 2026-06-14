@@ -1,0 +1,2 @@
+/usr/bin/ar qc libledis_stream.a CMakeFiles/ledis_stream.dir/src/stream/ledis_stream.cc.o
+/usr/bin/ranlib libledis_stream.a

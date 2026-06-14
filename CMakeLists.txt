@@ -17,6 +17,7 @@ option(LEMO_BUILD "构建 lemo 协程网络库（当前含 log 模块）" ON)
 option(NETLEMO_BUILD "构建 netLemo 极致性能协程网络库" ON)
 option(NETCORE_BUILD "构建 netCore（sylar 风格独立网络栈）" ON)
 option(LEMONETTYCORE_BUILD "构建 LemoNettyCore 高性能协程网络核心栈（推荐）" ON)
+option(LEDIS_BUILD "构建 Ledis Redis 兼容 KV 服务" ON)
 
 # lstl memory 编译选项
 option(LSTL_OOM_MODE_CERR "OOM 时 cerr 输出并 abort" OFF)
@@ -35,8 +36,17 @@ if(LEMO_BUILD)
 endif()
 
 if(LEMONETTYCORE_BUILD)
-  add_subdirectory(LemoNettyCore)
-elseif(NETCORE_BUILD)
+  add_subdirectory(third/LemoNettyCore)
+endif()
+
+if(LEDIS_BUILD)
+  if(NOT LEMONETTYCORE_BUILD)
+    message(FATAL_ERROR "Ledis 需要 LEMONETTYCORE_BUILD=ON")
+  endif()
+  add_subdirectory(ledis)
+endif()
+
+if(NETCORE_BUILD AND NOT LEMONETTYCORE_BUILD)
   add_subdirectory(netCore)
 elseif(NETLEMO_BUILD)
   add_subdirectory(netLemo)

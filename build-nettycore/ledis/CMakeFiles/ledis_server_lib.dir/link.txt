@@ -1,0 +1,2 @@
+/usr/bin/ar qc libledis_server_lib.a CMakeFiles/ledis_server_lib.dir/src/app/env.cc.o CMakeFiles/ledis_server_lib.dir/src/app/fs_util.cc.o CMakeFiles/ledis_server_lib.dir/src/app/daemon.cc.o CMakeFiles/ledis_server_lib.dir/src/app/application.cc.o CMakeFiles/ledis_server_lib.dir/src/config/ledis_settings.cc.o CMakeFiles/ledis_server_lib.dir/src/config/ledis_yaml_config.cc.o CMakeFiles/ledis_server_lib.dir/src/server/ledis_server.cc.o
+/usr/bin/ranlib libledis_server_lib.a

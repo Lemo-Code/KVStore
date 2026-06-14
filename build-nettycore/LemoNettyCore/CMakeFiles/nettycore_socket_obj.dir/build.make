@@ -97,8 +97,23 @@ LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.s: cmake_
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.s"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/socket/socket.cc -o CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.s
 
+LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/flags.make
+LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o: /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/socket/stream.cc
+LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o -MF CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o.d -o CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/socket/stream.cc
+
+LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.i"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/socket/stream.cc > CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.i
+
+LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.s"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/socket/stream.cc -o CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.s
+
 nettycore_socket_obj: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/address.cc.o
 nettycore_socket_obj: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.o
+nettycore_socket_obj: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o
 nettycore_socket_obj: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build.make
 .PHONY : nettycore_socket_obj
 

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libledis_protocol.a CMakeFiles/ledis_protocol.dir/src/store/sds.cc.o CMakeFiles/ledis_protocol.dir/src/protocol/resp_value.cc.o CMakeFiles/ledis_protocol.dir/src/protocol/resp_reader.cc.o CMakeFiles/ledis_protocol.dir/src/protocol/resp_writer.cc.o CMakeFiles/ledis_protocol.dir/src/command/command_result.cc.o
+/usr/bin/ranlib libledis_protocol.a

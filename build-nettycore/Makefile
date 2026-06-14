@@ -95,6 +95,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles /home/wangmaosen/copy_linux/third/KVStore/build-nettycore//CMakeFiles/progress.marks
@@ -292,7 +337,7 @@ nettycore_utils_obj: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_utils_obj/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_utils_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_utils_obj.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_utils_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_utils_obj.dir/build
 .PHONY : nettycore_utils_obj/fast
 
 #=============================================================================
@@ -305,7 +350,7 @@ nettycore_utils: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_utils/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_utils.dir/build.make LemoNettyCore/CMakeFiles/nettycore_utils.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_utils.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_utils.dir/build
 .PHONY : nettycore_utils/fast
 
 #=============================================================================
@@ -318,7 +363,7 @@ nettycore_thread_obj: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_thread_obj/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_thread_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_thread_obj.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_thread_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_thread_obj.dir/build
 .PHONY : nettycore_thread_obj/fast
 
 #=============================================================================
@@ -331,7 +376,7 @@ nettycore_thread: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_thread/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_thread.dir/build.make LemoNettyCore/CMakeFiles/nettycore_thread.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_thread.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_thread.dir/build
 .PHONY : nettycore_thread/fast
 
 #=============================================================================
@@ -344,7 +389,7 @@ nettycore_memory_obj: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_memory_obj/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_memory_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_memory_obj.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_memory_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_memory_obj.dir/build
 .PHONY : nettycore_memory_obj/fast
 
 #=============================================================================
@@ -357,7 +402,7 @@ nettycore_memory: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_memory/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_memory.dir/build.make LemoNettyCore/CMakeFiles/nettycore_memory.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_memory.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_memory.dir/build
 .PHONY : nettycore_memory/fast
 
 #=============================================================================
@@ -370,7 +415,7 @@ nettycore_fiber_obj: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_fiber_obj/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/build
 .PHONY : nettycore_fiber_obj/fast
 
 #=============================================================================
@@ -383,7 +428,7 @@ nettycore_fiber: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_fiber/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_fiber.dir/build.make LemoNettyCore/CMakeFiles/nettycore_fiber.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_fiber.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_fiber.dir/build
 .PHONY : nettycore_fiber/fast
 
 #=============================================================================
@@ -396,7 +441,7 @@ nettycore_io_obj: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_io_obj/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build
 .PHONY : nettycore_io_obj/fast
 
 #=============================================================================
@@ -409,7 +454,7 @@ nettycore_io: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_io/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_io.dir/build.make LemoNettyCore/CMakeFiles/nettycore_io.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_io.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_io.dir/build
 .PHONY : nettycore_io/fast
 
 #=============================================================================
@@ -422,7 +467,7 @@ nettycore_buffer_obj: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_buffer_obj/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/build
 .PHONY : nettycore_buffer_obj/fast
 
 #=============================================================================
@@ -435,7 +480,7 @@ nettycore_buffer: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_buffer/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_buffer.dir/build.make LemoNettyCore/CMakeFiles/nettycore_buffer.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_buffer.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_buffer.dir/build
 .PHONY : nettycore_buffer/fast
 
 #=============================================================================
@@ -448,7 +493,7 @@ nettycore_socket_obj: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_socket_obj/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build.make LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/build
 .PHONY : nettycore_socket_obj/fast
 
 #=============================================================================
@@ -461,8 +506,34 @@ nettycore_socket: cmake_check_build_system
 
 # fast build rule for target.
 nettycore_socket/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore_socket.dir/build.make LemoNettyCore/CMakeFiles/nettycore_socket.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_socket.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_socket.dir/build
 .PHONY : nettycore_socket/fast
+
+#=============================================================================
+# Target rules for targets named nettycore_server_obj
+
+# Build rule for target.
+nettycore_server_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 nettycore_server_obj
+.PHONY : nettycore_server_obj
+
+# fast build rule for target.
+nettycore_server_obj/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_server_obj.dir/build
+.PHONY : nettycore_server_obj/fast
+
+#=============================================================================
+# Target rules for targets named nettycore_server
+
+# Build rule for target.
+nettycore_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 nettycore_server
+.PHONY : nettycore_server
+
+# fast build rule for target.
+nettycore_server/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore_server.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore_server.dir/build
+.PHONY : nettycore_server/fast
 
 #=============================================================================
 # Target rules for targets named nettycore
@@ -474,8 +545,21 @@ nettycore: cmake_check_build_system
 
 # fast build rule for target.
 nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/nettycore.dir/build.make LemoNettyCore/CMakeFiles/nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/nettycore.dir/build
 .PHONY : nettycore/fast
+
+#=============================================================================
+# Target rules for targets named lemo_nettycore
+
+# Build rule for target.
+lemo_nettycore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo_nettycore
+.PHONY : lemo_nettycore
+
+# fast build rule for target.
+lemo_nettycore/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/lemo_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/lemo_nettycore.dir/build
+.PHONY : lemo_nettycore/fast
 
 #=============================================================================
 # Target rules for targets named bench_echo_server_nettycore
@@ -487,7 +571,7 @@ bench_echo_server_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 bench_echo_server_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/bench_echo_server_nettycore.dir/build.make LemoNettyCore/CMakeFiles/bench_echo_server_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/bench_echo_server_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/bench_echo_server_nettycore.dir/build
 .PHONY : bench_echo_server_nettycore/fast
 
 #=============================================================================
@@ -500,7 +584,7 @@ bench_scheduler_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 bench_scheduler_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/bench_scheduler_nettycore.dir/build.make LemoNettyCore/CMakeFiles/bench_scheduler_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/bench_scheduler_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/bench_scheduler_nettycore.dir/build
 .PHONY : bench_scheduler_nettycore/fast
 
 #=============================================================================
@@ -513,7 +597,7 @@ bench_nettycore_perf: cmake_check_build_system
 
 # fast build rule for target.
 bench_nettycore_perf/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/bench_nettycore_perf.dir/build.make LemoNettyCore/CMakeFiles/bench_nettycore_perf.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/bench_nettycore_perf.dir/build.make third/LemoNettyCore/CMakeFiles/bench_nettycore_perf.dir/build
 .PHONY : bench_nettycore_perf/fast
 
 #=============================================================================
@@ -526,7 +610,7 @@ test_iomanager_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_iomanager_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_iomanager_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_iomanager_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_iomanager_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_iomanager_nettycore.dir/build
 .PHONY : test_iomanager_nettycore/fast
 
 #=============================================================================
@@ -539,7 +623,7 @@ test_hook_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_hook_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_hook_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_hook_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_hook_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_hook_nettycore.dir/build
 .PHONY : test_hook_nettycore/fast
 
 #=============================================================================
@@ -552,7 +636,7 @@ test_fiber_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_fiber_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_fiber_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_fiber_nettycore.dir/build
 .PHONY : test_fiber_nettycore/fast
 
 #=============================================================================
@@ -565,7 +649,7 @@ test_scheduler_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_scheduler_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_scheduler_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_scheduler_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_scheduler_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_scheduler_nettycore.dir/build
 .PHONY : test_scheduler_nettycore/fast
 
 #=============================================================================
@@ -578,7 +662,7 @@ test_timer_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_timer_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_timer_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_timer_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_timer_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_timer_nettycore.dir/build
 .PHONY : test_timer_nettycore/fast
 
 #=============================================================================
@@ -591,7 +675,7 @@ test_timer_wheel_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_timer_wheel_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_timer_wheel_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_timer_wheel_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_timer_wheel_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_timer_wheel_nettycore.dir/build
 .PHONY : test_timer_wheel_nettycore/fast
 
 #=============================================================================
@@ -604,7 +688,7 @@ test_stack_pool_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_stack_pool_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_stack_pool_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_stack_pool_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_stack_pool_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_stack_pool_nettycore.dir/build
 .PHONY : test_stack_pool_nettycore/fast
 
 #=============================================================================
@@ -617,8 +701,47 @@ test_fiber_sleep_iomanager_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_fiber_sleep_iomanager_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_fiber_sleep_iomanager_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_fiber_sleep_iomanager_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_fiber_sleep_iomanager_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_fiber_sleep_iomanager_nettycore.dir/build
 .PHONY : test_fiber_sleep_iomanager_nettycore/fast
+
+#=============================================================================
+# Target rules for targets named test_fiber_mutex_nettycore
+
+# Build rule for target.
+test_fiber_mutex_nettycore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_fiber_mutex_nettycore
+.PHONY : test_fiber_mutex_nettycore
+
+# fast build rule for target.
+test_fiber_mutex_nettycore/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_fiber_mutex_nettycore.dir/build
+.PHONY : test_fiber_mutex_nettycore/fast
+
+#=============================================================================
+# Target rules for targets named test_fiber_semaphore_nettycore
+
+# Build rule for target.
+test_fiber_semaphore_nettycore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_fiber_semaphore_nettycore
+.PHONY : test_fiber_semaphore_nettycore
+
+# fast build rule for target.
+test_fiber_semaphore_nettycore/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_fiber_semaphore_nettycore.dir/build
+.PHONY : test_fiber_semaphore_nettycore/fast
+
+#=============================================================================
+# Target rules for targets named test_fiber_local_nettycore
+
+# Build rule for target.
+test_fiber_local_nettycore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_fiber_local_nettycore
+.PHONY : test_fiber_local_nettycore
+
+# fast build rule for target.
+test_fiber_local_nettycore/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_fiber_local_nettycore.dir/build
+.PHONY : test_fiber_local_nettycore/fast
 
 #=============================================================================
 # Target rules for targets named test_ring_buffer_nettycore
@@ -630,8 +753,34 @@ test_ring_buffer_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_ring_buffer_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_ring_buffer_nettycore.dir/build
 .PHONY : test_ring_buffer_nettycore/fast
+
+#=============================================================================
+# Target rules for targets named test_chain_buffer_nettycore
+
+# Build rule for target.
+test_chain_buffer_nettycore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chain_buffer_nettycore
+.PHONY : test_chain_buffer_nettycore
+
+# fast build rule for target.
+test_chain_buffer_nettycore/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_chain_buffer_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_chain_buffer_nettycore.dir/build
+.PHONY : test_chain_buffer_nettycore/fast
+
+#=============================================================================
+# Target rules for targets named test_byte_array_nettycore
+
+# Build rule for target.
+test_byte_array_nettycore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_byte_array_nettycore
+.PHONY : test_byte_array_nettycore
+
+# fast build rule for target.
+test_byte_array_nettycore/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_byte_array_nettycore.dir/build
+.PHONY : test_byte_array_nettycore/fast
 
 #=============================================================================
 # Target rules for targets named test_address_nettycore
@@ -643,7 +792,7 @@ test_address_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_address_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_address_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_address_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_address_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_address_nettycore.dir/build
 .PHONY : test_address_nettycore/fast
 
 #=============================================================================
@@ -656,8 +805,21 @@ test_echo_server_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 test_echo_server_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/test_echo_server_nettycore.dir/build.make LemoNettyCore/CMakeFiles/test_echo_server_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_echo_server_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_echo_server_nettycore.dir/build
 .PHONY : test_echo_server_nettycore/fast
+
+#=============================================================================
+# Target rules for targets named test_tcp_server_nettycore
+
+# Build rule for target.
+test_tcp_server_nettycore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_tcp_server_nettycore
+.PHONY : test_tcp_server_nettycore
+
+# fast build rule for target.
+test_tcp_server_nettycore/fast:
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/test_tcp_server_nettycore.dir/build
+.PHONY : test_tcp_server_nettycore/fast
 
 #=============================================================================
 # Target rules for targets named run_tests_nettycore
@@ -669,7 +831,7 @@ run_tests_nettycore: cmake_check_build_system
 
 # fast build rule for target.
 run_tests_nettycore/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/run_tests_nettycore.dir/build.make LemoNettyCore/CMakeFiles/run_tests_nettycore.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/run_tests_nettycore.dir/build.make third/LemoNettyCore/CMakeFiles/run_tests_nettycore.dir/build
 .PHONY : run_tests_nettycore/fast
 
 #=============================================================================
@@ -682,8 +844,567 @@ bench_echo_server_nettycore_quick: cmake_check_build_system
 
 # fast build rule for target.
 bench_echo_server_nettycore_quick/fast:
-	$(MAKE) $(MAKESILENT) -f LemoNettyCore/CMakeFiles/bench_echo_server_nettycore_quick.dir/build.make LemoNettyCore/CMakeFiles/bench_echo_server_nettycore_quick.dir/build
+	$(MAKE) $(MAKESILENT) -f third/LemoNettyCore/CMakeFiles/bench_echo_server_nettycore_quick.dir/build.make third/LemoNettyCore/CMakeFiles/bench_echo_server_nettycore_quick.dir/build
 .PHONY : bench_echo_server_nettycore_quick/fast
+
+#=============================================================================
+# Target rules for targets named ledis_protocol
+
+# Build rule for target.
+ledis_protocol: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ledis_protocol
+.PHONY : ledis_protocol
+
+# fast build rule for target.
+ledis_protocol/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/ledis_protocol.dir/build.make ledis/CMakeFiles/ledis_protocol.dir/build
+.PHONY : ledis_protocol/fast
+
+#=============================================================================
+# Target rules for targets named ledis_store
+
+# Build rule for target.
+ledis_store: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ledis_store
+.PHONY : ledis_store
+
+# fast build rule for target.
+ledis_store/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/ledis_store.dir/build.make ledis/CMakeFiles/ledis_store.dir/build
+.PHONY : ledis_store/fast
+
+#=============================================================================
+# Target rules for targets named ledis_command
+
+# Build rule for target.
+ledis_command: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ledis_command
+.PHONY : ledis_command
+
+# fast build rule for target.
+ledis_command/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/ledis_command.dir/build.make ledis/CMakeFiles/ledis_command.dir/build
+.PHONY : ledis_command/fast
+
+#=============================================================================
+# Target rules for targets named ledis_stream
+
+# Build rule for target.
+ledis_stream: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ledis_stream
+.PHONY : ledis_stream
+
+# fast build rule for target.
+ledis_stream/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/ledis_stream.dir/build.make ledis/CMakeFiles/ledis_stream.dir/build
+.PHONY : ledis_stream/fast
+
+#=============================================================================
+# Target rules for targets named ledis_session
+
+# Build rule for target.
+ledis_session: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ledis_session
+.PHONY : ledis_session
+
+# fast build rule for target.
+ledis_session/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/ledis_session.dir/build.make ledis/CMakeFiles/ledis_session.dir/build
+.PHONY : ledis_session/fast
+
+#=============================================================================
+# Target rules for targets named ledis_server_lib
+
+# Build rule for target.
+ledis_server_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ledis_server_lib
+.PHONY : ledis_server_lib
+
+# fast build rule for target.
+ledis_server_lib/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/ledis_server_lib.dir/build.make ledis/CMakeFiles/ledis_server_lib.dir/build
+.PHONY : ledis_server_lib/fast
+
+#=============================================================================
+# Target rules for targets named ledis-server
+
+# Build rule for target.
+ledis-server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ledis-server
+.PHONY : ledis-server
+
+# fast build rule for target.
+ledis-server/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/ledis-server.dir/build.make ledis/CMakeFiles/ledis-server.dir/build
+.PHONY : ledis-server/fast
+
+#=============================================================================
+# Target rules for targets named test_resp_reader_ledis
+
+# Build rule for target.
+test_resp_reader_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_resp_reader_ledis
+.PHONY : test_resp_reader_ledis
+
+# fast build rule for target.
+test_resp_reader_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_resp_reader_ledis.dir/build.make ledis/CMakeFiles/test_resp_reader_ledis.dir/build
+.PHONY : test_resp_reader_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_resp_writer_ledis
+
+# Build rule for target.
+test_resp_writer_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_resp_writer_ledis
+.PHONY : test_resp_writer_ledis
+
+# fast build rule for target.
+test_resp_writer_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_resp_writer_ledis.dir/build.make ledis/CMakeFiles/test_resp_writer_ledis.dir/build
+.PHONY : test_resp_writer_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_keyspace_ledis
+
+# Build rule for target.
+test_keyspace_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_keyspace_ledis
+.PHONY : test_keyspace_ledis
+
+# fast build rule for target.
+test_keyspace_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_keyspace_ledis.dir/build.make ledis/CMakeFiles/test_keyspace_ledis.dir/build
+.PHONY : test_keyspace_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_hash_object_ledis
+
+# Build rule for target.
+test_hash_object_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_hash_object_ledis
+.PHONY : test_hash_object_ledis
+
+# fast build rule for target.
+test_hash_object_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_hash_object_ledis.dir/build.make ledis/CMakeFiles/test_hash_object_ledis.dir/build
+.PHONY : test_hash_object_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_list_object_ledis
+
+# Build rule for target.
+test_list_object_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_list_object_ledis
+.PHONY : test_list_object_ledis
+
+# fast build rule for target.
+test_list_object_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_list_object_ledis.dir/build.make ledis/CMakeFiles/test_list_object_ledis.dir/build
+.PHONY : test_list_object_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_set_object_ledis
+
+# Build rule for target.
+test_set_object_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_set_object_ledis
+.PHONY : test_set_object_ledis
+
+# fast build rule for target.
+test_set_object_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_set_object_ledis.dir/build.make ledis/CMakeFiles/test_set_object_ledis.dir/build
+.PHONY : test_set_object_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_zset_object_ledis
+
+# Build rule for target.
+test_zset_object_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_zset_object_ledis
+.PHONY : test_zset_object_ledis
+
+# fast build rule for target.
+test_zset_object_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_zset_object_ledis.dir/build.make ledis/CMakeFiles/test_zset_object_ledis.dir/build
+.PHONY : test_zset_object_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_snapshot_ledis
+
+# Build rule for target.
+test_snapshot_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_snapshot_ledis
+.PHONY : test_snapshot_ledis
+
+# fast build rule for target.
+test_snapshot_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_snapshot_ledis.dir/build.make ledis/CMakeFiles/test_snapshot_ledis.dir/build
+.PHONY : test_snapshot_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_aof_ledis
+
+# Build rule for target.
+test_aof_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_aof_ledis
+.PHONY : test_aof_ledis
+
+# fast build rule for target.
+test_aof_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_aof_ledis.dir/build.make ledis/CMakeFiles/test_aof_ledis.dir/build
+.PHONY : test_aof_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_ping_ledis
+
+# Build rule for target.
+test_ping_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_ping_ledis
+.PHONY : test_ping_ledis
+
+# fast build rule for target.
+test_ping_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_ping_ledis.dir/build.make ledis/CMakeFiles/test_ping_ledis.dir/build
+.PHONY : test_ping_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_ledis_yaml_config_ledis
+
+# Build rule for target.
+test_ledis_yaml_config_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_ledis_yaml_config_ledis
+.PHONY : test_ledis_yaml_config_ledis
+
+# fast build rule for target.
+test_ledis_yaml_config_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_ledis_yaml_config_ledis.dir/build.make ledis/CMakeFiles/test_ledis_yaml_config_ledis.dir/build
+.PHONY : test_ledis_yaml_config_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_env_ledis
+
+# Build rule for target.
+test_env_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_env_ledis
+.PHONY : test_env_ledis
+
+# fast build rule for target.
+test_env_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_env_ledis.dir/build.make ledis/CMakeFiles/test_env_ledis.dir/build
+.PHONY : test_env_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_phase3_ledis
+
+# Build rule for target.
+test_phase3_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_phase3_ledis
+.PHONY : test_phase3_ledis
+
+# fast build rule for target.
+test_phase3_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_phase3_ledis.dir/build.make ledis/CMakeFiles/test_phase3_ledis.dir/build
+.PHONY : test_phase3_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_hash_commands_ledis
+
+# Build rule for target.
+test_hash_commands_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_hash_commands_ledis
+.PHONY : test_hash_commands_ledis
+
+# fast build rule for target.
+test_hash_commands_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_hash_commands_ledis.dir/build.make ledis/CMakeFiles/test_hash_commands_ledis.dir/build
+.PHONY : test_hash_commands_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_list_commands_ledis
+
+# Build rule for target.
+test_list_commands_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_list_commands_ledis
+.PHONY : test_list_commands_ledis
+
+# fast build rule for target.
+test_list_commands_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_list_commands_ledis.dir/build.make ledis/CMakeFiles/test_list_commands_ledis.dir/build
+.PHONY : test_list_commands_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_list_blocking_ledis
+
+# Build rule for target.
+test_list_blocking_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_list_blocking_ledis
+.PHONY : test_list_blocking_ledis
+
+# fast build rule for target.
+test_list_blocking_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_list_blocking_ledis.dir/build.make ledis/CMakeFiles/test_list_blocking_ledis.dir/build
+.PHONY : test_list_blocking_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_set_commands_ledis
+
+# Build rule for target.
+test_set_commands_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_set_commands_ledis
+.PHONY : test_set_commands_ledis
+
+# fast build rule for target.
+test_set_commands_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_set_commands_ledis.dir/build.make ledis/CMakeFiles/test_set_commands_ledis.dir/build
+.PHONY : test_set_commands_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_zset_commands_ledis
+
+# Build rule for target.
+test_zset_commands_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_zset_commands_ledis
+.PHONY : test_zset_commands_ledis
+
+# fast build rule for target.
+test_zset_commands_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_zset_commands_ledis.dir/build.make ledis/CMakeFiles/test_zset_commands_ledis.dir/build
+.PHONY : test_zset_commands_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_phase6_ledis
+
+# Build rule for target.
+test_phase6_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_phase6_ledis
+.PHONY : test_phase6_ledis
+
+# fast build rule for target.
+test_phase6_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_phase6_ledis.dir/build.make ledis/CMakeFiles/test_phase6_ledis.dir/build
+.PHONY : test_phase6_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_key_commands_ledis
+
+# Build rule for target.
+test_key_commands_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_key_commands_ledis
+.PHONY : test_key_commands_ledis
+
+# fast build rule for target.
+test_key_commands_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_key_commands_ledis.dir/build.make ledis/CMakeFiles/test_key_commands_ledis.dir/build
+.PHONY : test_key_commands_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_string_commands_ledis
+
+# Build rule for target.
+test_string_commands_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_string_commands_ledis
+.PHONY : test_string_commands_ledis
+
+# fast build rule for target.
+test_string_commands_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_string_commands_ledis.dir/build.make ledis/CMakeFiles/test_string_commands_ledis.dir/build
+.PHONY : test_string_commands_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_multi_exec_ledis
+
+# Build rule for target.
+test_multi_exec_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_multi_exec_ledis
+.PHONY : test_multi_exec_ledis
+
+# fast build rule for target.
+test_multi_exec_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_multi_exec_ledis.dir/build.make ledis/CMakeFiles/test_multi_exec_ledis.dir/build
+.PHONY : test_multi_exec_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_maxmemory_ledis
+
+# Build rule for target.
+test_maxmemory_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_maxmemory_ledis
+.PHONY : test_maxmemory_ledis
+
+# fast build rule for target.
+test_maxmemory_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_maxmemory_ledis.dir/build.make ledis/CMakeFiles/test_maxmemory_ledis.dir/build
+.PHONY : test_maxmemory_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_pubsub_commands_ledis
+
+# Build rule for target.
+test_pubsub_commands_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_pubsub_commands_ledis
+.PHONY : test_pubsub_commands_ledis
+
+# fast build rule for target.
+test_pubsub_commands_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_pubsub_commands_ledis.dir/build.make ledis/CMakeFiles/test_pubsub_commands_ledis.dir/build
+.PHONY : test_pubsub_commands_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_command_queue_ledis
+
+# Build rule for target.
+test_command_queue_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_command_queue_ledis
+.PHONY : test_command_queue_ledis
+
+# fast build rule for target.
+test_command_queue_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_command_queue_ledis.dir/build.make ledis/CMakeFiles/test_command_queue_ledis.dir/build
+.PHONY : test_command_queue_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_io_db_ledis
+
+# Build rule for target.
+test_io_db_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_io_db_ledis
+.PHONY : test_io_db_ledis
+
+# fast build rule for target.
+test_io_db_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_io_db_ledis.dir/build.make ledis/CMakeFiles/test_io_db_ledis.dir/build
+.PHONY : test_io_db_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_query_buffer_ledis
+
+# Build rule for target.
+test_query_buffer_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_query_buffer_ledis
+.PHONY : test_query_buffer_ledis
+
+# fast build rule for target.
+test_query_buffer_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_query_buffer_ledis.dir/build.make ledis/CMakeFiles/test_query_buffer_ledis.dir/build
+.PHONY : test_query_buffer_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_ledis_stream_ledis
+
+# Build rule for target.
+test_ledis_stream_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_ledis_stream_ledis
+.PHONY : test_ledis_stream_ledis
+
+# fast build rule for target.
+test_ledis_stream_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_ledis_stream_ledis.dir/build.make ledis/CMakeFiles/test_ledis_stream_ledis.dir/build
+.PHONY : test_ledis_stream_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_session_ledis
+
+# Build rule for target.
+test_session_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_session_ledis
+.PHONY : test_session_ledis
+
+# fast build rule for target.
+test_session_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_session_ledis.dir/build.make ledis/CMakeFiles/test_session_ledis.dir/build
+.PHONY : test_session_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_mvp_ledis
+
+# Build rule for target.
+test_mvp_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_mvp_ledis
+.PHONY : test_mvp_ledis
+
+# fast build rule for target.
+test_mvp_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_mvp_ledis.dir/build.make ledis/CMakeFiles/test_mvp_ledis.dir/build
+.PHONY : test_mvp_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_pipeline_ledis
+
+# Build rule for target.
+test_pipeline_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_pipeline_ledis
+.PHONY : test_pipeline_ledis
+
+# fast build rule for target.
+test_pipeline_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_pipeline_ledis.dir/build.make ledis/CMakeFiles/test_pipeline_ledis.dir/build
+.PHONY : test_pipeline_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_async_tcp_ledis
+
+# Build rule for target.
+test_async_tcp_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_async_tcp_ledis
+.PHONY : test_async_tcp_ledis
+
+# fast build rule for target.
+test_async_tcp_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_async_tcp_ledis.dir/build.make ledis/CMakeFiles/test_async_tcp_ledis.dir/build
+.PHONY : test_async_tcp_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_maxclients_ledis
+
+# Build rule for target.
+test_maxclients_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_maxclients_ledis
+.PHONY : test_maxclients_ledis
+
+# fast build rule for target.
+test_maxclients_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_maxclients_ledis.dir/build.make ledis/CMakeFiles/test_maxclients_ledis.dir/build
+.PHONY : test_maxclients_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_rdb_restart_ledis
+
+# Build rule for target.
+test_rdb_restart_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_rdb_restart_ledis
+.PHONY : test_rdb_restart_ledis
+
+# fast build rule for target.
+test_rdb_restart_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_rdb_restart_ledis.dir/build.make ledis/CMakeFiles/test_rdb_restart_ledis.dir/build
+.PHONY : test_rdb_restart_ledis/fast
+
+#=============================================================================
+# Target rules for targets named test_aof_restart_ledis
+
+# Build rule for target.
+test_aof_restart_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_aof_restart_ledis
+.PHONY : test_aof_restart_ledis
+
+# fast build rule for target.
+test_aof_restart_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/test_aof_restart_ledis.dir/build.make ledis/CMakeFiles/test_aof_restart_ledis.dir/build
+.PHONY : test_aof_restart_ledis/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_ledis
+
+# Build rule for target.
+run_tests_ledis: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_tests_ledis
+.PHONY : run_tests_ledis
+
+# fast build rule for target.
+run_tests_ledis/fast:
+	$(MAKE) $(MAKESILENT) -f ledis/CMakeFiles/run_tests_ledis.dir/build.make ledis/CMakeFiles/run_tests_ledis.dir/build
+.PHONY : run_tests_ledis/fast
 
 # Help Target
 help:
@@ -692,16 +1413,29 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... bench_echo_server_nettycore_quick"
 	@echo "... bench_nettycore_perf"
 	@echo "... run_tests"
+	@echo "... run_tests_ledis"
 	@echo "... run_tests_lstl"
 	@echo "... run_tests_memory"
 	@echo "... run_tests_nettycore"
 	@echo "... bench_echo_server_nettycore"
 	@echo "... bench_scheduler_nettycore"
+	@echo "... ledis-server"
+	@echo "... ledis_command"
+	@echo "... ledis_protocol"
+	@echo "... ledis_server_lib"
+	@echo "... ledis_session"
+	@echo "... ledis_store"
+	@echo "... ledis_stream"
+	@echo "... lemo_nettycore"
 	@echo "... nettycore"
 	@echo "... nettycore_buffer"
 	@echo "... nettycore_buffer_obj"
@@ -711,6 +1445,8 @@ help:
 	@echo "... nettycore_io_obj"
 	@echo "... nettycore_memory"
 	@echo "... nettycore_memory_obj"
+	@echo "... nettycore_server"
+	@echo "... nettycore_server_obj"
 	@echo "... nettycore_socket"
 	@echo "... nettycore_socket_obj"
 	@echo "... nettycore_thread"
@@ -721,22 +1457,63 @@ help:
 	@echo "... test_algorithm"
 	@echo "... test_alloc"
 	@echo "... test_allocator"
+	@echo "... test_aof_ledis"
+	@echo "... test_aof_restart_ledis"
+	@echo "... test_async_tcp_ledis"
+	@echo "... test_byte_array_nettycore"
+	@echo "... test_chain_buffer_nettycore"
+	@echo "... test_command_queue_ledis"
 	@echo "... test_construct"
 	@echo "... test_echo_server_nettycore"
+	@echo "... test_env_ledis"
+	@echo "... test_fiber_local_nettycore"
+	@echo "... test_fiber_mutex_nettycore"
 	@echo "... test_fiber_nettycore"
+	@echo "... test_fiber_semaphore_nettycore"
 	@echo "... test_fiber_sleep_iomanager_nettycore"
+	@echo "... test_hash_commands_ledis"
+	@echo "... test_hash_object_ledis"
 	@echo "... test_hook_nettycore"
+	@echo "... test_io_db_ledis"
 	@echo "... test_iomanager_nettycore"
+	@echo "... test_key_commands_ledis"
+	@echo "... test_keyspace_ledis"
+	@echo "... test_ledis_stream_ledis"
+	@echo "... test_ledis_yaml_config_ledis"
+	@echo "... test_list_blocking_ledis"
+	@echo "... test_list_commands_ledis"
+	@echo "... test_list_object_ledis"
+	@echo "... test_maxclients_ledis"
+	@echo "... test_maxmemory_ledis"
+	@echo "... test_multi_exec_ledis"
+	@echo "... test_mvp_ledis"
 	@echo "... test_oom_policy"
+	@echo "... test_phase3_ledis"
+	@echo "... test_phase6_ledis"
+	@echo "... test_ping_ledis"
+	@echo "... test_pipeline_ledis"
 	@echo "... test_pool_single"
+	@echo "... test_pubsub_commands_ledis"
+	@echo "... test_query_buffer_ledis"
+	@echo "... test_rdb_restart_ledis"
+	@echo "... test_resp_reader_ledis"
+	@echo "... test_resp_writer_ledis"
 	@echo "... test_ring_buffer_nettycore"
 	@echo "... test_scheduler_nettycore"
+	@echo "... test_session_ledis"
+	@echo "... test_set_commands_ledis"
+	@echo "... test_set_object_ledis"
+	@echo "... test_snapshot_ledis"
 	@echo "... test_stack_pool_nettycore"
+	@echo "... test_string_commands_ledis"
+	@echo "... test_tcp_server_nettycore"
 	@echo "... test_temporary_buffer"
 	@echo "... test_timer_nettycore"
 	@echo "... test_timer_wheel_nettycore"
 	@echo "... test_type_traits"
 	@echo "... test_uninitialized"
+	@echo "... test_zset_commands_ledis"
+	@echo "... test_zset_object_ledis"
 .PHONY : help
 
 

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnettycore_buffer.a CMakeFiles/nettycore_buffer_obj.dir/src/buffer/ring_buffer.cc.o CMakeFiles/nettycore_buffer_obj.dir/src/buffer/chain_buffer.cc.o CMakeFiles/nettycore_buffer_obj.dir/src/buffer/byte_array.cc.o
+/usr/bin/ranlib libnettycore_buffer.a

@@ -77,12 +77,14 @@ nettycore_io_EXTERNAL_OBJECTS = \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/fd_context.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/reactor.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/iomanager.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o"
 
 LemoNettyCore/libnettycore_io.a: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/fd_context.cc.o
 LemoNettyCore/libnettycore_io.a: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/reactor.cc.o
 LemoNettyCore/libnettycore_io.a: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/iomanager.cc.o
+LemoNettyCore/libnettycore_io.a: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o
 LemoNettyCore/libnettycore_io.a: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o
 LemoNettyCore/libnettycore_io.a: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o
 LemoNettyCore/libnettycore_io.a: LemoNettyCore/CMakeFiles/nettycore_io.dir/build.make

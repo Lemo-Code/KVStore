@@ -74,9 +74,11 @@ nettycore_buffer_OBJECTS =
 
 # External object files for target nettycore_buffer
 nettycore_buffer_EXTERNAL_OBJECTS = \
-"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/ring_buffer.cc.o"
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/ring_buffer.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/byte_array.cc.o"
 
 LemoNettyCore/libnettycore_buffer.a: LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/ring_buffer.cc.o
+LemoNettyCore/libnettycore_buffer.a: LemoNettyCore/CMakeFiles/nettycore_buffer_obj.dir/src/buffer/byte_array.cc.o
 LemoNettyCore/libnettycore_buffer.a: LemoNettyCore/CMakeFiles/nettycore_buffer.dir/build.make
 LemoNettyCore/libnettycore_buffer.a: LemoNettyCore/CMakeFiles/nettycore_buffer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Linking CXX static library libnettycore_buffer.a"

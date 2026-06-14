@@ -204,5 +204,7 @@ LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/fiber.cc.o: \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc \
+ /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/include/lemo/fiber/sync/fiber_local.h \
+ /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/include/lemo/nettycore_export.h \
  /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/include/lemo/memory/stack_pool.h \
  /usr/include/c++/13/cassert /usr/include/assert.h

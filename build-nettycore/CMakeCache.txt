@@ -20,7 +20,8 @@ CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
-//Build type
+//Choose the type of build, options are: None Debug Release RelWithDebInfo
+// MinSizeRel ...
 CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
@@ -76,8 +77,56 @@ CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles/pkgRedirects
 
+//User executables (bin)
+CMAKE_INSTALL_BINDIR:PATH=bin
+
+//Read-only architecture-independent data (DATAROOTDIR)
+CMAKE_INSTALL_DATADIR:PATH=
+
+//Read-only architecture-independent data root (share)
+CMAKE_INSTALL_DATAROOTDIR:PATH=share
+
+//Documentation root (DATAROOTDIR/doc/PROJECT_NAME)
+CMAKE_INSTALL_DOCDIR:PATH=
+
+//C header files (include)
+CMAKE_INSTALL_INCLUDEDIR:PATH=include
+
+//Info documentation (DATAROOTDIR/info)
+CMAKE_INSTALL_INFODIR:PATH=
+
+//Object code libraries (lib)
+CMAKE_INSTALL_LIBDIR:PATH=lib
+
+//Program executables (libexec)
+CMAKE_INSTALL_LIBEXECDIR:PATH=libexec
+
+//Locale-dependent data (DATAROOTDIR/locale)
+CMAKE_INSTALL_LOCALEDIR:PATH=
+
+//Modifiable single-machine data (var)
+CMAKE_INSTALL_LOCALSTATEDIR:PATH=var
+
+//Man documentation (DATAROOTDIR/man)
+CMAKE_INSTALL_MANDIR:PATH=
+
+//C header files for non-gcc (/usr/include)
+CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
+
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=/usr/local
+
+//Run-time variable data (LOCALSTATEDIR/run)
+CMAKE_INSTALL_RUNSTATEDIR:PATH=
+
+//System admin executables (sbin)
+CMAKE_INSTALL_SBINDIR:PATH=sbin
+
+//Modifiable architecture-independent data (com)
+CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
+
+//Read-only single-machine data (etc)
+CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=/usr/bin/ld
@@ -206,6 +255,9 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //KVStore 可执行文件根目录
 KVSTORE_BIN_ROOT:PATH=/home/wangmaosen/copy_linux/third/KVStore/bin
 
+//KVStore 动态库/静态库根目录
+KVSTORE_LIB_ROOT:PATH=/home/wangmaosen/copy_linux/third/KVStore/lib
+
 //Value Computed by CMake
 KVStore_BINARY_DIR:STATIC=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore
 
@@ -214,6 +266,9 @@ KVStore_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 KVStore_SOURCE_DIR:STATIC=/home/wangmaosen/copy_linux/third/KVStore
+
+//构建 Ledis Redis 兼容 KV 服务
+LEDIS_BUILD:BOOL=ON
 
 //构建 LemoNettyCore 高性能协程网络核心栈（推荐）
 LEMONETTYCORE_BUILD:BOOL=ON
@@ -257,11 +312,47 @@ NETCORE_BUILD:BOOL=OFF
 //构建 netLemo 极致性能协程网络库
 NETLEMO_BUILD:BOOL=OFF
 
+//构建 config + log 伴生库
+NETTYCORE_BUILD_CONFIG:BOOL=OFF
+
+//构建 lemo_nettycore 动态库
+NETTYCORE_BUILD_SHARED:BOOL=ON
+
 //Dependencies for the target
-nettycore_LIB_DEPENDS:STATIC=general;nettycore_socket;general;nettycore_io;general;nettycore_fiber;general;nettycore_memory;general;nettycore_buffer;general;nettycore_thread;general;nettycore_utils;general;dl;
+ledis_command_LIB_DEPENDS:STATIC=general;ledis_store;
+
+//Dependencies for the target
+ledis_protocol_LIB_DEPENDS:STATIC=general;nettycore_buffer;
+
+//Dependencies for the target
+ledis_server_lib_LIB_DEPENDS:STATIC=general;ledis_session;general;yaml-cpp;general;nettycore;
+
+//Dependencies for the target
+ledis_session_LIB_DEPENDS:STATIC=general;ledis_stream;general;ledis_command;
+
+//Dependencies for the target
+ledis_store_LIB_DEPENDS:STATIC=general;ledis_protocol;
+
+//Dependencies for the target
+ledis_stream_LIB_DEPENDS:STATIC=general;ledis_protocol;
+
+//Dependencies for the target
+lemo_nettycore_LIB_DEPENDS:STATIC=general;dl;
+
+//Dependencies for the target
+nettycore_LIB_DEPENDS:STATIC=general;nettycore_server;general;nettycore_socket;general;nettycore_io;general;nettycore_fiber;general;nettycore_memory;general;nettycore_buffer;general;nettycore_thread;general;nettycore_utils;general;dl;
+
+//Dependencies for the target
+nettycore_config_LIB_DEPENDS:STATIC=general;nettycore_log;general;nettycore_io;general;nettycore_memory;general;nettycore_utils;general;yaml-cpp;
 
 //Dependencies for the target
 nettycore_fiber_LIB_DEPENDS:STATIC=general;nettycore_memory;general;nettycore_utils;general;nettycore_thread;
+
+//Dependencies for the target
+nettycore_log_LIB_DEPENDS:STATIC=general;nettycore_fiber;general;nettycore_thread;general;nettycore_utils;
+
+//The directory containing a CMake configuration file for yaml-cpp.
+yaml-cpp_DIR:PATH=/usr/lib/aarch64-linux-gnu/cmake/yaml-cpp
 
 
 ########################
@@ -335,8 +426,40 @@ CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/home/wangmaosen/copy_linux/third/KVStore
+//ADVANCED property for variable: CMAKE_INSTALL_BINDIR
+CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DATADIR
+CMAKE_INSTALL_DATADIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DATAROOTDIR
+CMAKE_INSTALL_DATAROOTDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DOCDIR
+CMAKE_INSTALL_DOCDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_INCLUDEDIR
+CMAKE_INSTALL_INCLUDEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_INFODIR
+CMAKE_INSTALL_INFODIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LIBDIR
+CMAKE_INSTALL_LIBDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LIBEXECDIR
+CMAKE_INSTALL_LIBEXECDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LOCALEDIR
+CMAKE_INSTALL_LOCALEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LOCALSTATEDIR
+CMAKE_INSTALL_LOCALSTATEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_MANDIR
+CMAKE_INSTALL_MANDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_OLDINCLUDEDIR
+CMAKE_INSTALL_OLDINCLUDEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_RUNSTATEDIR
+CMAKE_INSTALL_RUNSTATEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SBINDIR
+CMAKE_INSTALL_SBINDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SHAREDSTATEDIR
+CMAKE_INSTALL_SHAREDSTATEDIR-ADVANCED:INTERNAL=1
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SYSCONFDIR
+CMAKE_INSTALL_SYSCONFDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER
 CMAKE_LINKER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MAKE_PROGRAM
@@ -354,7 +477,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -401,8 +524,10 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-KVSTORE_ALL_TEST_TARGETS:INTERNAL=test_alloc;test_construct;test_uninitialized;test_allocator;test_temporary_buffer;test_type_traits;test_oom_policy;test_pool_single;test_algorithm;test_iomanager_nettycore;test_hook_nettycore;test_fiber_nettycore;test_scheduler_nettycore;test_timer_nettycore;test_timer_wheel_nettycore;test_stack_pool_nettycore;test_fiber_sleep_iomanager_nettycore;test_ring_buffer_nettycore;test_address_nettycore;test_echo_server_nettycore
+KVSTORE_ALL_TEST_TARGETS:INTERNAL=test_alloc;test_construct;test_uninitialized;test_allocator;test_temporary_buffer;test_type_traits;test_oom_policy;test_pool_single;test_algorithm;test_iomanager_nettycore;test_hook_nettycore;test_fiber_nettycore;test_scheduler_nettycore;test_timer_nettycore;test_timer_wheel_nettycore;test_stack_pool_nettycore;test_fiber_sleep_iomanager_nettycore;test_fiber_mutex_nettycore;test_fiber_semaphore_nettycore;test_fiber_local_nettycore;test_ring_buffer_nettycore;test_chain_buffer_nettycore;test_byte_array_nettycore;test_address_nettycore;test_echo_server_nettycore;test_tcp_server_nettycore;test_resp_reader_ledis;test_resp_writer_ledis;test_keyspace_ledis;test_hash_object_ledis;test_list_object_ledis;test_set_object_ledis;test_zset_object_ledis;test_snapshot_ledis;test_aof_ledis;test_ping_ledis;test_ledis_yaml_config_ledis;test_env_ledis;test_phase3_ledis;test_hash_commands_ledis;test_list_commands_ledis;test_list_blocking_ledis;test_set_commands_ledis;test_zset_commands_ledis;test_phase6_ledis;test_key_commands_ledis;test_string_commands_ledis;test_multi_exec_ledis;test_maxmemory_ledis;test_pubsub_commands_ledis;test_command_queue_ledis;test_io_db_ledis;test_query_buffer_ledis;test_ledis_stream_ledis;test_session_ledis;test_mvp_ledis;test_pipeline_ledis;test_async_tcp_ledis;test_maxclients_ledis;test_rdb_restart_ledis;test_aof_restart_ledis
 LSTL_ALL_TEST_TARGETS:INTERNAL=test_alloc;test_construct;test_uninitialized;test_allocator;test_temporary_buffer;test_type_traits;test_oom_policy;test_pool_single;test_algorithm
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
+//CMAKE_INSTALL_PREFIX during last run
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
 

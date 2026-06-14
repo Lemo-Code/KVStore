@@ -1,0 +1,555 @@
+Start testing: Jun 14 13:03 UTC
+----------------------------------------------------------
+1/35 Testing: Ledis.protocol.test_resp_reader
+1/35 Test: Ledis.protocol.test_resp_reader
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/protocol/test_resp_reader"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.protocol.test_resp_reader" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_resp_reader: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.protocol.test_resp_reader" end time: Jun 14 13:03 UTC
+"Ledis.protocol.test_resp_reader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/35 Testing: Ledis.protocol.test_resp_writer
+2/35 Test: Ledis.protocol.test_resp_writer
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/protocol/test_resp_writer"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.protocol.test_resp_writer" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_resp_writer: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.protocol.test_resp_writer" end time: Jun 14 13:03 UTC
+"Ledis.protocol.test_resp_writer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/35 Testing: Ledis.store.test_keyspace
+3/35 Test: Ledis.store.test_keyspace
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/store/test_keyspace"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.store.test_keyspace" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_keyspace: OK
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.store.test_keyspace" end time: Jun 14 13:03 UTC
+"Ledis.store.test_keyspace" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/35 Testing: Ledis.store.test_hash_object
+4/35 Test: Ledis.store.test_hash_object
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/store/test_hash_object"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.store.test_hash_object" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.store.test_hash_object" end time: Jun 14 13:03 UTC
+"Ledis.store.test_hash_object" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/35 Testing: Ledis.store.test_list_object
+5/35 Test: Ledis.store.test_list_object
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/store/test_list_object"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.store.test_list_object" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.store.test_list_object" end time: Jun 14 13:03 UTC
+"Ledis.store.test_list_object" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/35 Testing: Ledis.store.test_set_object
+6/35 Test: Ledis.store.test_set_object
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/store/test_set_object"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.store.test_set_object" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.store.test_set_object" end time: Jun 14 13:03 UTC
+"Ledis.store.test_set_object" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/35 Testing: Ledis.store.test_zset_object
+7/35 Test: Ledis.store.test_zset_object
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/store/test_zset_object"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.store.test_zset_object" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.store.test_zset_object" end time: Jun 14 13:03 UTC
+"Ledis.store.test_zset_object" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/35 Testing: Ledis.store.test_snapshot
+8/35 Test: Ledis.store.test_snapshot
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/store/test_snapshot"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.store.test_snapshot" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_snapshot: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.store.test_snapshot" end time: Jun 14 13:03 UTC
+"Ledis.store.test_snapshot" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/35 Testing: Ledis.store.test_aof
+9/35 Test: Ledis.store.test_aof
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/store/test_aof"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.store.test_aof" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_aof: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.store.test_aof" end time: Jun 14 13:03 UTC
+"Ledis.store.test_aof" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/35 Testing: Ledis.command.test_ping
+10/35 Test: Ledis.command.test_ping
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_ping"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_ping" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_ping: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_ping" end time: Jun 14 13:03 UTC
+"Ledis.command.test_ping" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/35 Testing: Ledis.config.test_ledis_yaml_config
+11/35 Test: Ledis.config.test_ledis_yaml_config
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/config/test_ledis_yaml_config"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.config.test_ledis_yaml_config" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_ledis_yaml_config: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.config.test_ledis_yaml_config" end time: Jun 14 13:03 UTC
+"Ledis.config.test_ledis_yaml_config" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/35 Testing: Ledis.app.test_env
+12/35 Test: Ledis.app.test_env
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/app/test_env"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.app.test_env" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_env: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.app.test_env" end time: Jun 14 13:03 UTC
+"Ledis.app.test_env" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/35 Testing: Ledis.command.test_phase3
+13/35 Test: Ledis.command.test_phase3
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_phase3"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_phase3" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_phase3: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_phase3" end time: Jun 14 13:03 UTC
+"Ledis.command.test_phase3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/35 Testing: Ledis.command.test_hash_commands
+14/35 Test: Ledis.command.test_hash_commands
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_hash_commands"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_hash_commands" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_hash_commands" end time: Jun 14 13:03 UTC
+"Ledis.command.test_hash_commands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/35 Testing: Ledis.command.test_list_commands
+15/35 Test: Ledis.command.test_list_commands
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_list_commands"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_list_commands" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_list_commands" end time: Jun 14 13:03 UTC
+"Ledis.command.test_list_commands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/35 Testing: Ledis.command.test_list_blocking
+16/35 Test: Ledis.command.test_list_blocking
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_list_blocking"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_list_blocking" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_list_blocking: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_list_blocking" end time: Jun 14 13:03 UTC
+"Ledis.command.test_list_blocking" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/35 Testing: Ledis.command.test_set_commands
+17/35 Test: Ledis.command.test_set_commands
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_set_commands"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_set_commands" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_set_commands" end time: Jun 14 13:03 UTC
+"Ledis.command.test_set_commands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/35 Testing: Ledis.command.test_zset_commands
+18/35 Test: Ledis.command.test_zset_commands
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_zset_commands"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_zset_commands" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_zset_commands" end time: Jun 14 13:03 UTC
+"Ledis.command.test_zset_commands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/35 Testing: Ledis.command.test_phase6
+19/35 Test: Ledis.command.test_phase6
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_phase6"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_phase6" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_phase6: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_phase6" end time: Jun 14 13:03 UTC
+"Ledis.command.test_phase6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/35 Testing: Ledis.command.test_key_commands
+20/35 Test: Ledis.command.test_key_commands
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_key_commands"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_key_commands" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_key_commands: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_key_commands" end time: Jun 14 13:03 UTC
+"Ledis.command.test_key_commands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/35 Testing: Ledis.command.test_string_commands
+21/35 Test: Ledis.command.test_string_commands
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_string_commands"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_string_commands" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_string_commands: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_string_commands" end time: Jun 14 13:03 UTC
+"Ledis.command.test_string_commands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/35 Testing: Ledis.command.test_multi_exec
+22/35 Test: Ledis.command.test_multi_exec
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_multi_exec"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_multi_exec" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_multi_exec: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_multi_exec" end time: Jun 14 13:03 UTC
+"Ledis.command.test_multi_exec" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/35 Testing: Ledis.command.test_maxmemory
+23/35 Test: Ledis.command.test_maxmemory
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_maxmemory"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_maxmemory" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_maxmemory: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_maxmemory" end time: Jun 14 13:03 UTC
+"Ledis.command.test_maxmemory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/35 Testing: Ledis.command.test_pubsub_commands
+24/35 Test: Ledis.command.test_pubsub_commands
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/command/test_pubsub_commands"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.command.test_pubsub_commands" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_pubsub_commands: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.command.test_pubsub_commands" end time: Jun 14 13:03 UTC
+"Ledis.command.test_pubsub_commands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/35 Testing: Ledis.session.test_command_queue
+25/35 Test: Ledis.session.test_command_queue
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/session/test_command_queue"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.session.test_command_queue" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_command_queue: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.session.test_command_queue" end time: Jun 14 13:03 UTC
+"Ledis.session.test_command_queue" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/35 Testing: Ledis.session.test_io_db
+26/35 Test: Ledis.session.test_io_db
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/session/test_io_db"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.session.test_io_db" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_io_db: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.session.test_io_db" end time: Jun 14 13:03 UTC
+"Ledis.session.test_io_db" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/35 Testing: Ledis.session.test_query_buffer
+27/35 Test: Ledis.session.test_query_buffer
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/session/test_query_buffer"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.session.test_query_buffer" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_query_buffer: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.session.test_query_buffer" end time: Jun 14 13:03 UTC
+"Ledis.session.test_query_buffer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/35 Testing: Ledis.stream.test_ledis_stream
+28/35 Test: Ledis.stream.test_ledis_stream
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/stream/test_ledis_stream"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.stream.test_ledis_stream" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_ledis_stream: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.stream.test_ledis_stream" end time: Jun 14 13:03 UTC
+"Ledis.stream.test_ledis_stream" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/35 Testing: Ledis.session.test_session
+29/35 Test: Ledis.session.test_session
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/session/test_session"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.session.test_session" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_session: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.session.test_session" end time: Jun 14 13:03 UTC
+"Ledis.session.test_session" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/35 Testing: Ledis.integration.test_mvp
+30/35 Test: Ledis.integration.test_mvp
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/integration/test_mvp"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.integration.test_mvp" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_mvp: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.integration.test_mvp" end time: Jun 14 13:03 UTC
+"Ledis.integration.test_mvp" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/35 Testing: Ledis.integration.test_pipeline
+31/35 Test: Ledis.integration.test_pipeline
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/integration/test_pipeline"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.integration.test_pipeline" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_pipeline: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.integration.test_pipeline" end time: Jun 14 13:03 UTC
+"Ledis.integration.test_pipeline" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/35 Testing: Ledis.integration.test_async_tcp
+32/35 Test: Ledis.integration.test_async_tcp
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/integration/test_async_tcp"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.integration.test_async_tcp" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_async_tcp: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.integration.test_async_tcp" end time: Jun 14 13:03 UTC
+"Ledis.integration.test_async_tcp" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/35 Testing: Ledis.integration.test_maxclients
+33/35 Test: Ledis.integration.test_maxclients
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/integration/test_maxclients"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.integration.test_maxclients" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_maxclients: OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.integration.test_maxclients" end time: Jun 14 13:03 UTC
+"Ledis.integration.test_maxclients" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/35 Testing: Ledis.integration.test_rdb_restart
+34/35 Test: Ledis.integration.test_rdb_restart
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/integration/test_rdb_restart"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.integration.test_rdb_restart" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_rdb_restart: OK
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.integration.test_rdb_restart" end time: Jun 14 13:03 UTC
+"Ledis.integration.test_rdb_restart" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/35 Testing: Ledis.integration.test_aof_restart
+35/35 Test: Ledis.integration.test_aof_restart
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/Ledis/integration/test_aof_restart"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis
+"Ledis.integration.test_aof_restart" start time: Jun 14 13:03 UTC
+Output:
+----------------------------------------------------------
+test_aof_restart: OK
+<end of output>
+Test time =   0.30 sec
+----------------------------------------------------------
+Test Passed.
+"Ledis.integration.test_aof_restart" end time: Jun 14 13:03 UTC
+"Ledis.integration.test_aof_restart" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jun 14 13:03 UTC

@@ -45,7 +45,8 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/module/cmake_install.cmake")
-  include("/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/cmake_install.cmake")
+  include("/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/third/LemoNettyCore/cmake_install.cmake")
+  include("/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/ledis/cmake_install.cmake")
 
 endif()
 

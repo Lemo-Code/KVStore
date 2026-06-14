@@ -279,7 +279,7 @@ class hashtable {
     if (it.cur == 0) {
       return end();
     }
-    const size_type n = it.bucket;
+    size_type n = it.bucket;
     node* first = buckets_[n];
     if (first == it.cur) {
       buckets_[n] = first->next;

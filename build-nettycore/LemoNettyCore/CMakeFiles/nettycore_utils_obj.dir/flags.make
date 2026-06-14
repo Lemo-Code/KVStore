@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/include
 
-CXX_FLAGS =  -Wall -Wextra -O3 -DNDEBUG -std=c++11 -O3 -DNDEBUG
+CXX_FLAGS =  -Wall -Wextra -O3 -DNDEBUG -std=c++11 -fPIC -O3 -DNDEBUG
 

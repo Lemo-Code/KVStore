@@ -78,13 +78,19 @@ nettycore_fiber_EXTERNAL_OBJECTS = \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/fiber_pool.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/scheduler.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timer.cc.o" \
-"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timing_wheel.cc.o"
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timing_wheel.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o"
 
 LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/fiber.cc.o
 LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/fiber_pool.cc.o
 LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/scheduler.cc.o
 LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timer.cc.o
 LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/timing_wheel.cc.o
+LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_mutex.cc.o
+LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_semaphore.cc.o
+LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber_obj.dir/src/fiber/sync/fiber_local.cc.o
 LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber.dir/build.make
 LemoNettyCore/libnettycore_fiber.a: LemoNettyCore/CMakeFiles/nettycore_fiber.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Linking CXX static library libnettycore_fiber.a"

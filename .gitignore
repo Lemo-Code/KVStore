@@ -1,6 +1,7 @@
 # 构建产物
 build/
 bin/
+lib/
 
 # 编辑器
 .vscode/

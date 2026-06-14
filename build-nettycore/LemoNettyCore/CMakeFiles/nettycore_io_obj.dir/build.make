@@ -111,10 +111,24 @@ LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/iomanager.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_io_obj.dir/src/io/iomanager.cc.s"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/iomanager.cc -o CMakeFiles/nettycore_io_obj.dir/src/io/iomanager.cc.s
 
+LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/flags.make
+LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o: /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/runtime.cc
+LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o -MF CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o.d -o CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/runtime.cc
+
+LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.i"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/runtime.cc > CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.i
+
+LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.s"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/runtime.cc -o CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.s
+
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/flags.make
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o: /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/hook.cc
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o -MF CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o.d -o CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/hook.cc
 
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.i: cmake_force
@@ -128,7 +142,7 @@ LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.s: cmake_force
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/flags.make
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o: /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/connect.cc
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o -MF CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o.d -o CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/LemoNettyCore/src/io/connect.cc
 
 LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.i: cmake_force
@@ -142,6 +156,7 @@ LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.s: cmake_force
 nettycore_io_obj: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/fd_context.cc.o
 nettycore_io_obj: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/reactor.cc.o
 nettycore_io_obj: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/iomanager.cc.o
+nettycore_io_obj: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/runtime.cc.o
 nettycore_io_obj: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o
 nettycore_io_obj: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o
 nettycore_io_obj: LemoNettyCore/CMakeFiles/nettycore_io_obj.dir/build.make

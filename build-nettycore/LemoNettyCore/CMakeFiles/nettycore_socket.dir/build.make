@@ -75,10 +75,12 @@ nettycore_socket_OBJECTS =
 # External object files for target nettycore_socket
 nettycore_socket_EXTERNAL_OBJECTS = \
 "/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/address.cc.o" \
-"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.o"
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o"
 
 LemoNettyCore/libnettycore_socket.a: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/address.cc.o
 LemoNettyCore/libnettycore_socket.a: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.o
+LemoNettyCore/libnettycore_socket.a: LemoNettyCore/CMakeFiles/nettycore_socket_obj.dir/src/socket/stream.cc.o
 LemoNettyCore/libnettycore_socket.a: LemoNettyCore/CMakeFiles/nettycore_socket.dir/build.make
 LemoNettyCore/libnettycore_socket.a: LemoNettyCore/CMakeFiles/nettycore_socket.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Linking CXX static library libnettycore_socket.a"

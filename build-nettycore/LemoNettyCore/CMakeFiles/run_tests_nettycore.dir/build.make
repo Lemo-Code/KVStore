@@ -74,9 +74,14 @@ LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/
 LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_timer_wheel
 LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_stack_pool
 LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_fiber_sleep_iomanager
+LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_fiber_mutex
+LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_fiber_semaphore
+LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_fiber_local
 LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/buffer/test_ring_buffer
+LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/buffer/test_byte_array
 LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address
 LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_echo_server
+LemoNettyCore/CMakeFiles/run_tests_nettycore: /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/server/test_tcp_server
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-nettycore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "运行 LemoNettyCore 终版全套测试"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore && /usr/bin/ctest -R ^LemoNettyCore\. --output-on-failure
 
