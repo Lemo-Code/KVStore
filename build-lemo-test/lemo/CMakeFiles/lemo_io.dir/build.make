@@ -76,14 +76,12 @@ lemo_io_OBJECTS =
 lemo_io_EXTERNAL_OBJECTS = \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_io_obj.dir/src/io/reactor.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_io_obj.dir/src/io/iomanager.cc.o" \
-"/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o"
 
 lemo/liblemo_io.a: lemo/CMakeFiles/lemo_io_obj.dir/src/io/reactor.cc.o
 lemo/liblemo_io.a: lemo/CMakeFiles/lemo_io_obj.dir/src/io/iomanager.cc.o
-lemo/liblemo_io.a: lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o
 lemo/liblemo_io.a: lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o
 lemo/liblemo_io.a: lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o
 lemo/liblemo_io.a: lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o

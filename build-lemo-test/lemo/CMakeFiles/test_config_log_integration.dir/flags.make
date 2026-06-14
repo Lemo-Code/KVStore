@@ -6,5 +6,5 @@ CXX_DEFINES = -DLEMO_INTEGRATION_CONF=\"/home/wangmaosen/copy_linux/third/KVStor
 
 CXX_INCLUDES = -I/home/wangmaosen/copy_linux/third/KVStore/lemo/include
 
-CXX_FLAGS =  -Wall -Wextra -std=c++11
+CXX_FLAGS =  -Wall -Wextra -O3 -DNDEBUG -std=c++11
 

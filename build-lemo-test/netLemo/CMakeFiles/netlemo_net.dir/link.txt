@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetlemo_net.a CMakeFiles/netlemo_net_obj.dir/src/net/echo.cc.o
+/usr/bin/ranlib libnetlemo_net.a

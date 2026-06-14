@@ -1,1 +1,1 @@
-/usr/bin/c++  -Wall -Wextra CMakeFiles/test_iomanager.dir/__/tests/lemo/io/test_iomanager.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/io/test_iomanager  liblemo_io.a liblemo_fiber.a liblemo_thread.a liblemo_utils.a liblemo_memory.a -ldl 
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_iomanager.dir/__/tests/lemo/io/test_iomanager.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/io/test_iomanager  liblemo_io.a liblemo_fiber.a liblemo_thread.a liblemo_utils.a liblemo_memory.a -ldl 

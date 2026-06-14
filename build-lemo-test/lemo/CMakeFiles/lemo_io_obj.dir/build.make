@@ -97,24 +97,10 @@ lemo/CMakeFiles/lemo_io_obj.dir/src/io/iomanager.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lemo_io_obj.dir/src/io/iomanager.cc.s"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/iomanager.cc -o CMakeFiles/lemo_io_obj.dir/src/io/iomanager.cc.s
 
-lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/flags.make
-lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/fd_context.cc
-lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o"
-	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o -MF CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o.d -o CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/fd_context.cc
-
-lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.i"
-	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/fd_context.cc > CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.i
-
-lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.s"
-	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/fd_context.cc -o CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.s
-
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/flags.make
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/hook.cc
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o -MF CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o.d -o CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/hook.cc
 
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.i: cmake_force
@@ -128,7 +114,7 @@ lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.s: cmake_force
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/flags.make
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/connect.cc
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o -MF CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o.d -o CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/connect.cc
 
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.i: cmake_force
@@ -142,7 +128,7 @@ lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.s: cmake_force
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/flags.make
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/runtime.cc
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o: lemo/CMakeFiles/lemo_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o -MF CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o.d -o CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/io/runtime.cc
 
 lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.i: cmake_force
@@ -155,7 +141,6 @@ lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.s: cmake_force
 
 lemo_io_obj: lemo/CMakeFiles/lemo_io_obj.dir/src/io/reactor.cc.o
 lemo_io_obj: lemo/CMakeFiles/lemo_io_obj.dir/src/io/iomanager.cc.o
-lemo_io_obj: lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o
 lemo_io_obj: lemo/CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o
 lemo_io_obj: lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o
 lemo_io_obj: lemo/CMakeFiles/lemo_io_obj.dir/src/io/runtime.cc.o

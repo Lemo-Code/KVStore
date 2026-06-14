@@ -17,7 +17,7 @@ namespace lemo {
 namespace io {
 
 struct Reactor::FdContext {
-  using MutexType = thread::HotMutex;
+  typedef thread::Mutex MutexType;
 
   struct EventContext {
     fiber::Scheduler* scheduler = nullptr;
@@ -141,7 +141,7 @@ Reactor::~Reactor() {
 void Reactor::cancelAllEvents() {
   std::vector<FdContext*> contexts;
   {
-    RegistryMutexType::ReadLock lock(mutex_);
+    thread::RWMutex::ReadLock lock(mutex_);
     contexts = fd_contexts_;
   }
   for (size_t i = 0; i < contexts.size(); ++i) {
@@ -196,13 +196,13 @@ int Reactor::addEvent(int fd, Event event, std::function<void()> cb) {
   FdContext* fd_ctx = nullptr;
 
   {
-    RegistryMutexType::ReadLock lock(mutex_);
+    thread::RWMutex::ReadLock lock(mutex_);
     if (static_cast<int>(fd_contexts_.size()) > fd) {
       fd_ctx = fd_contexts_[fd];
     }
   }
   if (!fd_ctx) {
-    RegistryMutexType::WriteLock lock(mutex_);
+    thread::RWMutex::WriteLock lock(mutex_);
     const size_t need = static_cast<size_t>(fd) + 1;
     const size_t grow = static_cast<size_t>(fd * 1.5) + 1;
     contextResize(need > grow ? need : grow);
@@ -242,7 +242,7 @@ int Reactor::addEvent(int fd, Event event, std::function<void()> cb) {
 }
 
 bool Reactor::delEvent(int fd, Event event) {
-  RegistryMutexType::ReadLock lock(mutex_);
+  thread::RWMutex::ReadLock lock(mutex_);
   if (static_cast<int>(fd_contexts_.size()) <= fd) {
     return false;
   }
@@ -272,7 +272,7 @@ bool Reactor::delEvent(int fd, Event event) {
 }
 
 bool Reactor::cancelEvent(int fd, Event event) {
-  RegistryMutexType::ReadLock lock(mutex_);
+  thread::RWMutex::ReadLock lock(mutex_);
   if (static_cast<int>(fd_contexts_.size()) <= fd) {
     return false;
   }
@@ -300,7 +300,7 @@ bool Reactor::cancelEvent(int fd, Event event) {
 }
 
 bool Reactor::cancelAll(int fd) {
-  RegistryMutexType::ReadLock lock(mutex_);
+  thread::RWMutex::ReadLock lock(mutex_);
   if (static_cast<int>(fd_contexts_.size()) <= fd) {
     return false;
   }

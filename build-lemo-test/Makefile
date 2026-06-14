@@ -1127,6 +1127,240 @@ bench_echo_server_run/fast:
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_echo_server_run.dir/build.make lemo/CMakeFiles/bench_echo_server_run.dir/build
 .PHONY : bench_echo_server_run/fast
 
+#=============================================================================
+# Target rules for targets named netlemo_memory_obj
+
+# Build rule for target.
+netlemo_memory_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_memory_obj
+.PHONY : netlemo_memory_obj
+
+# fast build rule for target.
+netlemo_memory_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory_obj.dir/build.make netLemo/CMakeFiles/netlemo_memory_obj.dir/build
+.PHONY : netlemo_memory_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_memory
+
+# Build rule for target.
+netlemo_memory: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_memory
+.PHONY : netlemo_memory
+
+# fast build rule for target.
+netlemo_memory/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory.dir/build.make netLemo/CMakeFiles/netlemo_memory.dir/build
+.PHONY : netlemo_memory/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_utils_obj
+
+# Build rule for target.
+netlemo_utils_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_utils_obj
+.PHONY : netlemo_utils_obj
+
+# fast build rule for target.
+netlemo_utils_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils_obj.dir/build.make netLemo/CMakeFiles/netlemo_utils_obj.dir/build
+.PHONY : netlemo_utils_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_utils
+
+# Build rule for target.
+netlemo_utils: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_utils
+.PHONY : netlemo_utils
+
+# fast build rule for target.
+netlemo_utils/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils.dir/build.make netLemo/CMakeFiles/netlemo_utils.dir/build
+.PHONY : netlemo_utils/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_thread_obj
+
+# Build rule for target.
+netlemo_thread_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_thread_obj
+.PHONY : netlemo_thread_obj
+
+# fast build rule for target.
+netlemo_thread_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread_obj.dir/build.make netLemo/CMakeFiles/netlemo_thread_obj.dir/build
+.PHONY : netlemo_thread_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_thread
+
+# Build rule for target.
+netlemo_thread: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_thread
+.PHONY : netlemo_thread
+
+# fast build rule for target.
+netlemo_thread/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread.dir/build.make netLemo/CMakeFiles/netlemo_thread.dir/build
+.PHONY : netlemo_thread/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_fiber_obj
+
+# Build rule for target.
+netlemo_fiber_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_fiber_obj
+.PHONY : netlemo_fiber_obj
+
+# fast build rule for target.
+netlemo_fiber_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber_obj.dir/build.make netLemo/CMakeFiles/netlemo_fiber_obj.dir/build
+.PHONY : netlemo_fiber_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_fiber
+
+# Build rule for target.
+netlemo_fiber: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_fiber
+.PHONY : netlemo_fiber
+
+# fast build rule for target.
+netlemo_fiber/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber.dir/build.make netLemo/CMakeFiles/netlemo_fiber.dir/build
+.PHONY : netlemo_fiber/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_io_obj
+
+# Build rule for target.
+netlemo_io_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_io_obj
+.PHONY : netlemo_io_obj
+
+# fast build rule for target.
+netlemo_io_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io_obj.dir/build.make netLemo/CMakeFiles/netlemo_io_obj.dir/build
+.PHONY : netlemo_io_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_io
+
+# Build rule for target.
+netlemo_io: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_io
+.PHONY : netlemo_io
+
+# fast build rule for target.
+netlemo_io/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io.dir/build.make netLemo/CMakeFiles/netlemo_io.dir/build
+.PHONY : netlemo_io/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_buffer_obj
+
+# Build rule for target.
+netlemo_buffer_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_buffer_obj
+.PHONY : netlemo_buffer_obj
+
+# fast build rule for target.
+netlemo_buffer_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer_obj.dir/build.make netLemo/CMakeFiles/netlemo_buffer_obj.dir/build
+.PHONY : netlemo_buffer_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_buffer
+
+# Build rule for target.
+netlemo_buffer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_buffer
+.PHONY : netlemo_buffer
+
+# fast build rule for target.
+netlemo_buffer/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer.dir/build.make netLemo/CMakeFiles/netlemo_buffer.dir/build
+.PHONY : netlemo_buffer/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_socket_obj
+
+# Build rule for target.
+netlemo_socket_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_socket_obj
+.PHONY : netlemo_socket_obj
+
+# fast build rule for target.
+netlemo_socket_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket_obj.dir/build.make netLemo/CMakeFiles/netlemo_socket_obj.dir/build
+.PHONY : netlemo_socket_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_socket
+
+# Build rule for target.
+netlemo_socket: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_socket
+.PHONY : netlemo_socket
+
+# fast build rule for target.
+netlemo_socket/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket.dir/build.make netLemo/CMakeFiles/netlemo_socket.dir/build
+.PHONY : netlemo_socket/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_net_obj
+
+# Build rule for target.
+netlemo_net_obj: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_net_obj
+.PHONY : netlemo_net_obj
+
+# fast build rule for target.
+netlemo_net_obj/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net_obj.dir/build.make netLemo/CMakeFiles/netlemo_net_obj.dir/build
+.PHONY : netlemo_net_obj/fast
+
+#=============================================================================
+# Target rules for targets named netlemo_net
+
+# Build rule for target.
+netlemo_net: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netlemo_net
+.PHONY : netlemo_net
+
+# fast build rule for target.
+netlemo_net/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net.dir/build.make netLemo/CMakeFiles/netlemo_net.dir/build
+.PHONY : netlemo_net/fast
+
+#=============================================================================
+# Target rules for targets named bench_echo_server_netlemo
+
+# Build rule for target.
+bench_echo_server_netlemo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bench_echo_server_netlemo
+.PHONY : bench_echo_server_netlemo
+
+# fast build rule for target.
+bench_echo_server_netlemo/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo.dir/build
+.PHONY : bench_echo_server_netlemo/fast
+
+#=============================================================================
+# Target rules for targets named bench_echo_server_netlemo_run
+
+# Build rule for target.
+bench_echo_server_netlemo_run: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bench_echo_server_netlemo_run
+.PHONY : bench_echo_server_netlemo_run
+
+# fast build rule for target.
+bench_echo_server_netlemo_run/fast:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/build
+.PHONY : bench_echo_server_netlemo_run/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1136,6 +1370,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... bench_echo_server_netlemo_run"
 	@echo "... bench_echo_server_run"
 	@echo "... bench_log_mt_perf_run"
 	@echo "... bench_log_perf_run"
@@ -1150,6 +1385,7 @@ help:
 	@echo "... run_tests_lstl"
 	@echo "... run_tests_memory"
 	@echo "... bench_echo_server"
+	@echo "... bench_echo_server_netlemo"
 	@echo "... bench_log_mt_perf"
 	@echo "... bench_log_perf"
 	@echo "... bench_scheduler"
@@ -1172,6 +1408,22 @@ help:
 	@echo "... lemo_thread_obj"
 	@echo "... lemo_utils"
 	@echo "... lemo_utils_obj"
+	@echo "... netlemo_buffer"
+	@echo "... netlemo_buffer_obj"
+	@echo "... netlemo_fiber"
+	@echo "... netlemo_fiber_obj"
+	@echo "... netlemo_io"
+	@echo "... netlemo_io_obj"
+	@echo "... netlemo_memory"
+	@echo "... netlemo_memory_obj"
+	@echo "... netlemo_net"
+	@echo "... netlemo_net_obj"
+	@echo "... netlemo_socket"
+	@echo "... netlemo_socket_obj"
+	@echo "... netlemo_thread"
+	@echo "... netlemo_thread_obj"
+	@echo "... netlemo_utils"
+	@echo "... netlemo_utils_obj"
 	@echo "... test_address"
 	@echo "... test_algorithm"
 	@echo "... test_alloc"

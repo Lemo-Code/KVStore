@@ -2092,6 +2092,30 @@ src/fiber/fiber.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_fiber_obj.dir/build.make lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.s
 .PHONY : src/fiber/fiber.cc.s
 
+src/fiber/fiber_pool.o: src/fiber/fiber_pool.cc.o
+.PHONY : src/fiber/fiber_pool.o
+
+# target to build an object file
+src/fiber/fiber_pool.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_fiber_obj.dir/build.make lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o
+.PHONY : src/fiber/fiber_pool.cc.o
+
+src/fiber/fiber_pool.i: src/fiber/fiber_pool.cc.i
+.PHONY : src/fiber/fiber_pool.i
+
+# target to preprocess a source file
+src/fiber/fiber_pool.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_fiber_obj.dir/build.make lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.i
+.PHONY : src/fiber/fiber_pool.cc.i
+
+src/fiber/fiber_pool.s: src/fiber/fiber_pool.cc.s
+.PHONY : src/fiber/fiber_pool.s
+
+# target to generate assembly for a file
+src/fiber/fiber_pool.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_fiber_obj.dir/build.make lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.s
+.PHONY : src/fiber/fiber_pool.cc.s
+
 src/fiber/scheduler.o: src/fiber/scheduler.cc.o
 .PHONY : src/fiber/scheduler.o
 
@@ -2187,30 +2211,6 @@ src/io/connect.s: src/io/connect.cc.s
 src/io/connect.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io_obj.dir/build.make lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.s
 .PHONY : src/io/connect.cc.s
-
-src/io/fd_context.o: src/io/fd_context.cc.o
-.PHONY : src/io/fd_context.o
-
-# target to build an object file
-src/io/fd_context.cc.o:
-	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io_obj.dir/build.make lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o
-.PHONY : src/io/fd_context.cc.o
-
-src/io/fd_context.i: src/io/fd_context.cc.i
-.PHONY : src/io/fd_context.i
-
-# target to preprocess a source file
-src/io/fd_context.cc.i:
-	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io_obj.dir/build.make lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.i
-.PHONY : src/io/fd_context.cc.i
-
-src/io/fd_context.s: src/io/fd_context.cc.s
-.PHONY : src/io/fd_context.s
-
-# target to generate assembly for a file
-src/io/fd_context.cc.s:
-	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test && $(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io_obj.dir/build.make lemo/CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.s
-.PHONY : src/io/fd_context.cc.s
 
 src/io/hook.o: src/io/hook.cc.o
 .PHONY : src/io/hook.o
@@ -3042,6 +3042,9 @@ help:
 	@echo "... src/fiber/fiber.o"
 	@echo "... src/fiber/fiber.i"
 	@echo "... src/fiber/fiber.s"
+	@echo "... src/fiber/fiber_pool.o"
+	@echo "... src/fiber/fiber_pool.i"
+	@echo "... src/fiber/fiber_pool.s"
 	@echo "... src/fiber/scheduler.o"
 	@echo "... src/fiber/scheduler.i"
 	@echo "... src/fiber/scheduler.s"
@@ -3054,9 +3057,6 @@ help:
 	@echo "... src/io/connect.o"
 	@echo "... src/io/connect.i"
 	@echo "... src/io/connect.s"
-	@echo "... src/io/fd_context.o"
-	@echo "... src/io/fd_context.i"
-	@echo "... src/io/fd_context.s"
 	@echo "... src/io/hook.o"
 	@echo "... src/io/hook.i"
 	@echo "... src/io/hook.s"

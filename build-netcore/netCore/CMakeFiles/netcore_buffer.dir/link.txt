@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetcore_buffer.a CMakeFiles/netcore_buffer_obj.dir/src/buffer/ring_buffer.cc.o
+/usr/bin/ranlib libnetcore_buffer.a

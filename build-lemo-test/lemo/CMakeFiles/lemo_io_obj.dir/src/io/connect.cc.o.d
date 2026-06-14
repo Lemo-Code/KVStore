@@ -41,6 +41,8 @@ lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o: \
  /usr/include/aarch64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/aarch64-linux-gnu/bits/select2.h \
+ /usr/include/aarch64-linux-gnu/bits/select-decl.h \
  /usr/include/aarch64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h \
@@ -59,5 +61,6 @@ lemo/CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o: \
  /usr/include/aarch64-linux-gnu/asm/sockios.h \
  /usr/include/asm-generic/sockios.h \
  /usr/include/aarch64-linux-gnu/bits/types/struct_osockaddr.h \
+ /usr/include/aarch64-linux-gnu/bits/socket2.h \
  /home/wangmaosen/copy_linux/third/KVStore/lemo/include/lemo/io/hook_fwd.h \
  /home/wangmaosen/copy_linux/third/KVStore/lemo/include/lemo/io/hook.h

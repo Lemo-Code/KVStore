@@ -39,6 +39,8 @@ class Scheduler : public TimerManager {
   static Scheduler* GetThis();
   static size_t GetProcessorId();
 
+  int threadIdForProcessor(size_t proc_id) const;
+
   virtual void start();
   virtual void stop();
   void switchTo(int thread = -1);

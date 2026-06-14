@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetlemo_buffer.a CMakeFiles/netlemo_buffer_obj.dir/src/buffer/ring_buffer.cc.o
+/usr/bin/ranlib libnetlemo_buffer.a

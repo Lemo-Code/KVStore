@@ -1,5 +1,7 @@
 #include "lemo/fiber/scheduler.h"
+#include "lemo/fiber/fiber_pool.h"
 #include "lemo/memory/stack_pool.h"
+#include "lemo/utils/perf_stats.h"
 #include "lemo/utils/thread_util.h"
 
 #include <cassert>
@@ -122,6 +124,8 @@ size_t Scheduler::pickProcessorForEnqueue(int pin_thread) {
         return i;
       }
     }
+    assert(false && "pickProcessorForEnqueue: unknown pin_thread");
+    return 0;
   }
 
   if (t_processor_id < runqs_.size()) {
@@ -133,6 +137,13 @@ size_t Scheduler::pickProcessorForEnqueue(int pin_thread) {
     return 0;
   }
   return enqueue_round_robin_.fetch_add(1, std::memory_order_relaxed) % n;
+}
+
+int Scheduler::threadIdForProcessor(size_t proc_id) const {
+  if (proc_id < proc_thread_ids_.size()) {
+    return proc_thread_ids_[proc_id];
+  }
+  return -1;
 }
 
 size_t Scheduler::resolveProcessorId() const {
@@ -211,7 +222,7 @@ bool Scheduler::enqueueTask(ScheduleTask task, int pin_thread) {
   if (!overflow.empty()) {
     const size_t drained = overflow.size();
     global_runq_.pushBatch(overflow);
-    overflow_count_.fetch_add(drained, std::memory_order_relaxed);
+    LEMO_PERF_FETCH_ADD(overflow_count_, drained);
   }
 
   pushed = runq.pushBack(task);
@@ -257,13 +268,13 @@ bool Scheduler::dispatchCandidate(ScheduleTask& out, ScheduleTask candidate,
   out = std::move(candidate);
   switch (source) {
     case TaskSource::kLocal:
-      local_pop_count_.fetch_add(1, std::memory_order_relaxed);
+      LEMO_PERF_INC(local_pop_count_);
       break;
     case TaskSource::kGlobal:
-      global_pop_count_.fetch_add(1, std::memory_order_relaxed);
+      LEMO_PERF_INC(global_pop_count_);
       break;
     case TaskSource::kSteal:
-      steal_count_.fetch_add(1, std::memory_order_relaxed);
+      LEMO_PERF_INC(steal_count_);
       break;
     case TaskSource::kRunnext:
       break;
@@ -364,6 +375,7 @@ bool Scheduler::allQueuesEmpty() const {
 void Scheduler::runFiberTask(ScheduleTask& task) {
   if (!task.fiber || task.fiber->getState() == Fiber::TERM ||
       task.fiber->getState() == Fiber::EXCEPT) {
+    FiberPool::release(task.fiber);
     return;
   }
 
@@ -371,6 +383,9 @@ void Scheduler::runFiberTask(ScheduleTask& task) {
 
   if (task.fiber->getState() == Fiber::READY) {
     setRunnext(ScheduleTask(task.fiber, task.thread));
+  } else if (task.fiber->getState() == Fiber::TERM ||
+             task.fiber->getState() == Fiber::EXCEPT) {
+    FiberPool::release(task.fiber);
   } else if (task.fiber->getState() != Fiber::TERM &&
              task.fiber->getState() != Fiber::EXCEPT) {
     task.fiber->state_ = Fiber::HOLD;
@@ -383,10 +398,14 @@ void Scheduler::runCbTask(ScheduleTask& task, Fiber::ptr& cb_fiber) {
     return;
   }
 
-  if (cb_fiber) {
-    cb_fiber->reset(task.cb);
+  if (cb_fiber && (cb_fiber->getState() == Fiber::TERM ||
+                   cb_fiber->getState() == Fiber::INIT)) {
+    cb_fiber->reset(std::move(task.cb));
   } else {
-    cb_fiber.reset(new Fiber(task.cb));
+    if (cb_fiber) {
+      cb_fiber.reset();
+    }
+    cb_fiber = FiberPool::acquire(std::move(task.cb));
   }
   task.reset();
   cb_fiber->swapIn();
@@ -396,7 +415,7 @@ void Scheduler::runCbTask(ScheduleTask& task, Fiber::ptr& cb_fiber) {
     cb_fiber.reset();
   } else if (cb_fiber->getState() == Fiber::EXCEPT ||
              cb_fiber->getState() == Fiber::TERM) {
-    cb_fiber->reset(nullptr);
+    FiberPool::release(cb_fiber);
   } else {
     cb_fiber->state_ = Fiber::HOLD;
     cb_fiber.reset();

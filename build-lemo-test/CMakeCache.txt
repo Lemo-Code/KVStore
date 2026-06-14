@@ -22,7 +22,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -249,6 +249,9 @@ LSTL_POOL_TRACK_SPAN:BOOL=OFF
 //全局 alloc 使用 malloc 而非默认 pool
 LSTL_USE_MALLOC_ALLOC:BOOL=OFF
 
+//构建 netLemo 极致性能协程网络库
+NETLEMO_BUILD:BOOL=ON
+
 //Dependencies for the target
 lemo_buffer_LIB_DEPENDS:STATIC=general;lemo_utils;
 
@@ -269,6 +272,24 @@ lemo_socket_LIB_DEPENDS:STATIC=general;lemo_io;general;lemo_buffer;general;lemo_
 
 //Dependencies for the target
 lemo_thread_LIB_DEPENDS:STATIC=general;lemo_utils;
+
+//Dependencies for the target
+netlemo_buffer_LIB_DEPENDS:STATIC=general;netlemo_utils;
+
+//Dependencies for the target
+netlemo_fiber_LIB_DEPENDS:STATIC=general;netlemo_memory;general;netlemo_utils;general;netlemo_thread;
+
+//Dependencies for the target
+netlemo_io_LIB_DEPENDS:STATIC=general;netlemo_fiber;general;netlemo_thread;general;netlemo_utils;general;dl;
+
+//Dependencies for the target
+netlemo_net_LIB_DEPENDS:STATIC=general;netlemo_socket;general;netlemo_io;general;netlemo_fiber;general;netlemo_utils;
+
+//Dependencies for the target
+netlemo_socket_LIB_DEPENDS:STATIC=general;netlemo_io;general;netlemo_buffer;general;netlemo_utils;general;dl;
+
+//Dependencies for the target
+netlemo_thread_LIB_DEPENDS:STATIC=general;netlemo_utils;
 
 
 ########################
@@ -361,7 +382,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

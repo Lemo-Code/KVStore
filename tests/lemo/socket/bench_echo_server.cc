@@ -27,6 +27,13 @@
 
 namespace {
 
+constexpr size_t kEchoBufAlign = 64;
+
+inline size_t EchoBufSize(int payload) {
+  const size_t n = static_cast<size_t>(payload > 0 ? payload : 1);
+  return (n + kEchoBufAlign - 1) & ~(kEchoBufAlign - 1);
+}
+
 using Clock = std::chrono::steady_clock;
 using Us = std::chrono::microseconds;
 
@@ -40,6 +47,7 @@ struct Config {
   int connections = 64;
   int messages = 1000;
   int payload = 128;
+  int duration_ms = 0;  // >0 时按 wrk -d 固定时长压测
   bool quick = false;
 };
 
@@ -55,6 +63,30 @@ struct Result {
 std::atomic<bool> g_stop{false};
 
 void OnSignal(int) { g_stop.store(true, std::memory_order_release); }
+
+int ParseDurationMs(const char* s) {
+  if (s == nullptr || *s == '\0') {
+    return 0;
+  }
+  char* end = nullptr;
+  const double v = std::strtod(s, &end);
+  if (end == s || v <= 0) {
+    return 0;
+  }
+  double ms = v * 1000.0;
+  if (*end != '\0') {
+    if (std::strcmp(end, "s") == 0 || std::strcmp(end, "S") == 0) {
+      ms = v * 1000.0;
+    } else if (std::strcmp(end, "ms") == 0 || std::strcmp(end, "MS") == 0) {
+      ms = v;
+    } else if (std::strcmp(end, "m") == 0 || std::strcmp(end, "M") == 0) {
+      ms = v * 60.0 * 1000.0;
+    } else {
+      return 0;
+    }
+  }
+  return static_cast<int>(ms);
+}
 
 Config ParseConfig(int argc, char** argv) {
   Config cfg;
@@ -85,6 +117,8 @@ Config ParseConfig(int argc, char** argv) {
       cfg.messages = std::atoi(argv[++i]);
     } else if (std::strcmp(argv[i], "--payload") == 0 && i + 1 < argc) {
       cfg.payload = std::atoi(argv[++i]);
+    } else if (std::strcmp(argv[i], "--duration") == 0 && i + 1 < argc) {
+      cfg.duration_ms = ParseDurationMs(argv[++i]);
     }
   }
   if (cfg.quick) {
@@ -130,8 +164,13 @@ uint16_t GetBoundPort(const lemo::socket::Socket::ptr& listen) {
 }
 
 bool EchoSession(const lemo::socket::Socket::ptr& sock, size_t buf_size) {
-  std::vector<char> buf(buf_size);
-  char* const data = buf.data();
+  std::vector<char> heap_buf;
+  char stack_buf[4096];
+  char* data = stack_buf;
+  if (buf_size > sizeof(stack_buf)) {
+    heap_buf.resize(buf_size);
+    data = heap_buf.data();
+  }
   while (true) {
     const int n = sock->recv(data, buf_size);
     if (n <= 0) {
@@ -173,20 +212,37 @@ void StartAcceptLoop(lemo::io::IOManager* iom,
       }
       continue;
     }
-    iom->schedule([client, buf_size]() { EchoSession(client, buf_size); });
+    iom->scheduleNext([client, buf_size]() { EchoSession(client, buf_size); });
+  }
+}
+
+void StartAcceptLoops(lemo::io::IOManager* iom,
+                      const lemo::socket::Socket::ptr& listen,
+                      const std::atomic<bool>& stop, size_t buf_size,
+                      int accept_workers) {
+  for (int i = 0; i < accept_workers; ++i) {
+    iom->schedule([iom, listen, &stop, buf_size]() {
+      StartAcceptLoop(iom, listen, stop, buf_size);
+    });
   }
 }
 
 Result RunClientBench(lemo::io::IOManager* iom, const std::string& host,
                       uint16_t port, const Config& cfg) {
+  const auto t0 = Clock::now();
+  const auto deadline =
+      cfg.duration_ms > 0
+          ? t0 + std::chrono::milliseconds(cfg.duration_ms)
+          : Clock::time_point::max();
   const uint64_t target =
-      static_cast<uint64_t>(cfg.connections) *
-      static_cast<uint64_t>(cfg.messages);
+      cfg.duration_ms > 0
+          ? 0
+          : static_cast<uint64_t>(cfg.connections) *
+                static_cast<uint64_t>(cfg.messages);
   std::atomic<uint64_t> done{0};
 
-  const auto t0 = Clock::now();
   for (int i = 0; i < cfg.connections; ++i) {
-    iom->schedule([host, port, cfg, &done]() {
+    iom->schedule([host, port, cfg, &done, deadline]() {
       std::vector<char> payload(static_cast<size_t>(cfg.payload), 'E');
       std::vector<char> recvbuf(static_cast<size_t>(cfg.payload));
       lemo::socket::Socket::ptr sock = lemo::socket::Socket::CreateTCPSocket();
@@ -195,22 +251,44 @@ Result RunClientBench(lemo::io::IOManager* iom, const std::string& host,
       if (!addr || !sock->connect(addr)) {
         return;
       }
-      for (int m = 0; m < cfg.messages; ++m) {
-        if (sock->send(payload.data(), payload.size()) !=
-            static_cast<int>(payload.size())) {
-          break;
+      uint64_t local_done = 0;
+      if (cfg.duration_ms > 0) {
+        while (Clock::now() < deadline) {
+          if (sock->send(payload.data(), payload.size()) !=
+              static_cast<int>(payload.size())) {
+            break;
+          }
+          if (sock->recv(&recvbuf[0], recvbuf.size()) !=
+              static_cast<int>(recvbuf.size())) {
+            break;
+          }
+          ++local_done;
         }
-        if (sock->recv(&recvbuf[0], recvbuf.size()) !=
-            static_cast<int>(recvbuf.size())) {
-          break;
+      } else {
+        for (int m = 0; m < cfg.messages; ++m) {
+          if (sock->send(payload.data(), payload.size()) !=
+              static_cast<int>(payload.size())) {
+            break;
+          }
+          if (sock->recv(&recvbuf[0], recvbuf.size()) !=
+              static_cast<int>(recvbuf.size())) {
+            break;
+          }
+          ++local_done;
         }
-        done.fetch_add(1, std::memory_order_relaxed);
+      }
+      if (local_done > 0) {
+        done.fetch_add(local_done, std::memory_order_relaxed);
       }
       sock->close();
     });
   }
 
-  WaitUntil(done, target);
+  if (cfg.duration_ms > 0) {
+    std::this_thread::sleep_until(deadline);
+  } else {
+    WaitUntil(done, target);
+  }
   const Us wall =
       std::chrono::duration_cast<Us>(Clock::now() - t0);
 
@@ -228,13 +306,26 @@ Result RunClientBench(lemo::io::IOManager* iom, const std::string& host,
 }
 
 void PrintResult(const char* tag, const Config& cfg, const Result& r) {
+  const char* mode_desc = "messages/conn";
+  std::string mode_val;
+  if (cfg.duration_ms > 0) {
+    mode_desc = "duration";
+    mode_val = std::to_string(cfg.duration_ms) + "ms";
+  } else {
+    mode_val = std::to_string(cfg.messages);
+  }
   std::printf(
-      "[%s] threads=%d connections=%d messages/conn=%d payload=%dB\n"
+      "[%s] threads=%d connections=%d %s=%s payload=%dB\n"
       "  roundtrips=%llu wall=%.2f ms throughput=%.0f req/s  bw=%.2f MiB/s  "
       "latency=%.2f us/req\n",
-      tag, cfg.threads, cfg.connections, cfg.messages, cfg.payload,
-      static_cast<unsigned long long>(r.roundtrips), r.wall_ms, r.req_per_s,
-      r.mb_per_s, r.us_per_req);
+      tag, cfg.threads, cfg.connections, mode_desc, mode_val.c_str(),
+      cfg.payload, static_cast<unsigned long long>(r.roundtrips), r.wall_ms,
+      r.req_per_s, r.mb_per_s, r.us_per_req);
+  std::printf(
+      "SUMMARY qps=%.0f requests=%llu duration=%.2fs payload=%dB threads=%d "
+      "connections=%d\n",
+      r.req_per_s, static_cast<unsigned long long>(r.roundtrips),
+      r.wall_ms / 1000.0, cfg.payload, cfg.threads, cfg.connections);
   std::fflush(stdout);
 }
 
@@ -248,12 +339,9 @@ Result RunLocalBench(const Config& cfg) {
   const uint16_t port = GetBoundPort(listen);
 
   std::atomic<bool> stop{false};
-  const size_t buf_size =
-      static_cast<size_t>(cfg.payload > 4096 ? cfg.payload : 4096);
+  const size_t buf_size = EchoBufSize(cfg.payload);
 
-  iom.schedule([&]() {
-    StartAcceptLoop(&iom, listen, stop, buf_size);
-  });
+  StartAcceptLoops(&iom, listen, stop, buf_size, 1);
 
   Result r = RunClientBench(&iom, "127.0.0.1", port, cfg);
 
@@ -278,14 +366,13 @@ void RunServer(const Config& cfg) {
     std::exit(1);
   }
   const uint16_t port = GetBoundPort(listen);
-  const size_t buf_size =
-      static_cast<size_t>(cfg.payload > 4096 ? cfg.payload : 4096);
+  const size_t buf_size = EchoBufSize(cfg.payload);
 
   std::printf("echo server listening on 0.0.0.0:%u threads=%d (Ctrl+C to stop)\n",
               port, cfg.threads);
   std::fflush(stdout);
 
-  iom.schedule([&]() { StartAcceptLoop(&iom, listen, g_stop, buf_size); });
+  StartAcceptLoops(&iom, listen, g_stop, buf_size, 1);
 
   while (!g_stop.load(std::memory_order_acquire)) {
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -327,9 +414,13 @@ int main(int argc, char** argv) {
       std::printf("local");
       break;
   }
-  std::printf(" threads=%d connections=%d messages=%d payload=%dB%s\n",
-              cfg.threads, cfg.connections, cfg.messages, cfg.payload,
-              cfg.quick ? " (quick)" : "");
+  std::printf(" threads=%d connections=%d", cfg.threads, cfg.connections);
+  if (cfg.duration_ms > 0) {
+    std::printf(" duration=%dms", cfg.duration_ms);
+  } else {
+    std::printf(" messages=%d", cfg.messages);
+  }
+  std::printf(" payload=%dB%s\n", cfg.payload, cfg.quick ? " (quick)" : "");
   std::fflush(stdout);
 
   switch (cfg.mode) {

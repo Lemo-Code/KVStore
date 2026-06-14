@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o"
   "CMakeFiles/lemo_io_obj.dir/src/io/connect.cc.o.d"
-  "CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o"
-  "CMakeFiles/lemo_io_obj.dir/src/io/fd_context.cc.o.d"
   "CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o"
   "CMakeFiles/lemo_io_obj.dir/src/io/hook.cc.o.d"
   "CMakeFiles/lemo_io_obj.dir/src/io/iomanager.cc.o"

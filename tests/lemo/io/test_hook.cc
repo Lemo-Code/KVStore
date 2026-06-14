@@ -5,7 +5,6 @@
 #include "test_io_common.h"
 
 #include "lemo/fiber/fiber.h"
-#include "lemo/io/fd_context.h"
 #include "lemo/io/hook.h"
 #include "lemo/io/iomanager.h"
 #include "lemo/utils/time_util.h"
@@ -88,7 +87,7 @@ void test_hook_socket_read_write() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(2, false, "test_hook_sock_rw"));
   int sv[2] = {-1, -1};
-  prepare_hook_socketpair(sv);
+  prepare_hook_socketpair(iom.get(), sv);
 
   std::atomic<int> phase{0};
   iom->schedule([&sv, &phase]() {
@@ -117,7 +116,7 @@ void test_hook_recv_send() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(2, false, "test_hook_recv"));
   int sv[2] = {-1, -1};
-  prepare_hook_socketpair(sv);
+  prepare_hook_socketpair(iom.get(), sv);
 
   std::atomic<int> phase{0};
   iom->schedule([&sv, &phase]() {
@@ -146,7 +145,7 @@ void test_hook_readv_writev() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(2, false, "test_hook_iov"));
   int sv[2] = {-1, -1};
-  prepare_hook_socketpair(sv);
+  prepare_hook_socketpair(iom.get(), sv);
 
   std::atomic<int> phase{0};
   iom->schedule([&sv, &phase]() {
@@ -193,14 +192,14 @@ void test_hook_accept() {
   std::atomic<int> accepted{-1};
   std::atomic<int> accept_phase{0};
 
-  iom->schedule([&accept_phase, &accepted, listen_fd]() {
+  iom->schedule([&accept_phase, &accepted, listen_fd, iom]() {
     accept_phase.store(kIoWaiting);
     sockaddr_in peer;
     socklen_t len = sizeof(peer);
     const int fd =
         accept(listen_fd, reinterpret_cast<sockaddr*>(&peer), &len);
     LEMO_CHECK(fd >= 0);
-    LEMO_CHECK(lemo::io::FdManager::Instance().get(fd, false) != nullptr);
+    LEMO_CHECK(iom->getFd(fd, false) != nullptr);
     accepted.store(fd);
     accept_phase.store(kIoFinished);
   });
@@ -263,7 +262,7 @@ void test_hook_read_timeout() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(2, false, "test_hook_read_to"));
   int sv[2] = {-1, -1};
-  prepare_hook_socketpair(sv);
+  prepare_hook_socketpair(iom.get(), sv);
 
   std::atomic<int> done{0};
   iom->schedule([&sv, &done]() {
@@ -286,7 +285,7 @@ void test_hook_fcntl_user_nonblock() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(1, false, "test_hook_fcntl"));
   int sv[2] = {-1, -1};
-  prepare_hook_socketpair(sv);
+  prepare_hook_socketpair(iom.get(), sv);
 
   std::atomic<int> done{0};
   iom->schedule([&sv, &done]() {
@@ -312,7 +311,7 @@ void test_hook_ioctl_fionbio() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(1, false, "test_hook_ioctl"));
   int sv[2] = {-1, -1};
-  prepare_hook_socketpair(sv);
+  prepare_hook_socketpair(iom.get(), sv);
 
   std::atomic<int> done{0};
   iom->schedule([&sv, &done]() {
@@ -335,7 +334,7 @@ void test_hook_close_while_waiting() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(1, false, "test_hook_close"));
   int sv[2] = {-1, -1};
-  prepare_hook_socketpair(sv);
+  prepare_hook_socketpair(iom.get(), sv);
 
   std::atomic<int> phase{0};
   iom->schedule([&sv, &phase]() {

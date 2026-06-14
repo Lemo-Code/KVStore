@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/bench_ring_buffer.dir/__/__/tests/net/bench_ring_buffer.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/bench_ring_buffer  libnet_log.a -lyaml-cpp -ldl 

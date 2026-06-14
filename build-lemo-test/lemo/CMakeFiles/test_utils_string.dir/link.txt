@@ -1,1 +1,1 @@
-/usr/bin/c++  -Wall -Wextra CMakeFiles/test_utils_string.dir/__/tests/lemo/utils/test_utils_string.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/utils/test_utils_string  liblemo_utils.a 
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_utils_string.dir/__/tests/lemo/utils/test_utils_string.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/utils/test_utils_string  liblemo_utils.a 

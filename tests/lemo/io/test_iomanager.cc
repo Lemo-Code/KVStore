@@ -6,7 +6,7 @@
 #include "test_io_common.h"
 
 #include "lemo/fiber/fiber.h"
-#include "lemo/io/fd_context.h"
+#include "lemo/io/iomanager.h"
 #include "lemo/io/iomanager.h"
 
 #include <fcntl.h>
@@ -321,9 +321,10 @@ void test_stop_cancels_pending() {
 }
 
 void test_fdmanager() {
+  lemo::io::IOManager iom(1, false, "test_fdm");
   int pipefd[2] = {-1, -1};
   LEMO_CHECK(::pipe(pipefd) == 0);
-  lemo::io::FdContext::ptr ctx = lemo::io::FdManager::Instance().get(pipefd[0], true);
+  lemo::io::Reactor::FdSlot* ctx = iom.getFd(pipefd[0], true);
   LEMO_CHECK(ctx != nullptr);
   LEMO_CHECK(ctx->isInit());
   LEMO_CHECK(!ctx->isSocket());
@@ -331,20 +332,21 @@ void test_fdmanager() {
   LEMO_CHECK(ctx->getTimeout(SO_RCVTIMEO) == 1000);
   ctx->setTimeout(SO_SNDTIMEO, 2000);
   LEMO_CHECK(ctx->getTimeout(SO_SNDTIMEO) == 2000);
-  lemo::io::FdManager::Instance().del(pipefd[0]);
+  iom.delFd(pipefd[0]);
   ::close(pipefd[0]);
   ::close(pipefd[1]);
 
   int sv[2] = {-1, -1};
   LEMO_CHECK(lemo_io_test::socket_pair(sv));
-  lemo::io::FdContext::ptr sctx = lemo::io::FdManager::Instance().get(sv[0], true);
+  lemo::io::Reactor::FdSlot* sctx = iom.getFd(sv[0], true);
   LEMO_CHECK(sctx != nullptr);
   LEMO_CHECK(sctx->isSocket());
   LEMO_CHECK(sctx->getSysNonBlock());
-  lemo::io::FdManager::Instance().del(sv[0]);
-  lemo::io::FdManager::Instance().del(sv[1]);
+  iom.delFd(sv[0]);
+  iom.delFd(sv[1]);
   ::close(sv[0]);
   ::close(sv[1]);
+  iom.stop();
 }
 
 }  // namespace

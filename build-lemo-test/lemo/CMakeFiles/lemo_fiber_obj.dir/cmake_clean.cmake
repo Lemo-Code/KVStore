@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.o"
   "CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.o.d"
+  "CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o"
+  "CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o.d"
   "CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o"
   "CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o.d"
   "CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o"

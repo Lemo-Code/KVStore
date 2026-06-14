@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/wangmaosen/copy_linux/third/KVStore/tests/common -I/home/wangmaosen/copy_linux/third/KVStore/module/lstl/memory -I/home/wangmaosen/copy_linux/third/KVStore/module/lstl/container
 
-CXX_FLAGS =  -Wall -Wextra -std=c++11
+CXX_FLAGS =  -Wall -Wextra -O3 -DNDEBUG -std=c++11
 

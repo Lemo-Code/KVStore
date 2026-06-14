@@ -1,1 +1,1 @@
-/usr/bin/c++  -Wall -Wextra CMakeFiles/test_log_additivity.dir/__/tests/lemo/log/test_log_additivity.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/log/test_log_additivity  liblemo_log.a liblemo_fiber.a liblemo_thread.a liblemo_utils.a liblemo_memory.a 
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_log_additivity.dir/__/tests/lemo/log/test_log_additivity.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/log/test_log_additivity  liblemo_log.a liblemo_fiber.a liblemo_thread.a liblemo_utils.a liblemo_memory.a 

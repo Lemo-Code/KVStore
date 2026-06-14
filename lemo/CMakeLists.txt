@@ -3,7 +3,17 @@ cmake_minimum_required(VERSION 3.10)
 set(LEMO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 set(LEMO_INCLUDE "${LEMO_ROOT}/include")
 
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
 find_package(Threads REQUIRED)
+
+function(lemo_apply_perf_flags target_name)
+  if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    target_compile_options(${target_name} PRIVATE -O3 -DNDEBUG)
+  endif()
+endfunction()
 
 # ── memory（仅协程 ucontext 栈池，不依赖 kv_pool）────────
 add_library(lemo_memory_obj OBJECT
@@ -50,6 +60,7 @@ add_library(lemo::thread ALIAS lemo_thread)
 # ── fiber ────────────────────────────────────────────────
 add_library(lemo_fiber_obj OBJECT
   "${LEMO_ROOT}/src/fiber/fiber.cc"
+  "${LEMO_ROOT}/src/fiber/fiber_pool.cc"
   "${LEMO_ROOT}/src/fiber/scheduler.cc"
   "${LEMO_ROOT}/src/fiber/timer.cc"
   "${LEMO_ROOT}/src/fiber/timing_wheel.cc"
@@ -67,7 +78,6 @@ add_library(lemo::fiber ALIAS lemo_fiber)
 add_library(lemo_io_obj OBJECT
   "${LEMO_ROOT}/src/io/reactor.cc"
   "${LEMO_ROOT}/src/io/iomanager.cc"
-  "${LEMO_ROOT}/src/io/fd_context.cc"
   "${LEMO_ROOT}/src/io/hook.cc"
   "${LEMO_ROOT}/src/io/connect.cc"
   "${LEMO_ROOT}/src/io/runtime.cc"
@@ -150,6 +160,11 @@ add_library(lemo_config STATIC $<TARGET_OBJECTS:lemo_config_obj>)
 target_include_directories(lemo_config PUBLIC "${LEMO_INCLUDE}")
 target_link_libraries(lemo_config PUBLIC lemo_utils lemo_log)
 add_library(lemo::config ALIAS lemo_config)
+
+foreach(_lemo_obj IN ITEMS lemo_memory_obj lemo_utils_obj lemo_thread_obj lemo_fiber_obj
+                        lemo_io_obj lemo_buffer_obj lemo_socket_obj lemo_log_obj lemo_config_obj)
+  lemo_apply_perf_flags(${_lemo_obj})
+endforeach()
 
 # ── tests ────────────────────────────────────────────────
 set(LEMO_UTILS_TESTS test_utils_string test_utils_lexical_cast test_utils_thread)

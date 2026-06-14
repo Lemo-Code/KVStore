@@ -83,10 +83,24 @@ lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.s"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/fiber.cc -o CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.s
 
+lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/flags.make
+lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/fiber_pool.cc
+lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o -MF CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o.d -o CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/fiber_pool.cc
+
+lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.i"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/fiber_pool.cc > CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.i
+
+lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.s"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/fiber_pool.cc -o CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.s
+
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/flags.make
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/scheduler.cc
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o -MF CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o.d -o CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/scheduler.cc
 
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.i: cmake_force
@@ -100,7 +114,7 @@ lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.s: cmake_force
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/flags.make
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/timer.cc
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o -MF CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o.d -o CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/timer.cc
 
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.i: cmake_force
@@ -114,7 +128,7 @@ lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.s: cmake_force
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/flags.make
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o: /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/timing_wheel.cc
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o: lemo/CMakeFiles/lemo_fiber_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o -MF CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o.d -o CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/timing_wheel.cc
 
 lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.i: cmake_force
@@ -126,6 +140,7 @@ lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.s: cmake_force
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/lemo/src/fiber/timing_wheel.cc -o CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.s
 
 lemo_fiber_obj: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.o
+lemo_fiber_obj: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o
 lemo_fiber_obj: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o
 lemo_fiber_obj: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o
 lemo_fiber_obj: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o

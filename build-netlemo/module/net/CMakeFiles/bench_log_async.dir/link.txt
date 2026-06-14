@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/bench_log_async.dir/__/__/tests/net/bench_log_async.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/bench_log_async  libnet_log.a -lyaml-cpp -ldl 

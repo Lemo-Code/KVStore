@@ -67,6 +67,8 @@ class Fiber : public std::enable_shared_from_this<Fiber> {
   static Fiber* GetSwapMainFiber();
 
   ucontext_t ctx_;
+  ucontext_t bootstrap_ctx_;
+  bool bootstrap_saved_ = false;
   void* stack_ = nullptr;
 
   uint64_t id_ = 0;

@@ -65,11 +65,13 @@ CMAKE_BINARY_DIR = /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test
 # The main recursive "all" target.
 all: module/all
 all: lemo/all
+all: netLemo/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: module/preinstall
 preinstall: lemo/preinstall
+preinstall: netLemo/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
@@ -78,6 +80,7 @@ clean: CMakeFiles/run_tests_lstl.dir/clean
 clean: CMakeFiles/run_tests_memory.dir/clean
 clean: module/clean
 clean: lemo/clean
+clean: netLemo/clean
 .PHONY : clean
 
 #=============================================================================
@@ -278,6 +281,54 @@ module/storage/clean:
 .PHONY : module/storage/clean
 
 #=============================================================================
+# Directory level rules for directory netLemo
+
+# Recursive "all" directory target.
+netLemo/all: netLemo/CMakeFiles/netlemo_memory_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_utils_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_thread_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_fiber_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_io_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_io.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_buffer_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_buffer.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_socket_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_socket.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_net_obj.dir/all
+netLemo/all: netLemo/CMakeFiles/netlemo_net.dir/all
+netLemo/all: netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all
+.PHONY : netLemo/all
+
+# Recursive "preinstall" directory target.
+netLemo/preinstall:
+.PHONY : netLemo/preinstall
+
+# Recursive "clean" directory target.
+netLemo/clean: netLemo/CMakeFiles/netlemo_memory_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_memory.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_utils_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_utils.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_thread_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_thread.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_fiber_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_fiber.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_io_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_io.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_buffer_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_buffer.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_socket_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_socket.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_net_obj.dir/clean
+netLemo/clean: netLemo/CMakeFiles/netlemo_net.dir/clean
+netLemo/clean: netLemo/CMakeFiles/bench_echo_server_netlemo.dir/clean
+netLemo/clean: netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/clean
+.PHONY : netLemo/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/run_tests.dir
 
 # All Build rule for target.
@@ -324,12 +375,12 @@ CMakeFiles/run_tests.dir/all: lemo/CMakeFiles/test_log_file_path.dir/all
 CMakeFiles/run_tests.dir/all: lemo/CMakeFiles/test_log_multithread.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=41 "Built target run_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=51 "Built target run_tests"
 .PHONY : CMakeFiles/run_tests.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 86
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 72
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : CMakeFiles/run_tests.dir/rule
@@ -390,12 +441,12 @@ CMakeFiles/run_tests_lstl.dir/all: lemo/CMakeFiles/test_log_file_path.dir/all
 CMakeFiles/run_tests_lstl.dir/all: lemo/CMakeFiles/test_log_multithread.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests_lstl.dir/build.make CMakeFiles/run_tests_lstl.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests_lstl.dir/build.make CMakeFiles/run_tests_lstl.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=45 "Built target run_tests_lstl"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target run_tests_lstl"
 .PHONY : CMakeFiles/run_tests_lstl.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_tests_lstl.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 86
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 71
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests_lstl.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : CMakeFiles/run_tests_lstl.dir/rule
@@ -456,12 +507,12 @@ CMakeFiles/run_tests_memory.dir/all: lemo/CMakeFiles/test_log_file_path.dir/all
 CMakeFiles/run_tests_memory.dir/all: lemo/CMakeFiles/test_log_multithread.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests_memory.dir/build.make CMakeFiles/run_tests_memory.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests_memory.dir/build.make CMakeFiles/run_tests_memory.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=46 "Built target run_tests_memory"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=55 "Built target run_tests_memory"
 .PHONY : CMakeFiles/run_tests_memory.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_tests_memory.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 86
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 72
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests_memory.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : CMakeFiles/run_tests_memory.dir/rule
@@ -482,12 +533,12 @@ CMakeFiles/run_tests_memory.dir/clean:
 module/lstl/CMakeFiles/test_alloc.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_alloc.dir/build.make module/lstl/CMakeFiles/test_alloc.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_alloc.dir/build.make module/lstl/CMakeFiles/test_alloc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=49,50 "Built target test_alloc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=58 "Built target test_alloc"
 .PHONY : module/lstl/CMakeFiles/test_alloc.dir/all
 
 # Build rule for subdir invocation for target.
 module/lstl/CMakeFiles/test_alloc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/lstl/CMakeFiles/test_alloc.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : module/lstl/CMakeFiles/test_alloc.dir/rule
@@ -508,12 +559,12 @@ module/lstl/CMakeFiles/test_alloc.dir/clean:
 module/lstl/CMakeFiles/test_construct.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_construct.dir/build.make module/lstl/CMakeFiles/test_construct.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_construct.dir/build.make module/lstl/CMakeFiles/test_construct.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=57 "Built target test_construct"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=64,65 "Built target test_construct"
 .PHONY : module/lstl/CMakeFiles/test_construct.dir/all
 
 # Build rule for subdir invocation for target.
 module/lstl/CMakeFiles/test_construct.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/lstl/CMakeFiles/test_construct.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : module/lstl/CMakeFiles/test_construct.dir/rule
@@ -534,12 +585,12 @@ module/lstl/CMakeFiles/test_construct.dir/clean:
 module/lstl/CMakeFiles/test_uninitialized.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_uninitialized.dir/build.make module/lstl/CMakeFiles/test_uninitialized.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_uninitialized.dir/build.make module/lstl/CMakeFiles/test_uninitialized.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=95,96 "Built target test_uninitialized"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=96 "Built target test_uninitialized"
 .PHONY : module/lstl/CMakeFiles/test_uninitialized.dir/all
 
 # Build rule for subdir invocation for target.
 module/lstl/CMakeFiles/test_uninitialized.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/lstl/CMakeFiles/test_uninitialized.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : module/lstl/CMakeFiles/test_uninitialized.dir/rule
@@ -560,7 +611,7 @@ module/lstl/CMakeFiles/test_uninitialized.dir/clean:
 module/lstl/CMakeFiles/test_allocator.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_allocator.dir/build.make module/lstl/CMakeFiles/test_allocator.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_allocator.dir/build.make module/lstl/CMakeFiles/test_allocator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=51 "Built target test_allocator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=59 "Built target test_allocator"
 .PHONY : module/lstl/CMakeFiles/test_allocator.dir/all
 
 # Build rule for subdir invocation for target.
@@ -586,7 +637,7 @@ module/lstl/CMakeFiles/test_allocator.dir/clean:
 module/lstl/CMakeFiles/test_temporary_buffer.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_temporary_buffer.dir/build.make module/lstl/CMakeFiles/test_temporary_buffer.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_temporary_buffer.dir/build.make module/lstl/CMakeFiles/test_temporary_buffer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=89 "Built target test_temporary_buffer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=91 "Built target test_temporary_buffer"
 .PHONY : module/lstl/CMakeFiles/test_temporary_buffer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -612,7 +663,7 @@ module/lstl/CMakeFiles/test_temporary_buffer.dir/clean:
 module/lstl/CMakeFiles/test_type_traits.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_type_traits.dir/build.make module/lstl/CMakeFiles/test_type_traits.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_type_traits.dir/build.make module/lstl/CMakeFiles/test_type_traits.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=94 "Built target test_type_traits"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=95 "Built target test_type_traits"
 .PHONY : module/lstl/CMakeFiles/test_type_traits.dir/all
 
 # Build rule for subdir invocation for target.
@@ -638,7 +689,7 @@ module/lstl/CMakeFiles/test_type_traits.dir/clean:
 module/lstl/CMakeFiles/test_oom_policy.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_oom_policy.dir/build.make module/lstl/CMakeFiles/test_oom_policy.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_oom_policy.dir/build.make module/lstl/CMakeFiles/test_oom_policy.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=82 "Built target test_oom_policy"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=85 "Built target test_oom_policy"
 .PHONY : module/lstl/CMakeFiles/test_oom_policy.dir/all
 
 # Build rule for subdir invocation for target.
@@ -664,12 +715,12 @@ module/lstl/CMakeFiles/test_oom_policy.dir/clean:
 module/lstl/CMakeFiles/test_pool_single.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_pool_single.dir/build.make module/lstl/CMakeFiles/test_pool_single.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_pool_single.dir/build.make module/lstl/CMakeFiles/test_pool_single.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=83,84 "Built target test_pool_single"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=86 "Built target test_pool_single"
 .PHONY : module/lstl/CMakeFiles/test_pool_single.dir/all
 
 # Build rule for subdir invocation for target.
 module/lstl/CMakeFiles/test_pool_single.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/lstl/CMakeFiles/test_pool_single.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : module/lstl/CMakeFiles/test_pool_single.dir/rule
@@ -690,7 +741,7 @@ module/lstl/CMakeFiles/test_pool_single.dir/clean:
 module/lstl/CMakeFiles/test_algorithm.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_algorithm.dir/build.make module/lstl/CMakeFiles/test_algorithm.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_algorithm.dir/build.make module/lstl/CMakeFiles/test_algorithm.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=48 "Built target test_algorithm"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=57 "Built target test_algorithm"
 .PHONY : module/lstl/CMakeFiles/test_algorithm.dir/all
 
 # Build rule for subdir invocation for target.
@@ -716,7 +767,7 @@ module/lstl/CMakeFiles/test_algorithm.dir/clean:
 lemo/CMakeFiles/lemo_memory_obj.dir/all:
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_memory_obj.dir/build.make lemo/CMakeFiles/lemo_memory_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_memory_obj.dir/build.make lemo/CMakeFiles/lemo_memory_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=34 "Built target lemo_memory_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=30 "Built target lemo_memory_obj"
 .PHONY : lemo/CMakeFiles/lemo_memory_obj.dir/all
 
 # Build rule for subdir invocation for target.
@@ -742,7 +793,7 @@ lemo/CMakeFiles/lemo_memory_obj.dir/clean:
 lemo/CMakeFiles/lemo_memory.dir/all: lemo/CMakeFiles/lemo_memory_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_memory.dir/build.make lemo/CMakeFiles/lemo_memory.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_memory.dir/build.make lemo/CMakeFiles/lemo_memory.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=33 "Built target lemo_memory"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=29 "Built target lemo_memory"
 .PHONY : lemo/CMakeFiles/lemo_memory.dir/all
 
 # Build rule for subdir invocation for target.
@@ -768,7 +819,7 @@ lemo/CMakeFiles/lemo_memory.dir/clean:
 lemo/CMakeFiles/lemo_utils_obj.dir/all:
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_utils_obj.dir/build.make lemo/CMakeFiles/lemo_utils_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_utils_obj.dir/build.make lemo/CMakeFiles/lemo_utils_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=39,40 "Built target lemo_utils_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=34,35 "Built target lemo_utils_obj"
 .PHONY : lemo/CMakeFiles/lemo_utils_obj.dir/all
 
 # Build rule for subdir invocation for target.
@@ -820,12 +871,12 @@ lemo/CMakeFiles/lemo_utils.dir/clean:
 lemo/CMakeFiles/lemo_thread_obj.dir/all: lemo/CMakeFiles/lemo_utils.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_thread_obj.dir/build.make lemo/CMakeFiles/lemo_thread_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_thread_obj.dir/build.make lemo/CMakeFiles/lemo_thread_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=37,38 "Built target lemo_thread_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=33 "Built target lemo_thread_obj"
 .PHONY : lemo/CMakeFiles/lemo_thread_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_thread_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_thread_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_thread_obj.dir/rule
@@ -847,7 +898,7 @@ lemo/CMakeFiles/lemo_thread.dir/all: lemo/CMakeFiles/lemo_utils.dir/all
 lemo/CMakeFiles/lemo_thread.dir/all: lemo/CMakeFiles/lemo_thread_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_thread.dir/build.make lemo/CMakeFiles/lemo_thread.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_thread.dir/build.make lemo/CMakeFiles/lemo_thread.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target lemo_thread"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=32 "Built target lemo_thread"
 .PHONY : lemo/CMakeFiles/lemo_thread.dir/all
 
 # Build rule for subdir invocation for target.
@@ -875,7 +926,7 @@ lemo/CMakeFiles/lemo_fiber_obj.dir/all: lemo/CMakeFiles/lemo_utils.dir/all
 lemo/CMakeFiles/lemo_fiber_obj.dir/all: lemo/CMakeFiles/lemo_thread.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_fiber_obj.dir/build.make lemo/CMakeFiles/lemo_fiber_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_fiber_obj.dir/build.make lemo/CMakeFiles/lemo_fiber_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=16,17,18 "Built target lemo_fiber_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=15,16,17 "Built target lemo_fiber_obj"
 .PHONY : lemo/CMakeFiles/lemo_fiber_obj.dir/all
 
 # Build rule for subdir invocation for target.
@@ -933,12 +984,12 @@ lemo/CMakeFiles/lemo_io_obj.dir/all: lemo/CMakeFiles/lemo_thread.dir/all
 lemo/CMakeFiles/lemo_io_obj.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io_obj.dir/build.make lemo/CMakeFiles/lemo_io_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io_obj.dir/build.make lemo/CMakeFiles/lemo_io_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=20,21,22,23 "Built target lemo_io_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=19,20 "Built target lemo_io_obj"
 .PHONY : lemo/CMakeFiles/lemo_io_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_io_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 11
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_io_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_io_obj.dir/rule
@@ -963,12 +1014,12 @@ lemo/CMakeFiles/lemo_io.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/lemo_io.dir/all: lemo/CMakeFiles/lemo_io_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io.dir/build.make lemo/CMakeFiles/lemo_io.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_io.dir/build.make lemo/CMakeFiles/lemo_io.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=19 "Built target lemo_io"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=18 "Built target lemo_io"
 .PHONY : lemo/CMakeFiles/lemo_io.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_io.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_io.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_io.dir/rule
@@ -989,12 +1040,12 @@ lemo/CMakeFiles/lemo_io.dir/clean:
 lemo/CMakeFiles/lemo_buffer_obj.dir/all: lemo/CMakeFiles/lemo_utils.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_buffer_obj.dir/build.make lemo/CMakeFiles/lemo_buffer_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_buffer_obj.dir/build.make lemo/CMakeFiles/lemo_buffer_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=11 "Built target lemo_buffer_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target lemo_buffer_obj"
 .PHONY : lemo/CMakeFiles/lemo_buffer_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_buffer_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_buffer_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_buffer_obj.dir/rule
@@ -1021,7 +1072,7 @@ lemo/CMakeFiles/lemo_buffer.dir/all: lemo/CMakeFiles/lemo_buffer_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_buffer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_buffer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_buffer.dir/rule
@@ -1047,12 +1098,12 @@ lemo/CMakeFiles/lemo_socket_obj.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 lemo/CMakeFiles/lemo_socket_obj.dir/all: lemo/CMakeFiles/lemo_buffer.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_socket_obj.dir/build.make lemo/CMakeFiles/lemo_socket_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_socket_obj.dir/build.make lemo/CMakeFiles/lemo_socket_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=35,36 "Built target lemo_socket_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=31 "Built target lemo_socket_obj"
 .PHONY : lemo/CMakeFiles/lemo_socket_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_socket_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_socket_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_socket_obj.dir/rule
@@ -1084,7 +1135,7 @@ lemo/CMakeFiles/lemo_socket.dir/all: lemo/CMakeFiles/lemo_socket_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_socket.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_socket.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_socket.dir/rule
@@ -1108,12 +1159,12 @@ lemo/CMakeFiles/lemo_log_obj.dir/all: lemo/CMakeFiles/lemo_thread.dir/all
 lemo/CMakeFiles/lemo_log_obj.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_log_obj.dir/build.make lemo/CMakeFiles/lemo_log_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_log_obj.dir/build.make lemo/CMakeFiles/lemo_log_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=24,25,26,27,28,29,30,31,32 "Built target lemo_log_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=22,23,24,25,26,27,28 "Built target lemo_log_obj"
 .PHONY : lemo/CMakeFiles/lemo_log_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_log_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_log_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_log_obj.dir/rule
@@ -1138,12 +1189,12 @@ lemo/CMakeFiles/lemo_log.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/lemo_log.dir/all: lemo/CMakeFiles/lemo_log_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_log.dir/build.make lemo/CMakeFiles/lemo_log.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_log.dir/build.make lemo/CMakeFiles/lemo_log.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target lemo_log"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=21 "Built target lemo_log"
 .PHONY : lemo/CMakeFiles/lemo_log.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_log.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 17
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_log.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_log.dir/rule
@@ -1168,12 +1219,12 @@ lemo/CMakeFiles/lemo_config_obj.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/lemo_config_obj.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_config_obj.dir/build.make lemo/CMakeFiles/lemo_config_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_config_obj.dir/build.make lemo/CMakeFiles/lemo_config_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=12,13,14,15 "Built target lemo_config_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=12,13,14 "Built target lemo_config_obj"
 .PHONY : lemo/CMakeFiles/lemo_config_obj.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_config_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_config_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_config_obj.dir/rule
@@ -1199,12 +1250,12 @@ lemo/CMakeFiles/lemo_config.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 lemo/CMakeFiles/lemo_config.dir/all: lemo/CMakeFiles/lemo_config_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_config.dir/build.make lemo/CMakeFiles/lemo_config.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/lemo_config.dir/build.make lemo/CMakeFiles/lemo_config.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target lemo_config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=11 "Built target lemo_config"
 .PHONY : lemo/CMakeFiles/lemo_config.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/lemo_config.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/lemo_config.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/lemo_config.dir/rule
@@ -1307,12 +1358,12 @@ lemo/CMakeFiles/test_thread.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_thread.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_thread.dir/build.make lemo/CMakeFiles/test_thread.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_thread.dir/build.make lemo/CMakeFiles/test_thread.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=90 "Built target test_thread"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=92 "Built target test_thread"
 .PHONY : lemo/CMakeFiles/test_thread.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_thread.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_thread.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_thread.dir/rule
@@ -1337,12 +1388,12 @@ lemo/CMakeFiles/test_log_thread_integration.dir/all: lemo/CMakeFiles/lemo_fiber.
 lemo/CMakeFiles/test_log_thread_integration.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_thread_integration.dir/build.make lemo/CMakeFiles/test_log_thread_integration.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_thread_integration.dir/build.make lemo/CMakeFiles/test_log_thread_integration.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=81 "Built target test_log_thread_integration"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=84 "Built target test_log_thread_integration"
 .PHONY : lemo/CMakeFiles/test_log_thread_integration.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_thread_integration.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_thread_integration.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_thread_integration.dir/rule
@@ -1368,12 +1419,12 @@ lemo/CMakeFiles/test_stack_pool.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 lemo/CMakeFiles/test_stack_pool.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_stack_pool.dir/build.make lemo/CMakeFiles/test_stack_pool.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_stack_pool.dir/build.make lemo/CMakeFiles/test_stack_pool.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=87,88 "Built target test_stack_pool"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=90 "Built target test_stack_pool"
 .PHONY : lemo/CMakeFiles/test_stack_pool.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_stack_pool.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 25
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_stack_pool.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_stack_pool.dir/rule
@@ -1399,12 +1450,12 @@ lemo/CMakeFiles/test_fiber.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 lemo/CMakeFiles/test_fiber.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_fiber.dir/build.make lemo/CMakeFiles/test_fiber.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_fiber.dir/build.make lemo/CMakeFiles/test_fiber.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=60 "Built target test_fiber"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=67 "Built target test_fiber"
 .PHONY : lemo/CMakeFiles/test_fiber.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_fiber.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_fiber.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_fiber.dir/rule
@@ -1430,12 +1481,12 @@ lemo/CMakeFiles/test_scheduler.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 lemo/CMakeFiles/test_scheduler.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_scheduler.dir/build.make lemo/CMakeFiles/test_scheduler.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_scheduler.dir/build.make lemo/CMakeFiles/test_scheduler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=86 "Built target test_scheduler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=88,89 "Built target test_scheduler"
 .PHONY : lemo/CMakeFiles/test_scheduler.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_scheduler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_scheduler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_scheduler.dir/rule
@@ -1461,12 +1512,12 @@ lemo/CMakeFiles/test_timer.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 lemo/CMakeFiles/test_timer.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_timer.dir/build.make lemo/CMakeFiles/test_timer.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_timer.dir/build.make lemo/CMakeFiles/test_timer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=91,92 "Built target test_timer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=93 "Built target test_timer"
 .PHONY : lemo/CMakeFiles/test_timer.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_timer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 25
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_timer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_timer.dir/rule
@@ -1492,12 +1543,12 @@ lemo/CMakeFiles/test_timer_wheel.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 lemo/CMakeFiles/test_timer_wheel.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_timer_wheel.dir/build.make lemo/CMakeFiles/test_timer_wheel.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_timer_wheel.dir/build.make lemo/CMakeFiles/test_timer_wheel.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=93 "Built target test_timer_wheel"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=94 "Built target test_timer_wheel"
 .PHONY : lemo/CMakeFiles/test_timer_wheel.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_timer_wheel.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_timer_wheel.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_timer_wheel.dir/rule
@@ -1523,12 +1574,12 @@ lemo/CMakeFiles/test_log_fiber_integration.dir/all: lemo/CMakeFiles/lemo_io.dir/
 lemo/CMakeFiles/test_log_fiber_integration.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_fiber_integration.dir/build.make lemo/CMakeFiles/test_log_fiber_integration.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_fiber_integration.dir/build.make lemo/CMakeFiles/test_log_fiber_integration.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=69 "Built target test_log_fiber_integration"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=74 "Built target test_log_fiber_integration"
 .PHONY : lemo/CMakeFiles/test_log_fiber_integration.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_fiber_integration.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_fiber_integration.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_fiber_integration.dir/rule
@@ -1554,12 +1605,12 @@ lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/all: lemo/CMakeFiles/lemo_io.dir/
 lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/build.make lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/build.make lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=61 "Built target test_fiber_sleep_iomanager"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=68 "Built target test_fiber_sleep_iomanager"
 .PHONY : lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/rule
@@ -1584,12 +1635,12 @@ lemo/CMakeFiles/test_iomanager.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_iomanager.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_iomanager.dir/build.make lemo/CMakeFiles/test_iomanager.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_iomanager.dir/build.make lemo/CMakeFiles/test_iomanager.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=64 "Built target test_iomanager"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=70 "Built target test_iomanager"
 .PHONY : lemo/CMakeFiles/test_iomanager.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_iomanager.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_iomanager.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_iomanager.dir/rule
@@ -1614,12 +1665,12 @@ lemo/CMakeFiles/test_hook.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_hook.dir/all: lemo/CMakeFiles/lemo_io.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_hook.dir/build.make lemo/CMakeFiles/test_hook.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_hook.dir/build.make lemo/CMakeFiles/test_hook.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=62,63 "Built target test_hook"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=69 "Built target test_hook"
 .PHONY : lemo/CMakeFiles/test_hook.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_hook.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_hook.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_hook.dir/rule
@@ -1641,12 +1692,12 @@ lemo/CMakeFiles/test_ring_buffer.dir/all: lemo/CMakeFiles/lemo_utils.dir/all
 lemo/CMakeFiles/test_ring_buffer.dir/all: lemo/CMakeFiles/lemo_buffer.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_ring_buffer.dir/build.make lemo/CMakeFiles/test_ring_buffer.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_ring_buffer.dir/build.make lemo/CMakeFiles/test_ring_buffer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=85 "Built target test_ring_buffer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=87 "Built target test_ring_buffer"
 .PHONY : lemo/CMakeFiles/test_ring_buffer.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_ring_buffer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_ring_buffer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_ring_buffer.dir/rule
@@ -1673,12 +1724,12 @@ lemo/CMakeFiles/test_address.dir/all: lemo/CMakeFiles/lemo_buffer.dir/all
 lemo/CMakeFiles/test_address.dir/all: lemo/CMakeFiles/lemo_socket.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_address.dir/build.make lemo/CMakeFiles/test_address.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_address.dir/build.make lemo/CMakeFiles/test_address.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=47 "Built target test_address"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=56 "Built target test_address"
 .PHONY : lemo/CMakeFiles/test_address.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_address.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_address.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_address.dir/rule
@@ -1705,12 +1756,12 @@ lemo/CMakeFiles/test_echo_server.dir/all: lemo/CMakeFiles/lemo_buffer.dir/all
 lemo/CMakeFiles/test_echo_server.dir/all: lemo/CMakeFiles/lemo_socket.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_echo_server.dir/build.make lemo/CMakeFiles/test_echo_server.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_echo_server.dir/build.make lemo/CMakeFiles/test_echo_server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=58,59 "Built target test_echo_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=66 "Built target test_echo_server"
 .PHONY : lemo/CMakeFiles/test_echo_server.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_echo_server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_echo_server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_echo_server.dir/rule
@@ -1732,12 +1783,12 @@ lemo/CMakeFiles/run_tests_lemo_socket.dir/all: lemo/CMakeFiles/test_address.dir/
 lemo/CMakeFiles/run_tests_lemo_socket.dir/all: lemo/CMakeFiles/test_echo_server.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_socket.dir/build.make lemo/CMakeFiles/run_tests_lemo_socket.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_socket.dir/build.make lemo/CMakeFiles/run_tests_lemo_socket.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target run_tests_lemo_socket"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=54 "Built target run_tests_lemo_socket"
 .PHONY : lemo/CMakeFiles/run_tests_lemo_socket.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/run_tests_lemo_socket.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 21
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 17
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/run_tests_lemo_socket.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/run_tests_lemo_socket.dir/rule
@@ -1759,12 +1810,12 @@ lemo/CMakeFiles/run_tests_lemo_io.dir/all: lemo/CMakeFiles/test_iomanager.dir/al
 lemo/CMakeFiles/run_tests_lemo_io.dir/all: lemo/CMakeFiles/test_hook.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_io.dir/build.make lemo/CMakeFiles/run_tests_lemo_io.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_io.dir/build.make lemo/CMakeFiles/run_tests_lemo_io.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=44 "Built target run_tests_lemo_io"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target run_tests_lemo_io"
 .PHONY : lemo/CMakeFiles/run_tests_lemo_io.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/run_tests_lemo_io.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/run_tests_lemo_io.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/run_tests_lemo_io.dir/rule
@@ -1791,12 +1842,12 @@ lemo/CMakeFiles/run_tests_lemo_fiber.dir/all: lemo/CMakeFiles/test_log_fiber_int
 lemo/CMakeFiles/run_tests_lemo_fiber.dir/all: lemo/CMakeFiles/test_fiber_sleep_iomanager.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_fiber.dir/build.make lemo/CMakeFiles/run_tests_lemo_fiber.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_fiber.dir/build.make lemo/CMakeFiles/run_tests_lemo_fiber.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=43 "Built target run_tests_lemo_fiber"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=53 "Built target run_tests_lemo_fiber"
 .PHONY : lemo/CMakeFiles/run_tests_lemo_fiber.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/run_tests_lemo_fiber.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 33
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 29
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/run_tests_lemo_fiber.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/run_tests_lemo_fiber.dir/rule
@@ -1822,12 +1873,12 @@ lemo/CMakeFiles/test_config_property.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 lemo/CMakeFiles/test_config_property.dir/all: lemo/CMakeFiles/lemo_config.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_property.dir/build.make lemo/CMakeFiles/test_config_property.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_property.dir/build.make lemo/CMakeFiles/test_config_property.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=56 "Built target test_config_property"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=63 "Built target test_config_property"
 .PHONY : lemo/CMakeFiles/test_config_property.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_config_property.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_config_property.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_config_property.dir/rule
@@ -1853,12 +1904,12 @@ lemo/CMakeFiles/test_config_center.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 lemo/CMakeFiles/test_config_center.dir/all: lemo/CMakeFiles/lemo_config.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_center.dir/build.make lemo/CMakeFiles/test_config_center.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_center.dir/build.make lemo/CMakeFiles/test_config_center.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=52 "Built target test_config_center"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=60 "Built target test_config_center"
 .PHONY : lemo/CMakeFiles/test_config_center.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_config_center.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_config_center.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_config_center.dir/rule
@@ -1884,12 +1935,12 @@ lemo/CMakeFiles/test_log_config.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 lemo/CMakeFiles/test_log_config.dir/all: lemo/CMakeFiles/lemo_config.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_config.dir/build.make lemo/CMakeFiles/test_log_config.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_config.dir/build.make lemo/CMakeFiles/test_log_config.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=68 "Built target test_log_config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=73 "Built target test_log_config"
 .PHONY : lemo/CMakeFiles/test_log_config.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_config.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_config.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_config.dir/rule
@@ -1915,12 +1966,12 @@ lemo/CMakeFiles/test_config_full.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 lemo/CMakeFiles/test_config_full.dir/all: lemo/CMakeFiles/lemo_config.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_full.dir/build.make lemo/CMakeFiles/test_config_full.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_full.dir/build.make lemo/CMakeFiles/test_config_full.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=53 "Built target test_config_full"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=61 "Built target test_config_full"
 .PHONY : lemo/CMakeFiles/test_config_full.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_config_full.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_config_full.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_config_full.dir/rule
@@ -1946,12 +1997,12 @@ lemo/CMakeFiles/test_config_log_integration.dir/all: lemo/CMakeFiles/lemo_log.di
 lemo/CMakeFiles/test_config_log_integration.dir/all: lemo/CMakeFiles/lemo_config.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_log_integration.dir/build.make lemo/CMakeFiles/test_config_log_integration.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_config_log_integration.dir/build.make lemo/CMakeFiles/test_config_log_integration.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=54,55 "Built target test_config_log_integration"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=62 "Built target test_config_log_integration"
 .PHONY : lemo/CMakeFiles/test_config_log_integration.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_config_log_integration.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_config_log_integration.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_config_log_integration.dir/rule
@@ -1976,12 +2027,12 @@ lemo/CMakeFiles/run_tests_lemo_config.dir/all: lemo/CMakeFiles/test_config_full.
 lemo/CMakeFiles/run_tests_lemo_config.dir/all: lemo/CMakeFiles/test_config_log_integration.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_config.dir/build.make lemo/CMakeFiles/run_tests_lemo_config.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo_config.dir/build.make lemo/CMakeFiles/run_tests_lemo_config.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target run_tests_lemo_config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=52 "Built target run_tests_lemo_config"
 .PHONY : lemo/CMakeFiles/run_tests_lemo_config.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/run_tests_lemo_config.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 28
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 27
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/run_tests_lemo_config.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/run_tests_lemo_config.dir/rule
@@ -2007,12 +2058,12 @@ lemo/CMakeFiles/config_demo.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 lemo/CMakeFiles/config_demo.dir/all: lemo/CMakeFiles/lemo_config.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/config_demo.dir/build.make lemo/CMakeFiles/config_demo.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/config_demo.dir/build.make lemo/CMakeFiles/config_demo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=8,9 "Built target config_demo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=9 "Built target config_demo"
 .PHONY : lemo/CMakeFiles/config_demo.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/config_demo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/config_demo.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/config_demo.dir/rule
@@ -2038,7 +2089,7 @@ lemo/CMakeFiles/config_demo_run.dir/all: lemo/CMakeFiles/config_demo.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/config_demo_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/config_demo_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/config_demo_run.dir/rule
@@ -2063,12 +2114,12 @@ lemo/CMakeFiles/test_log_level.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_level.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_level.dir/build.make lemo/CMakeFiles/test_log_level.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_level.dir/build.make lemo/CMakeFiles/test_log_level.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=74,75 "Built target test_log_level"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=79 "Built target test_log_level"
 .PHONY : lemo/CMakeFiles/test_log_level.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_level.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_level.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_level.dir/rule
@@ -2093,12 +2144,12 @@ lemo/CMakeFiles/test_log_hierarchy.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_hierarchy.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_hierarchy.dir/build.make lemo/CMakeFiles/test_log_hierarchy.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_hierarchy.dir/build.make lemo/CMakeFiles/test_log_hierarchy.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=73 "Built target test_log_hierarchy"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=78 "Built target test_log_hierarchy"
 .PHONY : lemo/CMakeFiles/test_log_hierarchy.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_hierarchy.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_hierarchy.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_hierarchy.dir/rule
@@ -2123,7 +2174,7 @@ lemo/CMakeFiles/test_log_formatter.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_formatter.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_formatter.dir/build.make lemo/CMakeFiles/test_log_formatter.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_formatter.dir/build.make lemo/CMakeFiles/test_log_formatter.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=72 "Built target test_log_formatter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=76,77 "Built target test_log_formatter"
 .PHONY : lemo/CMakeFiles/test_log_formatter.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2153,12 +2204,12 @@ lemo/CMakeFiles/test_log_additivity.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_additivity.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_additivity.dir/build.make lemo/CMakeFiles/test_log_additivity.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_additivity.dir/build.make lemo/CMakeFiles/test_log_additivity.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=65 "Built target test_log_additivity"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=71 "Built target test_log_additivity"
 .PHONY : lemo/CMakeFiles/test_log_additivity.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_additivity.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_additivity.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_additivity.dir/rule
@@ -2183,12 +2234,12 @@ lemo/CMakeFiles/test_log_mdc.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_mdc.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_mdc.dir/build.make lemo/CMakeFiles/test_log_mdc.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_mdc.dir/build.make lemo/CMakeFiles/test_log_mdc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=76 "Built target test_log_mdc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=80 "Built target test_log_mdc"
 .PHONY : lemo/CMakeFiles/test_log_mdc.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_mdc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_mdc.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_mdc.dir/rule
@@ -2213,12 +2264,12 @@ lemo/CMakeFiles/test_log_registry.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_registry.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_registry.dir/build.make lemo/CMakeFiles/test_log_registry.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_registry.dir/build.make lemo/CMakeFiles/test_log_registry.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=78 "Built target test_log_registry"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=82 "Built target test_log_registry"
 .PHONY : lemo/CMakeFiles/test_log_registry.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_registry.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_registry.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_registry.dir/rule
@@ -2243,12 +2294,12 @@ lemo/CMakeFiles/test_log_rolling.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_rolling.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_rolling.dir/build.make lemo/CMakeFiles/test_log_rolling.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_rolling.dir/build.make lemo/CMakeFiles/test_log_rolling.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=79,80 "Built target test_log_rolling"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=83 "Built target test_log_rolling"
 .PHONY : lemo/CMakeFiles/test_log_rolling.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_rolling.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_rolling.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_rolling.dir/rule
@@ -2273,12 +2324,12 @@ lemo/CMakeFiles/test_log_async.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_async.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_async.dir/build.make lemo/CMakeFiles/test_log_async.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_async.dir/build.make lemo/CMakeFiles/test_log_async.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=66,67 "Built target test_log_async"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=72 "Built target test_log_async"
 .PHONY : lemo/CMakeFiles/test_log_async.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_async.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_async.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_async.dir/rule
@@ -2303,12 +2354,12 @@ lemo/CMakeFiles/test_log_file_path.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_file_path.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_file_path.dir/build.make lemo/CMakeFiles/test_log_file_path.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_file_path.dir/build.make lemo/CMakeFiles/test_log_file_path.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=70,71 "Built target test_log_file_path"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=75 "Built target test_log_file_path"
 .PHONY : lemo/CMakeFiles/test_log_file_path.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_file_path.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_file_path.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_file_path.dir/rule
@@ -2333,12 +2384,12 @@ lemo/CMakeFiles/test_log_multithread.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/test_log_multithread.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_multithread.dir/build.make lemo/CMakeFiles/test_log_multithread.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/test_log_multithread.dir/build.make lemo/CMakeFiles/test_log_multithread.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=77 "Built target test_log_multithread"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=81 "Built target test_log_multithread"
 .PHONY : lemo/CMakeFiles/test_log_multithread.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/test_log_multithread.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/test_log_multithread.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/test_log_multithread.dir/rule
@@ -2390,12 +2441,12 @@ lemo/CMakeFiles/run_tests_lemo.dir/all: lemo/CMakeFiles/test_log_file_path.dir/a
 lemo/CMakeFiles/run_tests_lemo.dir/all: lemo/CMakeFiles/test_log_multithread.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo.dir/build.make lemo/CMakeFiles/run_tests_lemo.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/run_tests_lemo.dir/build.make lemo/CMakeFiles/run_tests_lemo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=42 "Built target run_tests_lemo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target run_tests_lemo"
 .PHONY : lemo/CMakeFiles/run_tests_lemo.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/run_tests_lemo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 74
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 61
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/run_tests_lemo.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/run_tests_lemo.dir/rule
@@ -2420,12 +2471,12 @@ lemo/CMakeFiles/bench_log_perf.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/bench_log_perf.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_log_perf.dir/build.make lemo/CMakeFiles/bench_log_perf.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_log_perf.dir/build.make lemo/CMakeFiles/bench_log_perf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=4,5 "Built target bench_log_perf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=5,6 "Built target bench_log_perf"
 .PHONY : lemo/CMakeFiles/bench_log_perf.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/bench_log_perf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/bench_log_perf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/bench_log_perf.dir/rule
@@ -2451,7 +2502,7 @@ lemo/CMakeFiles/bench_log_perf_run.dir/all: lemo/CMakeFiles/bench_log_perf.dir/a
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/bench_log_perf_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/bench_log_perf_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/bench_log_perf_run.dir/rule
@@ -2476,12 +2527,12 @@ lemo/CMakeFiles/bench_log_mt_perf.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 lemo/CMakeFiles/bench_log_mt_perf.dir/all: lemo/CMakeFiles/lemo_log.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_log_mt_perf.dir/build.make lemo/CMakeFiles/bench_log_mt_perf.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_log_mt_perf.dir/build.make lemo/CMakeFiles/bench_log_mt_perf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=2,3 "Built target bench_log_mt_perf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=4 "Built target bench_log_mt_perf"
 .PHONY : lemo/CMakeFiles/bench_log_mt_perf.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/bench_log_mt_perf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/bench_log_mt_perf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/bench_log_mt_perf.dir/rule
@@ -2507,7 +2558,7 @@ lemo/CMakeFiles/bench_log_mt_perf_run.dir/all: lemo/CMakeFiles/bench_log_mt_perf
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/bench_log_mt_perf_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/bench_log_mt_perf_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/bench_log_mt_perf_run.dir/rule
@@ -2531,12 +2582,12 @@ lemo/CMakeFiles/bench_scheduler.dir/all: lemo/CMakeFiles/lemo_thread.dir/all
 lemo/CMakeFiles/bench_scheduler.dir/all: lemo/CMakeFiles/lemo_fiber.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_scheduler.dir/build.make lemo/CMakeFiles/bench_scheduler.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_scheduler.dir/build.make lemo/CMakeFiles/bench_scheduler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=6,7 "Built target bench_scheduler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=7 "Built target bench_scheduler"
 .PHONY : lemo/CMakeFiles/bench_scheduler.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/bench_scheduler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 10
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/bench_scheduler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/bench_scheduler.dir/rule
@@ -2557,7 +2608,7 @@ lemo/CMakeFiles/bench_scheduler.dir/clean:
 lemo/CMakeFiles/bench_scheduler_run.dir/all: lemo/CMakeFiles/bench_scheduler.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_scheduler_run.dir/build.make lemo/CMakeFiles/bench_scheduler_run.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_scheduler_run.dir/build.make lemo/CMakeFiles/bench_scheduler_run.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target bench_scheduler_run"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=8 "Built target bench_scheduler_run"
 .PHONY : lemo/CMakeFiles/bench_scheduler_run.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2594,7 +2645,7 @@ lemo/CMakeFiles/bench_echo_server.dir/all: lemo/CMakeFiles/lemo_socket.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/bench_echo_server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/bench_echo_server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/bench_echo_server.dir/rule
@@ -2615,12 +2666,12 @@ lemo/CMakeFiles/bench_echo_server.dir/clean:
 lemo/CMakeFiles/bench_echo_server_run.dir/all: lemo/CMakeFiles/bench_echo_server.dir/all
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_echo_server_run.dir/build.make lemo/CMakeFiles/bench_echo_server_run.dir/depend
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_echo_server_run.dir/build.make lemo/CMakeFiles/bench_echo_server_run.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target bench_echo_server_run"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=3 "Built target bench_echo_server_run"
 .PHONY : lemo/CMakeFiles/bench_echo_server_run.dir/all
 
 # Build rule for subdir invocation for target.
 lemo/CMakeFiles/bench_echo_server_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lemo/CMakeFiles/bench_echo_server_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
 .PHONY : lemo/CMakeFiles/bench_echo_server_run.dir/rule
@@ -2633,6 +2684,519 @@ bench_echo_server_run: lemo/CMakeFiles/bench_echo_server_run.dir/rule
 lemo/CMakeFiles/bench_echo_server_run.dir/clean:
 	$(MAKE) $(MAKESILENT) -f lemo/CMakeFiles/bench_echo_server_run.dir/build.make lemo/CMakeFiles/bench_echo_server_run.dir/clean
 .PHONY : lemo/CMakeFiles/bench_echo_server_run.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_memory_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_memory_obj.dir/all:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory_obj.dir/build.make netLemo/CMakeFiles/netlemo_memory_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory_obj.dir/build.make netLemo/CMakeFiles/netlemo_memory_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=44 "Built target netlemo_memory_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_memory_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_memory_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_memory_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_memory_obj.dir/rule
+
+# Convenience name for target.
+netlemo_memory_obj: netLemo/CMakeFiles/netlemo_memory_obj.dir/rule
+.PHONY : netlemo_memory_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_memory_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory_obj.dir/build.make netLemo/CMakeFiles/netlemo_memory_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_memory_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_memory.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_memory.dir/all: netLemo/CMakeFiles/netlemo_memory_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory.dir/build.make netLemo/CMakeFiles/netlemo_memory.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory.dir/build.make netLemo/CMakeFiles/netlemo_memory.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target netlemo_memory"
+.PHONY : netLemo/CMakeFiles/netlemo_memory.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_memory.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_memory.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_memory.dir/rule
+
+# Convenience name for target.
+netlemo_memory: netLemo/CMakeFiles/netlemo_memory.dir/rule
+.PHONY : netlemo_memory
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_memory.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_memory.dir/build.make netLemo/CMakeFiles/netlemo_memory.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_memory.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_utils_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_utils_obj.dir/all:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils_obj.dir/build.make netLemo/CMakeFiles/netlemo_utils_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils_obj.dir/build.make netLemo/CMakeFiles/netlemo_utils_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=50 "Built target netlemo_utils_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_utils_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_utils_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_utils_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_utils_obj.dir/rule
+
+# Convenience name for target.
+netlemo_utils_obj: netLemo/CMakeFiles/netlemo_utils_obj.dir/rule
+.PHONY : netlemo_utils_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_utils_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils_obj.dir/build.make netLemo/CMakeFiles/netlemo_utils_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_utils_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_utils.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_utils.dir/all: netLemo/CMakeFiles/netlemo_utils_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils.dir/build.make netLemo/CMakeFiles/netlemo_utils.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils.dir/build.make netLemo/CMakeFiles/netlemo_utils.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=49 "Built target netlemo_utils"
+.PHONY : netLemo/CMakeFiles/netlemo_utils.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_utils.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_utils.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_utils.dir/rule
+
+# Convenience name for target.
+netlemo_utils: netLemo/CMakeFiles/netlemo_utils.dir/rule
+.PHONY : netlemo_utils
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_utils.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_utils.dir/build.make netLemo/CMakeFiles/netlemo_utils.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_utils.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_thread_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_thread_obj.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread_obj.dir/build.make netLemo/CMakeFiles/netlemo_thread_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread_obj.dir/build.make netLemo/CMakeFiles/netlemo_thread_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=48 "Built target netlemo_thread_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_thread_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_thread_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_thread_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_thread_obj.dir/rule
+
+# Convenience name for target.
+netlemo_thread_obj: netLemo/CMakeFiles/netlemo_thread_obj.dir/rule
+.PHONY : netlemo_thread_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_thread_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread_obj.dir/build.make netLemo/CMakeFiles/netlemo_thread_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_thread_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_thread.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_thread.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_thread.dir/all: netLemo/CMakeFiles/netlemo_thread_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread.dir/build.make netLemo/CMakeFiles/netlemo_thread.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread.dir/build.make netLemo/CMakeFiles/netlemo_thread.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=47 "Built target netlemo_thread"
+.PHONY : netLemo/CMakeFiles/netlemo_thread.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_thread.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_thread.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_thread.dir/rule
+
+# Convenience name for target.
+netlemo_thread: netLemo/CMakeFiles/netlemo_thread.dir/rule
+.PHONY : netlemo_thread
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_thread.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_thread.dir/build.make netLemo/CMakeFiles/netlemo_thread.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_thread.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_fiber_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_fiber_obj.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_fiber_obj.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_fiber_obj.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber_obj.dir/build.make netLemo/CMakeFiles/netlemo_fiber_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber_obj.dir/build.make netLemo/CMakeFiles/netlemo_fiber_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=38,39 "Built target netlemo_fiber_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_fiber_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_fiber_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 7
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_fiber_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_fiber_obj.dir/rule
+
+# Convenience name for target.
+netlemo_fiber_obj: netLemo/CMakeFiles/netlemo_fiber_obj.dir/rule
+.PHONY : netlemo_fiber_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_fiber_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber_obj.dir/build.make netLemo/CMakeFiles/netlemo_fiber_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_fiber_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_fiber.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_fiber.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_fiber.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_fiber.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/netlemo_fiber.dir/all: netLemo/CMakeFiles/netlemo_fiber_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber.dir/build.make netLemo/CMakeFiles/netlemo_fiber.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber.dir/build.make netLemo/CMakeFiles/netlemo_fiber.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=37 "Built target netlemo_fiber"
+.PHONY : netLemo/CMakeFiles/netlemo_fiber.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_fiber.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_fiber.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_fiber.dir/rule
+
+# Convenience name for target.
+netlemo_fiber: netLemo/CMakeFiles/netlemo_fiber.dir/rule
+.PHONY : netlemo_fiber
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_fiber.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_fiber.dir/build.make netLemo/CMakeFiles/netlemo_fiber.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_fiber.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_io_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_io_obj.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_io_obj.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_io_obj.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/netlemo_io_obj.dir/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io_obj.dir/build.make netLemo/CMakeFiles/netlemo_io_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io_obj.dir/build.make netLemo/CMakeFiles/netlemo_io_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=41,42,43 "Built target netlemo_io_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_io_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_io_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 11
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_io_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_io_obj.dir/rule
+
+# Convenience name for target.
+netlemo_io_obj: netLemo/CMakeFiles/netlemo_io_obj.dir/rule
+.PHONY : netlemo_io_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_io_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io_obj.dir/build.make netLemo/CMakeFiles/netlemo_io_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_io_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_io.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_io.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_io.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_io.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/netlemo_io.dir/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+netLemo/CMakeFiles/netlemo_io.dir/all: netLemo/CMakeFiles/netlemo_io_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io.dir/build.make netLemo/CMakeFiles/netlemo_io.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io.dir/build.make netLemo/CMakeFiles/netlemo_io.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=40 "Built target netlemo_io"
+.PHONY : netLemo/CMakeFiles/netlemo_io.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_io.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 12
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_io.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_io.dir/rule
+
+# Convenience name for target.
+netlemo_io: netLemo/CMakeFiles/netlemo_io.dir/rule
+.PHONY : netlemo_io
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_io.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_io.dir/build.make netLemo/CMakeFiles/netlemo_io.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_io.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_buffer_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_buffer_obj.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer_obj.dir/build.make netLemo/CMakeFiles/netlemo_buffer_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer_obj.dir/build.make netLemo/CMakeFiles/netlemo_buffer_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target netlemo_buffer_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_buffer_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_buffer_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_buffer_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_buffer_obj.dir/rule
+
+# Convenience name for target.
+netlemo_buffer_obj: netLemo/CMakeFiles/netlemo_buffer_obj.dir/rule
+.PHONY : netlemo_buffer_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_buffer_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer_obj.dir/build.make netLemo/CMakeFiles/netlemo_buffer_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_buffer_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_buffer.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_buffer.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_buffer.dir/all: netLemo/CMakeFiles/netlemo_buffer_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer.dir/build.make netLemo/CMakeFiles/netlemo_buffer.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer.dir/build.make netLemo/CMakeFiles/netlemo_buffer.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=36 "Built target netlemo_buffer"
+.PHONY : netLemo/CMakeFiles/netlemo_buffer.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_buffer.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_buffer.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_buffer.dir/rule
+
+# Convenience name for target.
+netlemo_buffer: netLemo/CMakeFiles/netlemo_buffer.dir/rule
+.PHONY : netlemo_buffer
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_buffer.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_buffer.dir/build.make netLemo/CMakeFiles/netlemo_buffer.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_buffer.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_socket_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_socket_obj.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_socket_obj.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_socket_obj.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/netlemo_socket_obj.dir/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+netLemo/CMakeFiles/netlemo_socket_obj.dir/all: netLemo/CMakeFiles/netlemo_io.dir/all
+netLemo/CMakeFiles/netlemo_socket_obj.dir/all: netLemo/CMakeFiles/netlemo_buffer.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket_obj.dir/build.make netLemo/CMakeFiles/netlemo_socket_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket_obj.dir/build.make netLemo/CMakeFiles/netlemo_socket_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=46 "Built target netlemo_socket_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_socket_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_socket_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 14
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_socket_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_socket_obj.dir/rule
+
+# Convenience name for target.
+netlemo_socket_obj: netLemo/CMakeFiles/netlemo_socket_obj.dir/rule
+.PHONY : netlemo_socket_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_socket_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket_obj.dir/build.make netLemo/CMakeFiles/netlemo_socket_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_socket_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_socket.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_socket.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_socket.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_socket.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/netlemo_socket.dir/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+netLemo/CMakeFiles/netlemo_socket.dir/all: netLemo/CMakeFiles/netlemo_io.dir/all
+netLemo/CMakeFiles/netlemo_socket.dir/all: netLemo/CMakeFiles/netlemo_buffer.dir/all
+netLemo/CMakeFiles/netlemo_socket.dir/all: netLemo/CMakeFiles/netlemo_socket_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket.dir/build.make netLemo/CMakeFiles/netlemo_socket.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket.dir/build.make netLemo/CMakeFiles/netlemo_socket.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target netlemo_socket"
+.PHONY : netLemo/CMakeFiles/netlemo_socket.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_socket.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 14
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_socket.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_socket.dir/rule
+
+# Convenience name for target.
+netlemo_socket: netLemo/CMakeFiles/netlemo_socket.dir/rule
+.PHONY : netlemo_socket
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_socket.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_socket.dir/build.make netLemo/CMakeFiles/netlemo_socket.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_socket.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_net_obj.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_net_obj.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_net_obj.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_net_obj.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/netlemo_net_obj.dir/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+netLemo/CMakeFiles/netlemo_net_obj.dir/all: netLemo/CMakeFiles/netlemo_io.dir/all
+netLemo/CMakeFiles/netlemo_net_obj.dir/all: netLemo/CMakeFiles/netlemo_buffer.dir/all
+netLemo/CMakeFiles/netlemo_net_obj.dir/all: netLemo/CMakeFiles/netlemo_socket.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net_obj.dir/build.make netLemo/CMakeFiles/netlemo_net_obj.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net_obj.dir/build.make netLemo/CMakeFiles/netlemo_net_obj.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=45 "Built target netlemo_net_obj"
+.PHONY : netLemo/CMakeFiles/netlemo_net_obj.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_net_obj.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 15
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_net_obj.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_net_obj.dir/rule
+
+# Convenience name for target.
+netlemo_net_obj: netLemo/CMakeFiles/netlemo_net_obj.dir/rule
+.PHONY : netlemo_net_obj
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_net_obj.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net_obj.dir/build.make netLemo/CMakeFiles/netlemo_net_obj.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_net_obj.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/netlemo_net.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_io.dir/all
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_buffer.dir/all
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_socket.dir/all
+netLemo/CMakeFiles/netlemo_net.dir/all: netLemo/CMakeFiles/netlemo_net_obj.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net.dir/build.make netLemo/CMakeFiles/netlemo_net.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net.dir/build.make netLemo/CMakeFiles/netlemo_net.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target netlemo_net"
+.PHONY : netLemo/CMakeFiles/netlemo_net.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/netlemo_net.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 15
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/netlemo_net.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/netlemo_net.dir/rule
+
+# Convenience name for target.
+netlemo_net: netLemo/CMakeFiles/netlemo_net.dir/rule
+.PHONY : netlemo_net
+
+# clean rule for target.
+netLemo/CMakeFiles/netlemo_net.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/netlemo_net.dir/build.make netLemo/CMakeFiles/netlemo_net.dir/clean
+.PHONY : netLemo/CMakeFiles/netlemo_net.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/bench_echo_server_netlemo.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_memory.dir/all
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_utils.dir/all
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_thread.dir/all
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_fiber.dir/all
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_io.dir/all
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_buffer.dir/all
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_socket.dir/all
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all: netLemo/CMakeFiles/netlemo_net.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num=2 "Built target bench_echo_server_netlemo"
+.PHONY : netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 16
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/bench_echo_server_netlemo.dir/rule
+
+# Convenience name for target.
+bench_echo_server_netlemo: netLemo/CMakeFiles/bench_echo_server_netlemo.dir/rule
+.PHONY : bench_echo_server_netlemo
+
+# clean rule for target.
+netLemo/CMakeFiles/bench_echo_server_netlemo.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo.dir/clean
+.PHONY : netLemo/CMakeFiles/bench_echo_server_netlemo.dir/clean
+
+#=============================================================================
+# Target rules for target netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir
+
+# All Build rule for target.
+netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/all: netLemo/CMakeFiles/bench_echo_server_netlemo.dir/all
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/depend
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles --progress-num= "Built target bench_echo_server_netlemo_run"
+.PHONY : netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/all
+
+# Build rule for subdir invocation for target.
+netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 16
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/CMakeFiles 0
+.PHONY : netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/rule
+
+# Convenience name for target.
+bench_echo_server_netlemo_run: netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/rule
+.PHONY : bench_echo_server_netlemo_run
+
+# clean rule for target.
+netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/clean:
+	$(MAKE) $(MAKESILENT) -f netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/build.make netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/clean
+.PHONY : netLemo/CMakeFiles/bench_echo_server_netlemo_run.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

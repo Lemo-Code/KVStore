@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetlemo_io.a CMakeFiles/netlemo_io_obj.dir/src/io/fd_context.cc.o CMakeFiles/netlemo_io_obj.dir/src/io/reactor.cc.o CMakeFiles/netlemo_io_obj.dir/src/io/iomanager.cc.o CMakeFiles/netlemo_io_obj.dir/src/io/hook.cc.o CMakeFiles/netlemo_io_obj.dir/src/io/connect.cc.o CMakeFiles/netlemo_io_obj.dir/src/io/runtime.cc.o
+/usr/bin/ranlib libnetlemo_io.a

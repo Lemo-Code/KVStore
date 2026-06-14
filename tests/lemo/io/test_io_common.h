@@ -2,7 +2,7 @@
 
 #include "test_common.h"
 
-#include "lemo/io/fd_context.h"
+#include "lemo/io/iomanager.h"
 
 #include <arpa/inet.h>
 #include <atomic>
@@ -88,13 +88,14 @@ inline bool listen_tcp(int* listen_fd, uint16_t* port) {
   return true;
 }
 
-/** 主线程预建 socketpair 并注册 FdContext（hook 要求 ctx 存在） */
-inline void prepare_hook_socketpair(int sv[2]) {
+/** 注册 socketpair 到 IOManager（hook 要求 fd slot 存在） */
+inline void prepare_hook_socketpair(lemo::io::IOManager* iom, int sv[2]) {
+  LEMO_CHECK(iom != nullptr);
   LEMO_CHECK(socket_pair(sv));
-  lemo::io::FdManager::Instance().del(sv[0]);
-  lemo::io::FdManager::Instance().del(sv[1]);
-  LEMO_CHECK(lemo::io::FdManager::Instance().get(sv[0], true) != nullptr);
-  LEMO_CHECK(lemo::io::FdManager::Instance().get(sv[1], true) != nullptr);
+  iom->delFd(sv[0]);
+  iom->delFd(sv[1]);
+  LEMO_CHECK(iom->getFd(sv[0], true) != nullptr);
+  LEMO_CHECK(iom->getFd(sv[1], true) != nullptr);
 }
 
 inline int fill_pipe(int pipefd[2]) {

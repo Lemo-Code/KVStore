@@ -75,11 +75,13 @@ lemo_fiber_OBJECTS =
 # External object files for target lemo_fiber
 lemo_fiber_EXTERNAL_OBJECTS = \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-lemo-test/lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o"
 
 lemo/liblemo_fiber.a: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.o
+lemo/liblemo_fiber.a: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o
 lemo/liblemo_fiber.a: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o
 lemo/liblemo_fiber.a: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o
 lemo/liblemo_fiber.a: lemo/CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o

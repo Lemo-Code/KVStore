@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_slist.dir/__/__/tests/lstl/container/test_slist.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lstl/container/test_slist 
