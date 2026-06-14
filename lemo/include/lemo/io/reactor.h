@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lemo/thread/mutex.h"
+#include "lemo/thread/lock_types.h"
 
 #include <atomic>
 #include <cstdint>
@@ -21,6 +21,8 @@ namespace io {
  */
 class Reactor {
  public:
+  using RegistryMutexType = thread::RegistryMutex;
+
   enum Event {
     NONE = 0x0,
     READ = 0x1,
@@ -72,7 +74,7 @@ class Reactor {
   std::atomic<uint64_t> epoll_ctl_ops_{0};
   std::atomic<uint64_t> runnext_wakes_{0};
   std::atomic<uint64_t> schedule_wakes_{0};
-  thread::RWMutex mutex_;
+  RegistryMutexType mutex_;
   std::vector<FdContext*> fd_contexts_;
 };
 

@@ -148,6 +148,7 @@ lemo/CMakeFiles/test_scheduler.dir/__/tests/lemo/fiber/test_scheduler.cc.o: \
  /usr/include/aarch64-linux-gnu/bits/procfs-extra.h \
  /home/wangmaosen/copy_linux/third/KVStore/lemo/include/lemo/fiber/scheduler.h \
  /home/wangmaosen/copy_linux/third/KVStore/lemo/include/lemo/fiber/run_queue.h \
+ /home/wangmaosen/copy_linux/third/KVStore/lemo/include/lemo/thread/lock_types.h \
  /home/wangmaosen/copy_linux/third/KVStore/lemo/include/lemo/thread/mutex.h \
  /usr/include/c++/13/array /usr/include/c++/13/compare \
  /usr/include/c++/13/initializer_list \

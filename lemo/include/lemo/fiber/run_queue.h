@@ -2,7 +2,7 @@
 #define LEMO_FIBER_RUN_QUEUE_H
 
 #include "lemo/fiber/fiber.h"
-#include "lemo/thread/mutex.h"
+#include "lemo/thread/lock_types.h"
 
 #include <array>
 #include <cstddef>
@@ -56,6 +56,8 @@ struct ScheduleTask {
  */
 class LocalRunQueue {
  public:
+  using MutexType = thread::HotMutex;
+
   static constexpr uint32_t kCapacity = 256;
 
   struct PushResult {
@@ -66,17 +68,17 @@ class LocalRunQueue {
   };
 
   bool empty() const {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     return countLocked() == 0;
   }
 
   size_t size() const {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     return countLocked();
   }
 
   PushResult pushBack(ScheduleTask& task) {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     if (countLocked() >= kCapacity) {
       return PushResult();
     }
@@ -87,7 +89,7 @@ class LocalRunQueue {
   }
 
   bool popFront(ScheduleTask& task) {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     if (countLocked() == 0) {
       return false;
     }
@@ -98,7 +100,7 @@ class LocalRunQueue {
   }
 
   bool stealBack(ScheduleTask& task) {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     if (countLocked() == 0) {
       return false;
     }
@@ -109,7 +111,7 @@ class LocalRunQueue {
   }
 
   void drainHalfTo(std::deque<ScheduleTask>& overflow) {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     const uint32_t count = countLocked();
     if (count < 2) {
       return;
@@ -125,7 +127,7 @@ class LocalRunQueue {
  private:
   uint32_t countLocked() const { return tail_ - head_; }
 
-  mutable thread::Mutex mutex_;
+  mutable MutexType mutex_;
   std::array<ScheduleTask, kCapacity> ring_{};
   uint32_t head_ = 0;
   uint32_t tail_ = 0;
@@ -133,20 +135,22 @@ class LocalRunQueue {
 
 class GlobalRunQueue {
  public:
+  using MutexType = thread::ColdMutex;
+
   static constexpr size_t kMaxBatchPop = 32;
 
   bool empty() const {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     return queue_.empty();
   }
 
   size_t size() const {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     return queue_.size();
   }
 
   void push(ScheduleTask task) {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     queue_.push_back(std::move(task));
   }
 
@@ -154,7 +158,7 @@ class GlobalRunQueue {
     if (batch.empty()) {
       return;
     }
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     for (auto& item : batch) {
       queue_.push_back(std::move(item));
     }
@@ -162,7 +166,7 @@ class GlobalRunQueue {
   }
 
   bool popFront(ScheduleTask& task) {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     if (queue_.empty()) {
       return false;
     }
@@ -172,7 +176,7 @@ class GlobalRunQueue {
   }
 
   size_t popBatch(std::deque<ScheduleTask>& batch, size_t max_count) {
-    thread::Mutex::Lock lock(mutex_);
+    MutexType::Lock lock(mutex_);
     size_t n = 0;
     while (n < max_count && !queue_.empty()) {
       batch.push_back(std::move(queue_.front()));
@@ -183,7 +187,7 @@ class GlobalRunQueue {
   }
 
  private:
-  mutable thread::Mutex mutex_;
+  mutable MutexType mutex_;
   std::deque<ScheduleTask> queue_;
 };
 

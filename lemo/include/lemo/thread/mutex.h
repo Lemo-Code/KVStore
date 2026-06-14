@@ -109,6 +109,25 @@ class Mutex : public utils::NonCopyable {
   pthread_mutex_t lock_;
 };
 
+/**
+ * @brief 自旋锁，适用于极短临界区（runq、fd 事件槽）。
+ *
+ * 临界区较长或可能阻塞时请用 Mutex。
+ */
+class Spinlock : public utils::NonCopyable {
+ public:
+  typedef ScopedLockImpl<Spinlock> Lock;
+
+  Spinlock() { pthread_spin_init(&lock_, PTHREAD_PROCESS_PRIVATE); }
+  ~Spinlock() { pthread_spin_destroy(&lock_); }
+
+  void lock() { pthread_spin_lock(&lock_); }
+  void unlock() { pthread_spin_unlock(&lock_); }
+
+ private:
+  pthread_spinlock_t lock_;
+};
+
 class RWMutex : public utils::NonCopyable {
  public:
   typedef ReadScopedLockImpl<RWMutex> ReadLock;

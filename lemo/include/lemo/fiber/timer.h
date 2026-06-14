@@ -2,7 +2,7 @@
 #define LEMO_FIBER_TIMER_H
 
 #include "lemo/fiber/timing_wheel.h"
-#include "lemo/thread/mutex.h"
+#include "lemo/thread/lock_types.h"
 #include "lemo/utils/noncopyable.h"
 
 #include <atomic>
@@ -55,7 +55,7 @@ class TimerManager : public utils::NonCopyable {
  public:
   friend class Timer;
 
-  using MutexType = thread::Mutex;
+  using MutexType = thread::ColdMutex;
 
   TimerManager();
   virtual ~TimerManager();

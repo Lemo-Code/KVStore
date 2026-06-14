@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lemo/thread/mutex.h"
+#include "lemo/thread/lock_types.h"
 
 #include <cstdint>
 #include <memory>
@@ -44,6 +44,8 @@ class FdContext {
 
 class FdManager {
  public:
+  using MutexType = thread::RegistryMutex;
+
   static FdManager& Instance();
 
   FdContext::ptr get(int fd, bool auto_create = false);
@@ -52,7 +54,7 @@ class FdManager {
  private:
   FdManager();
 
-  thread::RWMutex mutex_;
+  MutexType mutex_;
   std::vector<FdContext::ptr> datas_;
 };
 

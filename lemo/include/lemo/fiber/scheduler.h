@@ -26,7 +26,7 @@ namespace fiber {
 class Scheduler : public TimerManager {
  public:
   typedef std::shared_ptr<Scheduler> ptr;
-  using MutexType = thread::Mutex;
+  using MutexType = thread::ColdMutex;
 
   Scheduler(size_t threads = 1, bool use_caller = true,
             const std::string& name = "");

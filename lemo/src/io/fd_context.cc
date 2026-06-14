@@ -87,7 +87,7 @@ FdContext::ptr FdManager::get(int fd, bool auto_create) {
 
   FdContext::ptr cached;
   {
-    thread::RWMutex::ReadLock lock(mutex_);
+    MutexType::ReadLock lock(mutex_);
     if (static_cast<int>(datas_.size()) > fd) {
       cached = datas_[fd];
     }
@@ -98,7 +98,7 @@ FdContext::ptr FdManager::get(int fd, bool auto_create) {
       return cached;
     }
     if (cached->isClose() || ::fcntl(fd, F_GETFD) < 0) {
-      thread::RWMutex::WriteLock wlock(mutex_);
+      MutexType::WriteLock wlock(mutex_);
       if (static_cast<int>(datas_.size()) > fd && datas_[fd] == cached) {
         datas_[fd].reset();
       }
@@ -112,7 +112,7 @@ FdContext::ptr FdManager::get(int fd, bool auto_create) {
     return FdContext::ptr();
   }
 
-  thread::RWMutex::WriteLock lock(mutex_);
+  MutexType::WriteLock lock(mutex_);
   if (static_cast<int>(datas_.size()) > fd && datas_[fd]) {
     return datas_[fd];
   }
@@ -125,7 +125,7 @@ FdContext::ptr FdManager::get(int fd, bool auto_create) {
 }
 
 void FdManager::del(int fd) {
-  thread::RWMutex::WriteLock lock(mutex_);
+  MutexType::WriteLock lock(mutex_);
   if (static_cast<int>(datas_.size()) <= fd) {
     return;
   }
