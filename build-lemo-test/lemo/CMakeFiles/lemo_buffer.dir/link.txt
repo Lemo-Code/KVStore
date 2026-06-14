@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblemo_buffer.a CMakeFiles/lemo_buffer_obj.dir/src/buffer/ring_buffer.cc.o
+/usr/bin/ranlib liblemo_buffer.a

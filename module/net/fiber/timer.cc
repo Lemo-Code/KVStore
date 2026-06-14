@@ -11,6 +11,11 @@ namespace {
 
 constexpr uint64_t kClockRolloverThresholdMs = 3600000ull;
 
+bool isDefaultWeakCond(const std::weak_ptr<void>& weak_cond) {
+  const std::weak_ptr<void> empty;
+  return !weak_cond.owner_before(empty) && !empty.owner_before(weak_cond);
+}
+
 }  // namespace
 
 Timer::Timer(uint64_t id, uint64_t interval_ms, std::function<void()> cb,
@@ -227,8 +232,8 @@ Timer::ptr TimerManager::addConditionTimer(uint64_t ms, std::function<void()> cb
   record.recurring = recurring;
   record.cb = timer->cb_;
   record.weak_cond = weak_cond;
-  // 空 weak_ptr 表示无条件定时器；仅当创建时绑定了对象才在失效后取消
-  record.cond_guard = static_cast<bool>(weak_cond.lock());
+  // 默认构造的 weak_ptr 表示无条件定时器；曾绑定对象的 weak_ptr 在失效后不再触发
+  record.cond_guard = !isDefaultWeakCond(weak_cond);
   record.handle = timer;
   record.canceled = false;
 

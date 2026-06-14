@@ -24,6 +24,7 @@ class FdCtx : public std::enable_shared_from_this<FdCtx> {
   bool isInit() const { return is_init_; }
   bool isSocket() const { return is_socket_; }
   bool isClose() const { return is_closed_; }
+  void setClose() { is_closed_ = true; }
 
   void setUserNonBlock(bool v) { user_nonblock_ = v; }
   bool getUserNonBlock() const { return user_nonblock_; }

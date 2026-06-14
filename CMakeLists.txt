@@ -13,6 +13,7 @@ option(LSTL_BUILD_KV_POOL "构建 kv_pool 多线程内存池与测试" ON)
 option(LSTL_BUILD_NET_LOG "构建 net 基础设施（base/runtime/log）与测试" ON)
 option(LSTL_BUILD_BENCH "构建 malloc/stl/lstl pool 压测" OFF)
 option(LSTL_BUILD_MEMORY_STRESS "构建空间配置压力测试" ON)
+option(LEMO_BUILD "构建 lemo 协程网络库（当前含 log 模块）" ON)
 
 # lstl memory 编译选项
 option(LSTL_OOM_MODE_CERR "OOM 时 cerr 输出并 abort" OFF)
@@ -25,6 +26,10 @@ include(KVStoreHelpers)
 enable_testing()
 
 add_subdirectory(module)
+
+if(LEMO_BUILD)
+  add_subdirectory(lemo)
+endif()
 
 if(LSTL_BUILD_BENCH)
   set(bench_bin "${KVSTORE_BIN_ROOT}/lstl/memory")

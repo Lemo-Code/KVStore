@@ -333,7 +333,7 @@ void test_hook_close_while_waiting() {
   });
 
   NET_CHECK(wait_eq(phase, kIoWaiting, 3000));
-  iom->schedule([&sv]() { ::close(sv[0]); });
+  iom->schedule([&sv]() { close(sv[0]); });
   NET_CHECK(wait_eq(phase, kIoFinished, 5000));
 
   ::close(sv[1]);

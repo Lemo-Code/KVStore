@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra CMakeFiles/test_type_traits.dir/__/__/tests/lstl/memory/test_type_traits.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lstl/memory/test_type_traits 

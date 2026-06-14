@@ -216,6 +216,9 @@ KVStore_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 KVStore_SOURCE_DIR:STATIC=/home/wangmaosen/copy_linux/third/KVStore
 
+//构建 lemo 协程网络库（当前含 log 模块）
+LEMO_BUILD:BOOL=ON
+
 //兼容：可执行文件根目录
 LSTL_BIN_ROOT:PATH=/home/wangmaosen/copy_linux/third/KVStore/bin
 
@@ -251,6 +254,30 @@ NET_LOG_BENCH_TSAN:BOOL=OFF
 
 //Path to a program.
 VALGRIND_EXECUTABLE:FILEPATH=VALGRIND_EXECUTABLE-NOTFOUND
+
+//Dependencies for the target
+lemo_buffer_LIB_DEPENDS:STATIC=general;lemo_memory;general;lemo_utils;
+
+//Dependencies for the target
+lemo_config_LIB_DEPENDS:STATIC=general;lemo_utils;general;lemo_log;
+
+//Dependencies for the target
+lemo_fiber_LIB_DEPENDS:STATIC=general;lemo_memory;general;lemo_utils;general;lemo_thread;
+
+//Dependencies for the target
+lemo_io_LIB_DEPENDS:STATIC=general;lemo_fiber;general;lemo_thread;general;lemo_utils;general;dl;
+
+//Dependencies for the target
+lemo_log_LIB_DEPENDS:STATIC=general;lemo_utils;general;lemo_thread;general;lemo_fiber;
+
+//Dependencies for the target
+lemo_memory_LIB_DEPENDS:STATIC=general;kv_pool::kv_pool;
+
+//Dependencies for the target
+lemo_socket_LIB_DEPENDS:STATIC=general;lemo_io;general;lemo_buffer;general;lemo_utils;general;dl;
+
+//Dependencies for the target
+lemo_thread_LIB_DEPENDS:STATIC=general;lemo_utils;
 
 //Dependencies for the target
 net_log_LIB_DEPENDS:STATIC=general;yaml-cpp;general;dl;
@@ -349,7 +376,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -396,8 +423,8 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-KVSTORE_ALL_TEST_TARGETS:INTERNAL=test_alloc;test_construct;test_uninitialized;test_allocator;test_temporary_buffer;test_type_traits;test_oom_policy;test_pool_single;test_algorithm;test_memory_stress;test_vector;test_list;test_deque;test_slist;test_heap;test_adapter;test_associative;test_b_associative;test_skip_associative;test_lsm_tree;test_lsm_persistent;test_pool_mt;test_cross_thread;test_fiber;test_scheduler;test_timer;test_timer_wheel;test_iomanager;test_hook;test_address;test_ring_buffer;test_byte_array;test_thread;test_log_thread_integration;test_singleton_util;test_config_center;test_lexical_cast;test_hot_reload;test_log_config;test_log_config_bridge;test_log_level;test_log_formatter;test_log_sync;test_log_async;test_log_async_boundary;test_log_appender;test_log_full;test_log_multi_logger
-LSTL_ALL_TEST_TARGETS:INTERNAL=test_alloc;test_construct;test_uninitialized;test_allocator;test_temporary_buffer;test_type_traits;test_oom_policy;test_pool_single;test_algorithm;test_memory_stress;test_vector;test_list;test_deque;test_slist;test_heap;test_adapter;test_associative;test_b_associative;test_skip_associative;test_lsm_tree;test_lsm_persistent;test_pool_mt;test_cross_thread;test_fiber;test_scheduler;test_timer;test_timer_wheel;test_iomanager;test_hook;test_address;test_ring_buffer;test_byte_array;test_thread;test_log_thread_integration;test_singleton_util;test_config_center;test_lexical_cast;test_hot_reload;test_log_config;test_log_config_bridge;test_log_level;test_log_formatter;test_log_sync;test_log_async;test_log_async_boundary;test_log_appender;test_log_full;test_log_multi_logger
+KVSTORE_ALL_TEST_TARGETS:INTERNAL=test_alloc;test_construct;test_uninitialized;test_allocator;test_temporary_buffer;test_type_traits;test_oom_policy;test_pool_single;test_algorithm;test_memory_stress;test_vector;test_list;test_deque;test_slist;test_heap;test_adapter;test_associative;test_b_associative;test_skip_associative;test_lsm_tree;test_lsm_persistent;test_pool_mt;test_cross_thread;test_fiber;test_scheduler;test_timer;test_timer_wheel;test_iomanager;test_hook;test_address;test_ring_buffer;test_byte_array;test_thread;test_log_thread_integration;test_singleton_util;test_config_center;test_lexical_cast;test_hot_reload;test_log_config;test_log_config_bridge;test_log_level;test_log_formatter;test_log_sync;test_log_async;test_log_async_boundary;test_log_appender;test_log_full;test_log_multi_logger;test_utils_string;test_utils_lexical_cast;test_utils_thread;test_thread;test_log_thread_integration;test_fiber;test_scheduler;test_timer;test_timer_wheel;test_log_fiber_integration;test_fiber_sleep_iomanager;test_iomanager;test_hook;test_ring_buffer;test_address;test_echo_server;test_config_property;test_config_center;test_log_config;test_config_full;test_config_log_integration;test_log_level;test_log_hierarchy;test_log_formatter;test_log_additivity;test_log_mdc;test_log_registry;test_log_rolling;test_log_async;test_log_file_path;test_log_multithread
+LSTL_ALL_TEST_TARGETS:INTERNAL=test_alloc;test_construct;test_uninitialized;test_allocator;test_temporary_buffer;test_type_traits;test_oom_policy;test_pool_single;test_algorithm;test_memory_stress;test_vector;test_list;test_deque;test_slist;test_heap;test_adapter;test_associative;test_b_associative;test_skip_associative;test_lsm_tree;test_lsm_persistent;test_pool_mt;test_cross_thread;test_fiber;test_scheduler;test_timer;test_timer_wheel;test_iomanager;test_hook;test_address;test_ring_buffer;test_byte_array;test_thread;test_log_thread_integration;test_singleton_util;test_config_center;test_lexical_cast;test_hot_reload;test_log_config;test_log_config_bridge;test_log_level;test_log_formatter;test_log_sync;test_log_async;test_log_async_boundary;test_log_appender;test_log_full;test_log_multi_logger;test_utils_string;test_utils_lexical_cast;test_utils_thread;test_thread;test_log_thread_integration;test_fiber;test_scheduler;test_timer;test_timer_wheel;test_log_fiber_integration;test_fiber_sleep_iomanager;test_iomanager;test_hook;test_ring_buffer;test_address;test_echo_server;test_config_property;test_config_center;test_log_config;test_config_full;test_config_log_integration;test_log_level;test_log_hierarchy;test_log_formatter;test_log_additivity;test_log_mdc;test_log_registry;test_log_rolling;test_log_async;test_log_file_path;test_log_multithread
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 

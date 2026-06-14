@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra CMakeFiles/test_utils_lexical_cast.dir/__/tests/lemo/utils/test_utils_lexical_cast.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/utils/test_utils_lexical_cast  liblemo_utils.a 

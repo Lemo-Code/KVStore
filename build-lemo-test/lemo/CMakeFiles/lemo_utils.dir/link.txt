@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblemo_utils.a CMakeFiles/lemo_utils_obj.dir/src/utils/string_util.cc.o CMakeFiles/lemo_utils_obj.dir/src/utils/thread_util.cc.o CMakeFiles/lemo_utils_obj.dir/src/utils/time_util.cc.o
+/usr/bin/ranlib liblemo_utils.a

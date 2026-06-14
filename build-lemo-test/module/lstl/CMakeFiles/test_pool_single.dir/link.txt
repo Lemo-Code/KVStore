@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra CMakeFiles/test_pool_single.dir/__/__/tests/lstl/memory/test_pool_single.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lstl/memory/test_pool_single 

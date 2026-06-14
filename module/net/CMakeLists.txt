@@ -89,7 +89,7 @@ set(NET_LOG_TESTS
 
 set(NET_LOG_BENCH
   bench_log_async bench_log_sync bench_log_mt bench_log_perf bench_scheduler
-  bench_ring_buffer
+  bench_ring_buffer bench_echo_server
 )
 
 set(net_bin "${KVSTORE_BIN_ROOT}/net")

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra CMakeFiles/test_ring_buffer.dir/__/tests/lemo/buffer/test_ring_buffer.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/buffer/test_ring_buffer  liblemo_buffer.a liblemo_utils.a 

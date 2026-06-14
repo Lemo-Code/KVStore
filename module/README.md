@@ -35,13 +35,18 @@ module/
 │   └── lsmtree/            #   LSM 树
 ├── kv_pool/                # 层 3：多线程内存池（STATIC）
 │   └── memory/
-└── net/                    # 层 4：基础设施（STATIC，分 base/runtime/log）
-    ├── common/             #   base：工具
-    ├── config/             #   base：配置中心
-    ├── thread/             #   base：线程原语
-    ├── fiber/              #   runtime：协程/调度
-    └── log/                #   log：异步日志
+└── net/                    # 层 4：协程网络库（STATIC，见 docs/net/）
+    ├── base 层             #   common/ config/ thread/
+    ├── runtime/            #   目标：fiber/scheduler/timer（待迁入）
+    ├── io/                 #   reactor/hook/fd_context
+    ├── transport/          #   socket/stream/buffer（待迁入）
+    ├── server/             #   acceptor/tcp_server（新建）
+    ├── log/                #   异步日志（正交）
+    ├── design/             #   接口骨架（不参与编译）
+    └── fiber/ io/ socket/  #   旧实现，逐层替换中
 ```
+
+> **协程网络库重构**：架构文档见 [`docs/net/`](../docs/net/README.md)；接口契约见 [`module/net/design/`](net/design/README.md)。
 
 ## 构建开关与测试
 
@@ -76,4 +81,4 @@ module/
 
 ## 参考实现
 
-`third_party/sylars/`（原 `sylars/`）为独立 Sylar 框架，用于 API/性能对比，**未接入**本仓库 CMake。
+`sylar/`（仓库根目录）为 Sylar 框架只读快照，用于 API 对照，**未接入**本仓库 CMake，不再维护。新实现以 `docs/net/architecture.md` 为准。

@@ -117,6 +117,15 @@ ssize_t do_io(int fd, OriginFun fun, uint32_t event, int timeout_so,
   std::shared_ptr<TimerInfo> tinfo(new TimerInfo);
 
 retry:
+  ctx = net::FdMgr::GetInstance()->get(fd);
+  if (!ctx || ctx->isClose()) {
+    errno = EBADF;
+    return -1;
+  }
+  if (!ctx->isSocket() || ctx->getUserNonBlock()) {
+    return fun(fd, std::forward<Args>(args)...);
+  }
+
   ssize_t n = fun(fd, std::forward<Args>(args)...);
   while (n == -1 && errno == EINTR) {
     n = fun(fd, std::forward<Args>(args)...);
@@ -395,13 +404,15 @@ int close(int fd) {
   }
   net::FdCtx::ptr ctx = net::FdMgr::GetInstance()->get(fd);
   if (ctx) {
+    ctx->setClose();
     net::IOManager* iom = net::IOManager::GetThis();
     if (iom != nullptr) {
       iom->cancelAll(fd);
     }
-    net::FdMgr::GetInstance()->del(fd);
   }
-  return close_f(fd);
+  const int ret = close_f(fd);
+  net::FdMgr::GetInstance()->del(fd);
+  return ret;
 }
 
 int fcntl(int fd, int cmd, ...) {

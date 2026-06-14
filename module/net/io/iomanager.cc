@@ -259,9 +259,7 @@ bool IOManager::cancelAll(int fd) {
   epevent.events = 0;
   epevent.data.ptr = fd_ctx;
 
-  if (::epoll_ctl(epfd_, EPOLL_CTL_DEL, fd, &epevent)) {
-    return false;
-  }
+  ::epoll_ctl(epfd_, EPOLL_CTL_DEL, fd, &epevent);
 
   if (fd_ctx->events & READ) {
     fd_ctx->triggerEvent(READ);
@@ -325,7 +323,7 @@ void IOManager::idle() {
 
   int rt = 0;
   do {
-    static const int kMaxTimeout = 5000;
+    static const int kMaxTimeout = 100;
     if (next_timeout != UINT64_MAX) {
       next_timeout = next_timeout > static_cast<uint64_t>(kMaxTimeout)
                          ? kMaxTimeout

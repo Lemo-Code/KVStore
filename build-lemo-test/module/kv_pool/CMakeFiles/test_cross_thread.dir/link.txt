@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra CMakeFiles/test_cross_thread.dir/__/__/tests/kv_pool/test_cross_thread.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/kv_pool/test_cross_thread  libkv_pool.a 
