@@ -61,6 +61,7 @@ add_library(netcore::fiber ALIAS netcore_fiber)
 # ── io（sylar 风格 IOManager）────────────────────────────
 add_library(netcore_io_obj OBJECT
   "${NETCORE_ROOT}/src/io/fd_context.cc"
+  "${NETCORE_ROOT}/src/io/reactor.cc"
   "${NETCORE_ROOT}/src/io/iomanager.cc"
   "${NETCORE_ROOT}/src/io/hook.cc"
   "${NETCORE_ROOT}/src/io/connect.cc")
@@ -200,3 +201,29 @@ add_custom_target(bench_netcore_perf
   COMMAND "${netcore_bin}/bench_log_perf"
   DEPENDS bench_echo_server_netcore bench_scheduler_netcore bench_log_perf_netcore
   COMMENT "运行 netCore 全套性能基准")
+
+# ── 单元测试（复用 tests/lemo/io，链接 netcore 统一栈）────
+set(netcore_io_test_bin "${KVSTORE_BIN_ROOT}/netCore/io")
+file(MAKE_DIRECTORY "${netcore_io_test_bin}")
+
+set(NETCORE_IO_TESTS test_iomanager test_hook)
+foreach(test_name ${NETCORE_IO_TESTS})
+  add_executable(${test_name}_netcore
+    "${CMAKE_SOURCE_DIR}/tests/lemo/io/${test_name}.cc")
+  target_link_libraries(${test_name}_netcore PRIVATE
+    netcore_io netcore_fiber netcore_thread netcore_utils)
+  target_include_directories(${test_name}_netcore PRIVATE "${NETCORE_INCLUDE}")
+  set_target_properties(${test_name}_netcore PROPERTIES
+    OUTPUT_NAME ${test_name}
+    RUNTIME_OUTPUT_DIRECTORY "${netcore_io_test_bin}")
+  netcore_apply_perf_flags(${test_name}_netcore)
+  add_test(NAME "netCore.io.${test_name}"
+    COMMAND "${netcore_io_test_bin}/${test_name}")
+  list(APPEND KVSTORE_ALL_TEST_TARGETS ${test_name}_netcore)
+  set(KVSTORE_ALL_TEST_TARGETS "${KVSTORE_ALL_TEST_TARGETS}" CACHE INTERNAL "" FORCE)
+endforeach()
+
+add_custom_target(run_tests_netcore_io
+  COMMAND ${CMAKE_CTEST_COMMAND} -R "^netCore\\.io\\." --output-on-failure
+  DEPENDS test_iomanager_netcore test_hook_netcore
+  COMMENT "运行 netCore IO 模块测试")

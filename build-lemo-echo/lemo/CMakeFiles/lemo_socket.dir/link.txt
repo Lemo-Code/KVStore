@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblemo_socket.a CMakeFiles/lemo_socket_obj.dir/src/socket/address.cc.o CMakeFiles/lemo_socket_obj.dir/src/socket/socket.cc.o
+/usr/bin/ranlib liblemo_socket.a

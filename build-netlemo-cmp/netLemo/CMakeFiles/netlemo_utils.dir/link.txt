@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetlemo_utils.a CMakeFiles/netlemo_utils_obj.dir/src/utils/string_util.cc.o CMakeFiles/netlemo_utils_obj.dir/src/utils/thread_util.cc.o CMakeFiles/netlemo_utils_obj.dir/src/utils/time_util.cc.o
+/usr/bin/ranlib libnetlemo_utils.a

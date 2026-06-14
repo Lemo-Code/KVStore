@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/bench_echo_server_netlemo.dir/__/tests/lemo/socket/bench_echo_server.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/netLemo/bench_echo_server  libnetlemo_socket.a libnetlemo_io.a libnetlemo_fiber.a libnetlemo_memory.a libnetlemo_buffer.a libnetlemo_thread.a libnetlemo_utils.a 

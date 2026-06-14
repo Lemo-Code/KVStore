@@ -205,9 +205,9 @@ netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o: \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc \
+ /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/epoll_context.h \
  /usr/include/aarch64-linux-gnu/sys/epoll.h \
  /usr/include/aarch64-linux-gnu/bits/epoll.h \
- /home/wangmaosen/copy_linux/third/KVStore/netCore/include/lemo/io/fd_context.h \
  /home/wangmaosen/copy_linux/third/KVStore/netCore/include/lemo/io/hook.h \
  /usr/include/aarch64-linux-gnu/sys/socket.h \
  /usr/include/aarch64-linux-gnu/bits/types/struct_iovec.h \
@@ -224,31 +224,4 @@ netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o: \
  /usr/include/aarch64-linux-gnu/asm/sockios.h \
  /usr/include/asm-generic/sockios.h \
  /usr/include/aarch64-linux-gnu/bits/types/struct_osockaddr.h \
- /usr/include/aarch64-linux-gnu/bits/socket2.h \
- /usr/include/c++/13/cassert /usr/include/assert.h \
- /usr/include/c++/13/climits \
- /usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h \
- /usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h \
- /usr/include/limits.h /usr/include/aarch64-linux-gnu/bits/posix1_lim.h \
- /usr/include/aarch64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/aarch64-linux-gnu/bits/posix2_lim.h \
- /usr/include/aarch64-linux-gnu/bits/xopen_lim.h \
- /usr/include/aarch64-linux-gnu/bits/uio_lim.h \
- /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
- /usr/include/aarch64-linux-gnu/bits/strings_fortified.h \
- /usr/include/aarch64-linux-gnu/bits/string_fortified.h \
- /usr/include/fcntl.h /usr/include/aarch64-linux-gnu/bits/fcntl.h \
- /usr/include/aarch64-linux-gnu/bits/fcntl-linux.h \
- /usr/include/linux/falloc.h /usr/include/aarch64-linux-gnu/bits/stat.h \
- /usr/include/aarch64-linux-gnu/bits/struct_stat.h \
- /usr/include/aarch64-linux-gnu/bits/fcntl2.h /usr/include/unistd.h \
- /usr/include/aarch64-linux-gnu/bits/posix_opt.h \
- /usr/include/aarch64-linux-gnu/bits/environments.h \
- /usr/include/aarch64-linux-gnu/bits/confname.h \
- /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
- /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
- /usr/include/aarch64-linux-gnu/bits/unistd.h \
- /usr/include/aarch64-linux-gnu/bits/unistd-decl.h \
- /usr/include/aarch64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h
+ /usr/include/aarch64-linux-gnu/bits/socket2.h

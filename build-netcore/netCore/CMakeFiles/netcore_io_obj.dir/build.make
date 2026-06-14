@@ -83,10 +83,24 @@ netCore/CMakeFiles/netcore_io_obj.dir/src/io/fd_context.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/netcore_io_obj.dir/src/io/fd_context.cc.s"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/fd_context.cc -o CMakeFiles/netcore_io_obj.dir/src/io/fd_context.cc.s
 
+netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/flags.make
+netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o: /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/epoll_context.cc
+netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o -MF CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o.d -o CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/epoll_context.cc
+
+netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.i"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/epoll_context.cc > CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.i
+
+netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.s"
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/epoll_context.cc -o CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.s
+
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/flags.make
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o: /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/iomanager.cc
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o -MF CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o.d -o CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/iomanager.cc
 
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.i: cmake_force
@@ -100,7 +114,7 @@ netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.s: cmake_force
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/flags.make
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o: /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/hook.cc
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o -MF CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o.d -o CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/hook.cc
 
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.i: cmake_force
@@ -114,7 +128,7 @@ netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.s: cmake_force
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/flags.make
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o: /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/connect.cc
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o: netCore/CMakeFiles/netcore_io_obj.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o"
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o -MF CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o.d -o CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o -c /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/connect.cc
 
 netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.i: cmake_force
@@ -126,6 +140,7 @@ netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.s: cmake_force
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wangmaosen/copy_linux/third/KVStore/netCore/src/io/connect.cc -o CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.s
 
 netcore_io_obj: netCore/CMakeFiles/netcore_io_obj.dir/src/io/fd_context.cc.o
+netcore_io_obj: netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o
 netcore_io_obj: netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o
 netcore_io_obj: netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o
 netcore_io_obj: netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o

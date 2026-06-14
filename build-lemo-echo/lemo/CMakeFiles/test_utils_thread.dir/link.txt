@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_utils_thread.dir/__/tests/lemo/utils/test_utils_thread.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/utils/test_utils_thread  liblemo_utils.a 

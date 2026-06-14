@@ -404,7 +404,7 @@ CMakeFiles/run_tests.dir/all: module/net/CMakeFiles/test_log_multi_logger.dir/al
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 63
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 62
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : CMakeFiles/run_tests.dir/rule
@@ -477,7 +477,7 @@ CMakeFiles/run_tests_lstl.dir/all: module/net/CMakeFiles/test_log_multi_logger.d
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_tests_lstl.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 64
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 63
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests_lstl.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : CMakeFiles/run_tests_lstl.dir/rule
@@ -550,7 +550,7 @@ CMakeFiles/run_tests_memory.dir/all: module/net/CMakeFiles/test_log_multi_logger
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_tests_memory.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 63
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 62
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests_memory.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : CMakeFiles/run_tests_memory.dir/rule
@@ -935,7 +935,7 @@ module/lstl/CMakeFiles/test_slist.dir/clean:
 module/lstl/CMakeFiles/test_heap.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_heap.dir/build.make module/lstl/CMakeFiles/test_heap.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/lstl/CMakeFiles/test_heap.dir/build.make module/lstl/CMakeFiles/test_heap.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=67 "Built target test_heap"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=68 "Built target test_heap"
 .PHONY : module/lstl/CMakeFiles/test_heap.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1065,12 +1065,12 @@ module/lstl/CMakeFiles/test_skip_associative.dir/clean:
 module/storage/CMakeFiles/test_lsm_tree.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/storage/CMakeFiles/test_lsm_tree.dir/build.make module/storage/CMakeFiles/test_lsm_tree.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/storage/CMakeFiles/test_lsm_tree.dir/build.make module/storage/CMakeFiles/test_lsm_tree.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=84 "Built target test_lsm_tree"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target test_lsm_tree"
 .PHONY : module/storage/CMakeFiles/test_lsm_tree.dir/all
 
 # Build rule for subdir invocation for target.
 module/storage/CMakeFiles/test_lsm_tree.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/storage/CMakeFiles/test_lsm_tree.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/storage/CMakeFiles/test_lsm_tree.dir/rule
@@ -1091,12 +1091,12 @@ module/storage/CMakeFiles/test_lsm_tree.dir/clean:
 module/storage/CMakeFiles/test_lsm_persistent.dir/all:
 	$(MAKE) $(MAKESILENT) -f module/storage/CMakeFiles/test_lsm_persistent.dir/build.make module/storage/CMakeFiles/test_lsm_persistent.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/storage/CMakeFiles/test_lsm_persistent.dir/build.make module/storage/CMakeFiles/test_lsm_persistent.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target test_lsm_persistent"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=84 "Built target test_lsm_persistent"
 .PHONY : module/storage/CMakeFiles/test_lsm_persistent.dir/all
 
 # Build rule for subdir invocation for target.
 module/storage/CMakeFiles/test_lsm_persistent.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/storage/CMakeFiles/test_lsm_persistent.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/storage/CMakeFiles/test_lsm_persistent.dir/rule
@@ -1221,12 +1221,12 @@ module/net/CMakeFiles/net_base_obj.dir/clean:
 module/net/CMakeFiles/net_runtime_obj.dir/all: module/net/CMakeFiles/net_base_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/net_runtime_obj.dir/build.make module/net/CMakeFiles/net_runtime_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/net_runtime_obj.dir/build.make module/net/CMakeFiles/net_runtime_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=30,31 "Built target net_runtime_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=30 "Built target net_runtime_obj"
 .PHONY : module/net/CMakeFiles/net_runtime_obj.dir/all
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/net_runtime_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/net_runtime_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/net_runtime_obj.dir/rule
@@ -1253,7 +1253,7 @@ module/net/CMakeFiles/net_io_obj.dir/all: module/net/CMakeFiles/net_runtime_obj.
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/net_io_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/net_io_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/net_io_obj.dir/rule
@@ -1281,7 +1281,7 @@ module/net/CMakeFiles/net_log_obj.dir/all: module/net/CMakeFiles/net_io_obj.dir/
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/net_log_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/net_log_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/net_log_obj.dir/rule
@@ -1310,7 +1310,7 @@ module/net/CMakeFiles/net_log.dir/all: module/net/CMakeFiles/net_log_obj.dir/all
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/net_log.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/net_log.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/net_log.dir/rule
@@ -1331,7 +1331,7 @@ module/net/CMakeFiles/net_log.dir/clean:
 module/net/CMakeFiles/test_fiber.dir/all: module/net/CMakeFiles/net_log.dir/all
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/test_fiber.dir/build.make module/net/CMakeFiles/test_fiber.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/test_fiber.dir/build.make module/net/CMakeFiles/test_fiber.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target test_fiber"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=67 "Built target test_fiber"
 .PHONY : module/net/CMakeFiles/test_fiber.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1362,7 +1362,7 @@ module/net/CMakeFiles/test_scheduler.dir/all: module/net/CMakeFiles/net_log.dir/
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_scheduler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_scheduler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_scheduler.dir/rule
@@ -1388,7 +1388,7 @@ module/net/CMakeFiles/test_timer.dir/all: module/net/CMakeFiles/net_log.dir/all
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_timer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_timer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_timer.dir/rule
@@ -1414,7 +1414,7 @@ module/net/CMakeFiles/test_timer_wheel.dir/all: module/net/CMakeFiles/net_log.di
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_timer_wheel.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_timer_wheel.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_timer_wheel.dir/rule
@@ -1440,7 +1440,7 @@ module/net/CMakeFiles/test_iomanager.dir/all: module/net/CMakeFiles/net_log.dir/
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_iomanager.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_iomanager.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_iomanager.dir/rule
@@ -1461,12 +1461,12 @@ module/net/CMakeFiles/test_iomanager.dir/clean:
 module/net/CMakeFiles/test_hook.dir/all: module/net/CMakeFiles/net_log.dir/all
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/test_hook.dir/build.make module/net/CMakeFiles/test_hook.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/test_hook.dir/build.make module/net/CMakeFiles/test_hook.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=68 "Built target test_hook"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=69 "Built target test_hook"
 .PHONY : module/net/CMakeFiles/test_hook.dir/all
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_hook.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_hook.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_hook.dir/rule
@@ -1492,7 +1492,7 @@ module/net/CMakeFiles/test_address.dir/all: module/net/CMakeFiles/net_log.dir/al
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_address.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_address.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_address.dir/rule
@@ -1518,7 +1518,7 @@ module/net/CMakeFiles/test_ring_buffer.dir/all: module/net/CMakeFiles/net_log.di
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_ring_buffer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_ring_buffer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_ring_buffer.dir/rule
@@ -1544,7 +1544,7 @@ module/net/CMakeFiles/test_byte_array.dir/all: module/net/CMakeFiles/net_log.dir
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_byte_array.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_byte_array.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_byte_array.dir/rule
@@ -1570,7 +1570,7 @@ module/net/CMakeFiles/test_thread.dir/all: module/net/CMakeFiles/net_log.dir/all
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_thread.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_thread.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_thread.dir/rule
@@ -1596,7 +1596,7 @@ module/net/CMakeFiles/test_log_thread_integration.dir/all: module/net/CMakeFiles
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_thread_integration.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_thread_integration.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_thread_integration.dir/rule
@@ -1622,7 +1622,7 @@ module/net/CMakeFiles/test_singleton_util.dir/all: module/net/CMakeFiles/net_log
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_singleton_util.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_singleton_util.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_singleton_util.dir/rule
@@ -1648,7 +1648,7 @@ module/net/CMakeFiles/test_config_center.dir/all: module/net/CMakeFiles/net_log.
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_config_center.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_config_center.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_config_center.dir/rule
@@ -1674,7 +1674,7 @@ module/net/CMakeFiles/test_lexical_cast.dir/all: module/net/CMakeFiles/net_log.d
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_lexical_cast.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_lexical_cast.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_lexical_cast.dir/rule
@@ -1695,12 +1695,12 @@ module/net/CMakeFiles/test_lexical_cast.dir/clean:
 module/net/CMakeFiles/test_hot_reload.dir/all: module/net/CMakeFiles/net_log.dir/all
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/test_hot_reload.dir/build.make module/net/CMakeFiles/test_hot_reload.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/test_hot_reload.dir/build.make module/net/CMakeFiles/test_hot_reload.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=69 "Built target test_hot_reload"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target test_hot_reload"
 .PHONY : module/net/CMakeFiles/test_hot_reload.dir/all
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_hot_reload.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_hot_reload.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_hot_reload.dir/rule
@@ -1726,7 +1726,7 @@ module/net/CMakeFiles/test_log_config.dir/all: module/net/CMakeFiles/net_log.dir
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_config.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_config.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_config.dir/rule
@@ -1752,7 +1752,7 @@ module/net/CMakeFiles/test_log_config_bridge.dir/all: module/net/CMakeFiles/net_
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_config_bridge.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_config_bridge.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_config_bridge.dir/rule
@@ -1778,7 +1778,7 @@ module/net/CMakeFiles/test_log_level.dir/all: module/net/CMakeFiles/net_log.dir/
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_level.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_level.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_level.dir/rule
@@ -1804,7 +1804,7 @@ module/net/CMakeFiles/test_log_formatter.dir/all: module/net/CMakeFiles/net_log.
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_formatter.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_formatter.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_formatter.dir/rule
@@ -1830,7 +1830,7 @@ module/net/CMakeFiles/test_log_sync.dir/all: module/net/CMakeFiles/net_log.dir/a
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_sync.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_sync.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_sync.dir/rule
@@ -1856,7 +1856,7 @@ module/net/CMakeFiles/test_log_async.dir/all: module/net/CMakeFiles/net_log.dir/
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_async.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_async.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_async.dir/rule
@@ -1882,7 +1882,7 @@ module/net/CMakeFiles/test_log_async_boundary.dir/all: module/net/CMakeFiles/net
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_async_boundary.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_async_boundary.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_async_boundary.dir/rule
@@ -1908,7 +1908,7 @@ module/net/CMakeFiles/test_log_appender.dir/all: module/net/CMakeFiles/net_log.d
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_appender.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_appender.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_appender.dir/rule
@@ -1934,7 +1934,7 @@ module/net/CMakeFiles/test_log_full.dir/all: module/net/CMakeFiles/net_log.dir/a
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_full.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_full.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_full.dir/rule
@@ -1960,7 +1960,7 @@ module/net/CMakeFiles/test_log_multi_logger.dir/all: module/net/CMakeFiles/net_l
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/test_log_multi_logger.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/test_log_multi_logger.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/test_log_multi_logger.dir/rule
@@ -1986,7 +1986,7 @@ module/net/CMakeFiles/bench_log_async.dir/all: module/net/CMakeFiles/net_log.dir
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_log_async.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_log_async.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_log_async.dir/rule
@@ -2012,7 +2012,7 @@ module/net/CMakeFiles/bench_log_async_run.dir/all: module/net/CMakeFiles/bench_l
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_log_async_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_log_async_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_log_async_run.dir/rule
@@ -2038,7 +2038,7 @@ module/net/CMakeFiles/bench_log_sync.dir/all: module/net/CMakeFiles/net_log.dir/
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_log_sync.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_log_sync.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_log_sync.dir/rule
@@ -2064,7 +2064,7 @@ module/net/CMakeFiles/bench_log_sync_run.dir/all: module/net/CMakeFiles/bench_lo
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_log_sync_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_log_sync_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_log_sync_run.dir/rule
@@ -2090,7 +2090,7 @@ module/net/CMakeFiles/bench_log_mt.dir/all: module/net/CMakeFiles/net_log.dir/al
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_log_mt.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_log_mt.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_log_mt.dir/rule
@@ -2116,7 +2116,7 @@ module/net/CMakeFiles/bench_log_mt_run.dir/all: module/net/CMakeFiles/bench_log_
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_log_mt_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_log_mt_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_log_mt_run.dir/rule
@@ -2142,7 +2142,7 @@ module/net/CMakeFiles/bench_log_perf.dir/all: module/net/CMakeFiles/net_log.dir/
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_log_perf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_log_perf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_log_perf.dir/rule
@@ -2163,7 +2163,7 @@ module/net/CMakeFiles/bench_log_perf.dir/clean:
 module/net/CMakeFiles/bench_log_perf_run.dir/all: module/net/CMakeFiles/bench_log_perf.dir/all
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/bench_log_perf_run.dir/build.make module/net/CMakeFiles/bench_log_perf_run.dir/depend
 	$(MAKE) $(MAKESILENT) -f module/net/CMakeFiles/bench_log_perf_run.dir/build.make module/net/CMakeFiles/bench_log_perf_run.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target bench_log_perf_run"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=8 "Built target bench_log_perf_run"
 .PHONY : module/net/CMakeFiles/bench_log_perf_run.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2194,7 +2194,7 @@ module/net/CMakeFiles/bench_scheduler.dir/all: module/net/CMakeFiles/net_log.dir
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_scheduler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_scheduler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_scheduler.dir/rule
@@ -2220,7 +2220,7 @@ module/net/CMakeFiles/bench_scheduler_run.dir/all: module/net/CMakeFiles/bench_s
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_scheduler_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_scheduler_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_scheduler_run.dir/rule
@@ -2246,7 +2246,7 @@ module/net/CMakeFiles/bench_ring_buffer.dir/all: module/net/CMakeFiles/net_log.d
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_ring_buffer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_ring_buffer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_ring_buffer.dir/rule
@@ -2272,7 +2272,7 @@ module/net/CMakeFiles/bench_ring_buffer_run.dir/all: module/net/CMakeFiles/bench
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_ring_buffer_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_ring_buffer_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_ring_buffer_run.dir/rule
@@ -2298,7 +2298,7 @@ module/net/CMakeFiles/bench_echo_server.dir/all: module/net/CMakeFiles/net_log.d
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_echo_server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_echo_server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_echo_server.dir/rule
@@ -2324,7 +2324,7 @@ module/net/CMakeFiles/bench_echo_server_run.dir/all: module/net/CMakeFiles/bench
 
 # Build rule for subdir invocation for target.
 module/net/CMakeFiles/bench_echo_server_run.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module/net/CMakeFiles/bench_echo_server_run.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : module/net/CMakeFiles/bench_echo_server_run.dir/rule
@@ -2345,12 +2345,12 @@ module/net/CMakeFiles/bench_echo_server_run.dir/clean:
 netCore/CMakeFiles/netcore_utils_obj.dir/all:
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_utils_obj.dir/build.make netCore/CMakeFiles/netcore_utils_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_utils_obj.dir/build.make netCore/CMakeFiles/netcore_utils_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=52,53 "Built target netcore_utils_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=53 "Built target netcore_utils_obj"
 .PHONY : netCore/CMakeFiles/netcore_utils_obj.dir/all
 
 # Build rule for subdir invocation for target.
 netCore/CMakeFiles/netcore_utils_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netCore/CMakeFiles/netcore_utils_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : netCore/CMakeFiles/netcore_utils_obj.dir/rule
@@ -2371,7 +2371,7 @@ netCore/CMakeFiles/netcore_utils_obj.dir/clean:
 netCore/CMakeFiles/netcore_utils.dir/all: netCore/CMakeFiles/netcore_utils_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_utils.dir/build.make netCore/CMakeFiles/netcore_utils.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_utils.dir/build.make netCore/CMakeFiles/netcore_utils.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target netcore_utils"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=52 "Built target netcore_utils"
 .PHONY : netCore/CMakeFiles/netcore_utils.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2613,12 +2613,12 @@ netCore/CMakeFiles/netcore_io.dir/clean:
 netCore/CMakeFiles/netcore_buffer_obj.dir/all:
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_buffer_obj.dir/build.make netCore/CMakeFiles/netcore_buffer_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_buffer_obj.dir/build.make netCore/CMakeFiles/netcore_buffer_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target netcore_buffer_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=32 "Built target netcore_buffer_obj"
 .PHONY : netCore/CMakeFiles/netcore_buffer_obj.dir/all
 
 # Build rule for subdir invocation for target.
 netCore/CMakeFiles/netcore_buffer_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netCore/CMakeFiles/netcore_buffer_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : netCore/CMakeFiles/netcore_buffer_obj.dir/rule
@@ -2639,7 +2639,7 @@ netCore/CMakeFiles/netcore_buffer_obj.dir/clean:
 netCore/CMakeFiles/netcore_buffer.dir/all: netCore/CMakeFiles/netcore_buffer_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_buffer.dir/build.make netCore/CMakeFiles/netcore_buffer.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_buffer.dir/build.make netCore/CMakeFiles/netcore_buffer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=32 "Built target netcore_buffer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target netcore_buffer"
 .PHONY : netCore/CMakeFiles/netcore_buffer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2775,12 +2775,12 @@ netCore/CMakeFiles/netcore_config_obj.dir/all: netCore/CMakeFiles/netcore_utils.
 netCore/CMakeFiles/netcore_config_obj.dir/all: netCore/CMakeFiles/netcore_log.dir/all
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_config_obj.dir/build.make netCore/CMakeFiles/netcore_config_obj.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_config_obj.dir/build.make netCore/CMakeFiles/netcore_config_obj.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=34,35 "Built target netcore_config_obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=33,34,35 "Built target netcore_config_obj"
 .PHONY : netCore/CMakeFiles/netcore_config_obj.dir/all
 
 # Build rule for subdir invocation for target.
 netCore/CMakeFiles/netcore_config_obj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 17
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netCore/CMakeFiles/netcore_config_obj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : netCore/CMakeFiles/netcore_config_obj.dir/rule
@@ -2801,7 +2801,7 @@ netCore/CMakeFiles/netcore_config_obj.dir/clean:
 netCore/CMakeFiles/netcore_config.dir/all: netCore/CMakeFiles/netcore_config_obj.dir/all
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_config.dir/build.make netCore/CMakeFiles/netcore_config.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_config.dir/build.make netCore/CMakeFiles/netcore_config.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=33 "Built target netcore_config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target netcore_config"
 .PHONY : netCore/CMakeFiles/netcore_config.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2844,12 +2844,12 @@ netCore/CMakeFiles/netcore.dir/all: netCore/CMakeFiles/netcore_config_obj.dir/al
 netCore/CMakeFiles/netcore.dir/all: netCore/CMakeFiles/netcore_config.dir/all
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore.dir/build.make netCore/CMakeFiles/netcore.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore.dir/build.make netCore/CMakeFiles/netcore.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target netcore"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=31 "Built target netcore"
 .PHONY : netCore/CMakeFiles/netcore.dir/all
 
 # Build rule for subdir invocation for target.
 netCore/CMakeFiles/netcore.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netCore/CMakeFiles/netcore.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : netCore/CMakeFiles/netcore.dir/rule
@@ -2906,12 +2906,12 @@ netCore/CMakeFiles/bench_log_perf_netcore.dir/all: netCore/CMakeFiles/netcore_fi
 netCore/CMakeFiles/bench_log_perf_netcore.dir/all: netCore/CMakeFiles/netcore_log.dir/all
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/bench_log_perf_netcore.dir/build.make netCore/CMakeFiles/bench_log_perf_netcore.dir/depend
 	$(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/bench_log_perf_netcore.dir/build.make netCore/CMakeFiles/bench_log_perf_netcore.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num=8 "Built target bench_log_perf_netcore"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles --progress-num= "Built target bench_log_perf_netcore"
 .PHONY : netCore/CMakeFiles/bench_log_perf_netcore.dir/all
 
 # Build rule for subdir invocation for target.
 netCore/CMakeFiles/bench_log_perf_netcore.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netCore/CMakeFiles/bench_log_perf_netcore.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : netCore/CMakeFiles/bench_log_perf_netcore.dir/rule
@@ -3020,7 +3020,7 @@ netCore/CMakeFiles/bench_netcore_perf.dir/all: netCore/CMakeFiles/bench_schedule
 
 # Build rule for subdir invocation for target.
 netCore/CMakeFiles/bench_netcore_perf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 netCore/CMakeFiles/bench_netcore_perf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/wangmaosen/copy_linux/third/KVStore/build-netcore/CMakeFiles 0
 .PHONY : netCore/CMakeFiles/bench_netcore_perf.dir/rule

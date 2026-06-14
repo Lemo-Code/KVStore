@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetcore_thread.a CMakeFiles/netcore_thread_obj.dir/src/thread/semaphore.cc.o CMakeFiles/netcore_thread_obj.dir/src/thread/thread.cc.o
+/usr/bin/ranlib libnetcore_thread.a

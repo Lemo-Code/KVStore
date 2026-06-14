@@ -11,6 +11,7 @@
 
 #include <atomic>
 #include <cstdio>
+#include <csignal>
 #include <cstring>
 #include <vector>
 
@@ -88,7 +89,7 @@ void test_socket_bind_connect() {
 }
 
 void test_echo_local() {
-  lemo::io::IOManager iom(2, true, "test_echo_local");
+  lemo::io::IOManager iom(2, false, "test_echo_local");
   lemo::socket::Socket::ptr listen = MakeListen("127.0.0.1", 0);
   LEMO_CHECK(listen != nullptr);
   const uint16_t port = BoundPort(listen);
@@ -121,7 +122,7 @@ void test_echo_local() {
 }
 
 void test_echo_concurrent_integrity() {
-  lemo::io::IOManager iom(4, true, "test_echo_concurrent");
+  lemo::io::IOManager iom(4, false, "test_echo_concurrent");
   lemo::socket::Socket::ptr listen = MakeListen("127.0.0.1", 0);
   LEMO_CHECK(listen != nullptr);
   const uint16_t port = BoundPort(listen);
@@ -170,6 +171,7 @@ void test_echo_concurrent_integrity() {
 }  // namespace
 
 int main() {
+  signal(SIGPIPE, SIG_IGN);
   test_socket_bind_connect();
   test_echo_local();
   test_echo_concurrent_integrity();

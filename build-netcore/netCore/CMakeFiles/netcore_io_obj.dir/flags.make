@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/wangmaosen/copy_linux/third/KVStore/netCore/include
+CXX_INCLUDES = -I/home/wangmaosen/copy_linux/third/KVStore/netCore/include -I/home/wangmaosen/copy_linux/third/KVStore/netCore/src
 
 CXX_FLAGS =  -Wall -Wextra -O3 -DNDEBUG -std=c++11 -O3 -DNDEBUG
 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_config_property.dir/__/tests/lemo/config/test_config_property.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/config/test_config_property  liblemo_config.a liblemo_log.a liblemo_thread.a liblemo_utils.a liblemo_fiber.a liblemo_thread.a liblemo_memory.a liblemo_utils.a 

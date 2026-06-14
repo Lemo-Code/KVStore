@@ -7,7 +7,6 @@
 
 #include "lemo/fiber/fiber.h"
 #include "lemo/io/iomanager.h"
-#include "lemo/io/iomanager.h"
 
 #include <fcntl.h>
 #include <cstring>
@@ -324,7 +323,7 @@ void test_fdmanager() {
   lemo::io::IOManager iom(1, false, "test_fdm");
   int pipefd[2] = {-1, -1};
   LEMO_CHECK(::pipe(pipefd) == 0);
-  lemo::io::Reactor::FdSlot* ctx = iom.getFd(pipefd[0], true);
+  lemo::io::FdContext::ptr ctx = iom.getFd(pipefd[0], true);
   LEMO_CHECK(ctx != nullptr);
   LEMO_CHECK(ctx->isInit());
   LEMO_CHECK(!ctx->isSocket());
@@ -338,7 +337,7 @@ void test_fdmanager() {
 
   int sv[2] = {-1, -1};
   LEMO_CHECK(lemo_io_test::socket_pair(sv));
-  lemo::io::Reactor::FdSlot* sctx = iom.getFd(sv[0], true);
+  lemo::io::FdContext::ptr sctx = iom.getFd(sv[0], true);
   LEMO_CHECK(sctx != nullptr);
   LEMO_CHECK(sctx->isSocket());
   LEMO_CHECK(sctx->getSysNonBlock());

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnettycore_io.a CMakeFiles/nettycore_io_obj.dir/src/io/fd_context.cc.o CMakeFiles/nettycore_io_obj.dir/src/io/reactor.cc.o CMakeFiles/nettycore_io_obj.dir/src/io/iomanager.cc.o CMakeFiles/nettycore_io_obj.dir/src/io/hook.cc.o CMakeFiles/nettycore_io_obj.dir/src/io/connect.cc.o
+/usr/bin/ranlib libnettycore_io.a

@@ -86,6 +86,7 @@ netcore_EXTERNAL_OBJECTS = \
 "/home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore/CMakeFiles/netcore_fiber_obj.dir/src/fiber/timer.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore/CMakeFiles/netcore_fiber_obj.dir/src/fiber/timing_wheel.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore/CMakeFiles/netcore_io_obj.dir/src/io/fd_context.cc.o" \
+"/home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o" \
 "/home/wangmaosen/copy_linux/third/KVStore/build-netcore/netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o" \
@@ -124,6 +125,7 @@ netCore/libnetcore.a: netCore/CMakeFiles/netcore_fiber_obj.dir/src/fiber/schedul
 netCore/libnetcore.a: netCore/CMakeFiles/netcore_fiber_obj.dir/src/fiber/timer.cc.o
 netCore/libnetcore.a: netCore/CMakeFiles/netcore_fiber_obj.dir/src/fiber/timing_wheel.cc.o
 netCore/libnetcore.a: netCore/CMakeFiles/netcore_io_obj.dir/src/io/fd_context.cc.o
+netCore/libnetcore.a: netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o
 netCore/libnetcore.a: netCore/CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o
 netCore/libnetcore.a: netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o
 netCore/libnetcore.a: netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o

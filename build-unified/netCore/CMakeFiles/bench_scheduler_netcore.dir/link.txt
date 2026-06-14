@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/bench_scheduler_netcore.dir/__/tests/lemo/fiber/bench_scheduler.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/netCore/bench_scheduler  libnetcore_fiber.a libnetcore_memory.a libnetcore_thread.a libnetcore_utils.a 

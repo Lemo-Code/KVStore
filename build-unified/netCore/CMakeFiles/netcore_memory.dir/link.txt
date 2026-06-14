@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetcore_memory.a CMakeFiles/netcore_memory_obj.dir/src/memory/stack_pool.cc.o
+/usr/bin/ranlib libnetcore_memory.a

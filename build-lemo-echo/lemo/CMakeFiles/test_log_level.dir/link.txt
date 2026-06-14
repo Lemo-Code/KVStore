@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_log_level.dir/__/tests/lemo/log/test_log_level.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/log/test_log_level  liblemo_log.a liblemo_fiber.a liblemo_thread.a liblemo_utils.a liblemo_memory.a 

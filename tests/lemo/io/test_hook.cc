@@ -374,19 +374,15 @@ void test_hook_disabled() {
 void test_hook_connect_with_timeout_api() {
   lemo::io::IOManager::ptr iom(
       new lemo::io::IOManager(1, false, "test_cwt_api"));
-  int listen_fd = -1;
-  uint16_t port = 0;
-  LEMO_CHECK(lemo_io_test::listen_tcp(&listen_fd, &port));
-  ::close(listen_fd);
 
   std::atomic<int> done{0};
-  iom->schedule([&done, port]() {
+  iom->schedule([&done]() {
     const int fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in addr;
     std::memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    addr.sin_port = htons(65535);
+    inet_pton(AF_INET, "192.0.2.1", &addr.sin_addr);
     errno = 0;
     const int r = connect_with_timeout(fd, reinterpret_cast<sockaddr*>(&addr),
                                        sizeof(addr), 150);

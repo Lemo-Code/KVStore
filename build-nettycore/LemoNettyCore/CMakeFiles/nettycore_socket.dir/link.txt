@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnettycore_socket.a CMakeFiles/nettycore_socket_obj.dir/src/socket/address.cc.o CMakeFiles/nettycore_socket_obj.dir/src/socket/socket.cc.o
+/usr/bin/ranlib libnettycore_socket.a

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_temporary_buffer.dir/__/__/tests/lstl/memory/test_temporary_buffer.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lstl/memory/test_temporary_buffer 

@@ -224,9 +224,7 @@ netCore/CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o: \
  /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_inline.h \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
- /usr/include/c++/13/bits/ostream.tcc \
- /usr/include/aarch64-linux-gnu/sys/epoll.h \
- /usr/include/aarch64-linux-gnu/bits/epoll.h /usr/include/c++/13/cstdarg \
+ /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/cstdarg \
  /usr/include/dlfcn.h /usr/include/aarch64-linux-gnu/bits/dlfcn.h \
  /usr/include/aarch64-linux-gnu/bits/dl_find_object.h \
  /usr/include/fcntl.h /usr/include/aarch64-linux-gnu/bits/fcntl.h \

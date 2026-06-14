@@ -1,0 +1,179 @@
+Start testing: Jun 14 05:05 UTC
+----------------------------------------------------------
+10/20 Testing: LemoNettyCore.io.test_iomanager
+10/20 Test: LemoNettyCore.io.test_iomanager
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/io/test_iomanager"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.io.test_iomanager" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_iomanager
+<end of output>
+Test time =   0.91 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.io.test_iomanager" end time: Jun 14 05:05 UTC
+"LemoNettyCore.io.test_iomanager" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/20 Testing: LemoNettyCore.io.test_hook
+11/20 Test: LemoNettyCore.io.test_hook
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/io/test_hook"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.io.test_hook" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_hook
+<end of output>
+Test time =   3.22 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.io.test_hook" end time: Jun 14 05:05 UTC
+"LemoNettyCore.io.test_hook" time elapsed: 00:00:03
+----------------------------------------------------------
+
+12/20 Testing: LemoNettyCore.fiber.test_fiber
+12/20 Test: LemoNettyCore.fiber.test_fiber
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_fiber"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.fiber.test_fiber" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_fiber
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.fiber.test_fiber" end time: Jun 14 05:05 UTC
+"LemoNettyCore.fiber.test_fiber" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/20 Testing: LemoNettyCore.fiber.test_scheduler
+13/20 Test: LemoNettyCore.fiber.test_scheduler
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_scheduler"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.fiber.test_scheduler" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_scheduler
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.fiber.test_scheduler" end time: Jun 14 05:05 UTC
+"LemoNettyCore.fiber.test_scheduler" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/20 Testing: LemoNettyCore.fiber.test_timer
+14/20 Test: LemoNettyCore.fiber.test_timer
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_timer"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.fiber.test_timer" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_timer
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.fiber.test_timer" end time: Jun 14 05:05 UTC
+"LemoNettyCore.fiber.test_timer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/20 Testing: LemoNettyCore.fiber.test_timer_wheel
+15/20 Test: LemoNettyCore.fiber.test_timer_wheel
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_timer_wheel"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.fiber.test_timer_wheel" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_timer_wheel
+<end of output>
+Test time =   1.69 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.fiber.test_timer_wheel" end time: Jun 14 05:05 UTC
+"LemoNettyCore.fiber.test_timer_wheel" time elapsed: 00:00:01
+----------------------------------------------------------
+
+16/20 Testing: LemoNettyCore.fiber.test_stack_pool
+16/20 Test: LemoNettyCore.fiber.test_stack_pool
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_stack_pool"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.fiber.test_stack_pool" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_stack_pool
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.fiber.test_stack_pool" end time: Jun 14 05:05 UTC
+"LemoNettyCore.fiber.test_stack_pool" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/20 Testing: LemoNettyCore.fiber.test_fiber_sleep_iomanager
+17/20 Test: LemoNettyCore.fiber.test_fiber_sleep_iomanager
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_fiber_sleep_iomanager"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.fiber.test_fiber_sleep_iomanager" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_fiber_sleep_iomanager
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.fiber.test_fiber_sleep_iomanager" end time: Jun 14 05:05 UTC
+"LemoNettyCore.fiber.test_fiber_sleep_iomanager" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/20 Testing: LemoNettyCore.buffer.test_ring_buffer
+18/20 Test: LemoNettyCore.buffer.test_ring_buffer
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/buffer/test_ring_buffer"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.buffer.test_ring_buffer" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_ring_buffer
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.buffer.test_ring_buffer" end time: Jun 14 05:05 UTC
+"LemoNettyCore.buffer.test_ring_buffer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/20 Testing: LemoNettyCore.socket.test_address
+19/20 Test: LemoNettyCore.socket.test_address
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.socket.test_address" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_address
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.socket.test_address" end time: Jun 14 05:05 UTC
+"LemoNettyCore.socket.test_address" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/20 Testing: LemoNettyCore.socket.test_echo_server
+20/20 Test: LemoNettyCore.socket.test_echo_server
+Command: "/home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_echo_server"
+Directory: /home/wangmaosen/copy_linux/third/KVStore/build-nettycore/LemoNettyCore
+"LemoNettyCore.socket.test_echo_server" start time: Jun 14 05:05 UTC
+Output:
+----------------------------------------------------------
+PASS test_echo_server
+<end of output>
+Test time =   0.20 sec
+----------------------------------------------------------
+Test Passed.
+"LemoNettyCore.socket.test_echo_server" end time: Jun 14 05:05 UTC
+"LemoNettyCore.socket.test_echo_server" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jun 14 05:05 UTC

@@ -836,6 +836,30 @@ src/io/connect.cc.s:
 	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore && $(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_io_obj.dir/build.make netCore/CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.s
 .PHONY : src/io/connect.cc.s
 
+src/io/epoll_context.o: src/io/epoll_context.cc.o
+.PHONY : src/io/epoll_context.o
+
+# target to build an object file
+src/io/epoll_context.cc.o:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore && $(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_io_obj.dir/build.make netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o
+.PHONY : src/io/epoll_context.cc.o
+
+src/io/epoll_context.i: src/io/epoll_context.cc.i
+.PHONY : src/io/epoll_context.i
+
+# target to preprocess a source file
+src/io/epoll_context.cc.i:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore && $(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_io_obj.dir/build.make netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.i
+.PHONY : src/io/epoll_context.cc.i
+
+src/io/epoll_context.s: src/io/epoll_context.cc.s
+.PHONY : src/io/epoll_context.s
+
+# target to generate assembly for a file
+src/io/epoll_context.cc.s:
+	cd /home/wangmaosen/copy_linux/third/KVStore/build-netcore && $(MAKE) $(MAKESILENT) -f netCore/CMakeFiles/netcore_io_obj.dir/build.make netCore/CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.s
+.PHONY : src/io/epoll_context.cc.s
+
 src/io/fd_context.o: src/io/fd_context.cc.o
 .PHONY : src/io/fd_context.o
 
@@ -1515,6 +1539,9 @@ help:
 	@echo "... src/io/connect.o"
 	@echo "... src/io/connect.i"
 	@echo "... src/io/connect.s"
+	@echo "... src/io/epoll_context.o"
+	@echo "... src/io/epoll_context.i"
+	@echo "... src/io/epoll_context.s"
 	@echo "... src/io/fd_context.o"
 	@echo "... src/io/fd_context.i"
 	@echo "... src/io/fd_context.s"
