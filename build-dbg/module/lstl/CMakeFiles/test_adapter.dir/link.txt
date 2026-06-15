@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -g CMakeFiles/test_adapter.dir/__/__/tests/lstl/container/test_adapter.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lstl/container/test_adapter 

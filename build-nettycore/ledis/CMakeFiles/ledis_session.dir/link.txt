@@ -1,2 +1,0 @@
-/usr/bin/ar qc libledis_session.a CMakeFiles/ledis_session.dir/src/session/session.cc.o CMakeFiles/ledis_session.dir/src/session/inbound_queue.cc.o CMakeFiles/ledis_session.dir/src/session/reply_router.cc.o CMakeFiles/ledis_session.dir/src/session/db_worker.cc.o CMakeFiles/ledis_session.dir/src/session/ledis_engine.cc.o CMakeFiles/ledis_session.dir/src/session/io_worker.cc.o CMakeFiles/ledis_session.dir/src/session/pubsub.cc.o CMakeFiles/ledis_session.dir/src/session/blocking_list.cc.o
-/usr/bin/ranlib libledis_session.a

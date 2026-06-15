@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_log_config.dir/__/__/tests/net/test_log_config.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/test_log_config  libnet_log.a -lyaml-cpp -ldl 

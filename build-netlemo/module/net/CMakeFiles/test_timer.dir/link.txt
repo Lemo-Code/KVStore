@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_timer.dir/__/__/tests/net/test_timer.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/test_timer  libnet_log.a -lyaml-cpp -ldl 

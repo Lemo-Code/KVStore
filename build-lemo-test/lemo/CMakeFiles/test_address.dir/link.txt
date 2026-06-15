@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_address.dir/__/tests/lemo/socket/test_address.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/socket/test_address  liblemo_socket.a liblemo_io.a liblemo_fiber.a liblemo_buffer.a liblemo_thread.a liblemo_utils.a liblemo_memory.a -ldl 

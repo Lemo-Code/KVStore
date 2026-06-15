@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/bench_log_mt.dir/__/__/tests/net/bench_log_mt.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/bench_log_mt  libnet_log.a -lyaml-cpp -ldl 

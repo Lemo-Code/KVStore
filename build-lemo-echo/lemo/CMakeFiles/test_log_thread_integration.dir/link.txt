@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_log_thread_integration.dir/__/tests/lemo/thread/test_log_thread_integration.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/thread/test_log_thread_integration  liblemo_thread.a liblemo_log.a liblemo_fiber.a liblemo_utils.a liblemo_thread.a liblemo_memory.a liblemo_utils.a 

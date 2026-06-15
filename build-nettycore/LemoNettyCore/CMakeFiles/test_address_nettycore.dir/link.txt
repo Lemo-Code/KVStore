@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_address_nettycore.dir/__/tests/lemo/socket/test_address.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/socket/test_address  libnettycore_server.a libnettycore_socket.a libnettycore_io.a libnettycore_fiber.a libnettycore_memory.a libnettycore_buffer.a libnettycore_thread.a libnettycore_utils.a 

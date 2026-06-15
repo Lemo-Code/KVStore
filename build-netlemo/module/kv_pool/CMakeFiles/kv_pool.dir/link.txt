@@ -1,2 +1,0 @@
-/usr/bin/ar qc libkv_pool.a CMakeFiles/kv_pool.dir/memory/pool.cc.o
-/usr/bin/ranlib libkv_pool.a

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnetcore_config.a CMakeFiles/netcore_config_obj.dir/src/config/config_var.cc.o CMakeFiles/netcore_config_obj.dir/src/config/config_center.cc.o CMakeFiles/netcore_config_obj.dir/src/config/property_loader.cc.o CMakeFiles/netcore_config_obj.dir/src/config/log_config.cc.o CMakeFiles/netcore_config_obj.dir/src/config/config_printer.cc.o
-/usr/bin/ranlib libnetcore_config.a

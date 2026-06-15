@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnettycore_utils.a CMakeFiles/nettycore_utils_obj.dir/src/utils/string_util.cc.o CMakeFiles/nettycore_utils_obj.dir/src/utils/thread_util.cc.o CMakeFiles/nettycore_utils_obj.dir/src/utils/time_util.cc.o
-/usr/bin/ranlib libnettycore_utils.a

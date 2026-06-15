@@ -1,2 +1,0 @@
-/usr/bin/ar qc libledis_command.a CMakeFiles/ledis_command.dir/src/command/registry.cc.o
-/usr/bin/ranlib libledis_command.a

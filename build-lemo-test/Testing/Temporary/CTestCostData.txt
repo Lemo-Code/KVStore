@@ -1,7 +1,0 @@
-lemo.io.test_iomanager 0 0
-lemo.io.test_hook 0 0
-lemo.socket.test_echo_server 0 0
----
-lemo.io.test_iomanager
-lemo.io.test_hook
-lemo.socket.test_echo_server

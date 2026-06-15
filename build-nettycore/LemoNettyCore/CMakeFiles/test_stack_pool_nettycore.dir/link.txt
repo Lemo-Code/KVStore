@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_stack_pool_nettycore.dir/__/tests/lemo/fiber/test_stack_pool.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/LemoNettyCore/fiber/test_stack_pool  libnettycore_memory.a libnettycore_thread.a libnettycore_utils.a 

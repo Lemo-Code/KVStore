@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_scheduler.dir/__/tests/lemo/fiber/test_scheduler.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/fiber/test_scheduler  liblemo_fiber.a liblemo_memory.a liblemo_io.a liblemo_thread.a liblemo_log.a liblemo_utils.a -ldl liblemo_fiber.a liblemo_memory.a liblemo_thread.a liblemo_utils.a 

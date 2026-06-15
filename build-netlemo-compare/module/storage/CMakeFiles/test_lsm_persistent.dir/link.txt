@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_lsm_persistent.dir/__/__/tests/storage/lsmtree/test_lsm_persistent.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/storage/lsmtree/test_lsm_persistent 

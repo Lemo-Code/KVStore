@@ -1,2 +1,0 @@
-/usr/bin/ar qc libledis_session.a CMakeFiles/ledis_session.dir/src/session/session.cc.o
-/usr/bin/ranlib libledis_session.a

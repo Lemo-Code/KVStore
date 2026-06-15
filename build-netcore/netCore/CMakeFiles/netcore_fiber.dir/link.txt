@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnetcore_fiber.a CMakeFiles/netcore_fiber_obj.dir/src/fiber/fiber.cc.o CMakeFiles/netcore_fiber_obj.dir/src/fiber/fiber_pool.cc.o CMakeFiles/netcore_fiber_obj.dir/src/fiber/scheduler.cc.o CMakeFiles/netcore_fiber_obj.dir/src/fiber/timer.cc.o CMakeFiles/netcore_fiber_obj.dir/src/fiber/timing_wheel.cc.o
-/usr/bin/ranlib libnetcore_fiber.a

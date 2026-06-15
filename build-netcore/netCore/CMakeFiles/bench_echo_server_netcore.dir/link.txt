@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/bench_echo_server_netcore.dir/__/tests/lemo/socket/bench_echo_server.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/netCore/bench_echo_server  libnetcore_socket.a libnetcore_io.a libnetcore_fiber.a libnetcore_memory.a libnetcore_buffer.a libnetcore_thread.a libnetcore_utils.a 

@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -g CMakeFiles/test_fiber.dir/__/__/tests/net/test_fiber.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/test_fiber  libnet_log.a -lyaml-cpp -ldl 

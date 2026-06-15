@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblemo_thread.a CMakeFiles/lemo_thread_obj.dir/src/thread/semaphore.cc.o CMakeFiles/lemo_thread_obj.dir/src/thread/thread.cc.o
-/usr/bin/ranlib liblemo_thread.a

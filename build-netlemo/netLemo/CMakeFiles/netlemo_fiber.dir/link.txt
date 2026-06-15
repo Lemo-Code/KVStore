@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnetlemo_fiber.a CMakeFiles/netlemo_fiber_obj.dir/src/fiber/fiber.cc.o CMakeFiles/netlemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o CMakeFiles/netlemo_fiber_obj.dir/src/fiber/scheduler.cc.o CMakeFiles/netlemo_fiber_obj.dir/src/fiber/timer.cc.o CMakeFiles/netlemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o
-/usr/bin/ranlib libnetlemo_fiber.a

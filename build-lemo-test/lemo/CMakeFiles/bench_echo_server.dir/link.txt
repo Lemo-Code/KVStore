@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/bench_echo_server.dir/__/tests/lemo/socket/bench_echo_server.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/lemo/socket/bench_echo_server  liblemo_socket.a liblemo_io.a liblemo_fiber.a liblemo_buffer.a liblemo_thread.a liblemo_utils.a liblemo_memory.a -ldl 

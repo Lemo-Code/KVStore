@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -g CMakeFiles/bench_scheduler.dir/__/__/tests/net/bench_scheduler.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/bench_scheduler  libnet_log.a -lyaml-cpp -ldl 

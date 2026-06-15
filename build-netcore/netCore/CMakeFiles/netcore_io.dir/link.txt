@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnetcore_io.a CMakeFiles/netcore_io_obj.dir/src/io/fd_context.cc.o CMakeFiles/netcore_io_obj.dir/src/io/epoll_context.cc.o CMakeFiles/netcore_io_obj.dir/src/io/iomanager.cc.o CMakeFiles/netcore_io_obj.dir/src/io/hook.cc.o CMakeFiles/netcore_io_obj.dir/src/io/connect.cc.o
-/usr/bin/ranlib libnetcore_io.a

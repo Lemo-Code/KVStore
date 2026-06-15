@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -g CMakeFiles/test_hook.dir/__/__/tests/net/test_hook.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/test_hook  libnet_log.a -lyaml-cpp -ldl 

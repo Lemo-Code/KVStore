@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnetlemo_socket.a CMakeFiles/netlemo_socket_obj.dir/src/socket/address.cc.o CMakeFiles/netlemo_socket_obj.dir/src/socket/socket.cc.o
-/usr/bin/ranlib libnetlemo_socket.a

@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -g CMakeFiles/bench_log_perf.dir/__/__/tests/net/bench_log_perf.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/net/bench_log_perf  libnet_log.a -lyaml-cpp -ldl 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libledis_store.a CMakeFiles/ledis_store.dir/src/store/object.cc.o CMakeFiles/ledis_store.dir/src/store/keyspace.cc.o CMakeFiles/ledis_store.dir/src/store/db_manager.cc.o CMakeFiles/ledis_store.dir/src/store/memory.cc.o CMakeFiles/ledis_store.dir/src/store/eviction.cc.o CMakeFiles/ledis_store.dir/src/store/snapshot.cc.o CMakeFiles/ledis_store.dir/src/store/aof.cc.o
-/usr/bin/ranlib libledis_store.a

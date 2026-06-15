@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblemo_fiber.a CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber.cc.o CMakeFiles/lemo_fiber_obj.dir/src/fiber/fiber_pool.cc.o CMakeFiles/lemo_fiber_obj.dir/src/fiber/scheduler.cc.o CMakeFiles/lemo_fiber_obj.dir/src/fiber/timer.cc.o CMakeFiles/lemo_fiber_obj.dir/src/fiber/timing_wheel.cc.o
-/usr/bin/ranlib liblemo_fiber.a

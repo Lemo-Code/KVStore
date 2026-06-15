@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnettycore_server.a CMakeFiles/nettycore_server_obj.dir/src/server/worker_group.cc.o CMakeFiles/nettycore_server_obj.dir/src/server/acceptor.cc.o CMakeFiles/nettycore_server_obj.dir/src/server/tcp_server.cc.o
-/usr/bin/ranlib libnettycore_server.a

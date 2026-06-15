@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnetlemo_thread.a CMakeFiles/netlemo_thread_obj.dir/src/thread/semaphore.cc.o CMakeFiles/netlemo_thread_obj.dir/src/thread/thread.cc.o
-/usr/bin/ranlib libnetlemo_thread.a

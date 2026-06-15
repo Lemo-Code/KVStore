@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/test_hook_netcore.dir/__/tests/lemo/io/test_hook.cc.o -o /home/wangmaosen/copy_linux/third/KVStore/bin/netCore/io/test_hook  libnetcore_io.a libnetcore_fiber.a libnetcore_thread.a libnetcore_utils.a libnetcore_memory.a 

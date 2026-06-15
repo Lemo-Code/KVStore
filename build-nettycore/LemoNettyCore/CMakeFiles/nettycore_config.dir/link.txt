@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnettycore_config.a CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_var.cc.o CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_center.cc.o CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/property_loader.cc.o CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/log_config.cc.o CMakeFiles/nettycore_config_obj.dir/__/lemo/src/config/config_printer.cc.o CMakeFiles/nettycore_config_obj.dir/src/config/yaml_loader.cc.o CMakeFiles/nettycore_config_obj.dir/src/config/netty_config.cc.o
-/usr/bin/ranlib libnettycore_config.a
