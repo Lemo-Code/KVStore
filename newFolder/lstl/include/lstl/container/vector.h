@@ -97,9 +97,8 @@ private:
             // Room exists at end: shift tail and place
             construct(finish_, *(finish_ - 1));
             ++finish_;
-            T x_copy = value;
             std::copy_backward(pos, finish_ - 2, finish_ - 1);
-            *pos = x_copy;
+            *pos = value;
         } else {
             // Must grow allocation
             size_type old_size = size();
@@ -113,13 +112,13 @@ private:
                 ++new_finish;
                 new_finish = lstl::uninitialized_copy(pos, finish_, new_finish);
             } catch (...) {
-                destroy(new_start, new_finish);
+                lstl::destroy(new_start, new_finish);
                 data_allocator::deallocate(new_start, new_cap);
                 throw;
             }
 
             // Cleanup old storage and update pointers
-            destroy(start_, finish_);
+            lstl::destroy(start_, finish_);
             data_allocator::deallocate(start_, capacity());
 
             start_ = new_start;
@@ -201,7 +200,7 @@ public:
      * @brief  Destructor — destroys all elements and frees memory.
      */
     ~vector() {
-        destroy(start_, finish_);
+        lstl::destroy(start_, finish_);
         data_allocator::deallocate(start_, capacity());
     }
 
@@ -220,7 +219,7 @@ public:
                 size_type min_sz = size() < other_sz ? size() : other_sz;
                 std::copy(other.start_, other.start_ + min_sz, start_);
                 if (size() > other_sz) {
-                    destroy(start_ + other_sz, finish_);
+                    lstl::destroy(start_ + other_sz, finish_);
                 } else {
                     lstl::uninitialized_copy(other.start_ + size(), other.finish_, finish_);
                 }
@@ -237,7 +236,7 @@ public:
      */
     vector& operator=(vector&& other) noexcept {
         if (this != &other) {
-            destroy(start_, finish_);
+            lstl::destroy(start_, finish_);
             data_allocator::deallocate(start_, capacity());
             start_ = other.start_;
             finish_ = other.finish_;
@@ -358,7 +357,7 @@ public:
                 data_allocator::deallocate(new_start, n);
                 throw;
             }
-            destroy(start_, finish_);
+            lstl::destroy(start_, finish_);
             data_allocator::deallocate(start_, capacity());
             start_ = new_start;
             finish_ = new_finish;
@@ -391,28 +390,13 @@ public:
      * @param  value  Element to copy-construct at the end.
      */
     void push_back(const T& value) {
-        if (finish_ != end_of_storage_) {
-            construct(finish_, value);
-            ++finish_;
-        } else {
-            insert_aux(end(), value);
-        }
+        if (finish_ != end_of_storage_) { construct(finish_, value); ++finish_; }
+        else { insert_aux(end(), value); }
     }
 
-    /**
-     * @brief  Appends an element (move version).
-     *
-     * Amortized O(1). Moves the element instead of copying.
-     *
-     * @param  value  Element to move-construct at the end.
-     */
     void push_back(T&& value) {
-        if (finish_ != end_of_storage_) {
-            construct(finish_, lstl::move(value));
-            ++finish_;
-        } else {
-            insert_aux(end(), lstl::move(value));
-        }
+        if (finish_ != end_of_storage_) { construct(finish_, lstl::move(value)); ++finish_; }
+        else { insert_aux(end(), lstl::move(value)); }
     }
 
     /**
@@ -424,7 +408,7 @@ public:
      */
     void pop_back() {
         --finish_;
-        destroy(finish_);
+        lstl::destroy(finish_);
     }
 
     /**
@@ -469,7 +453,7 @@ public:
      * O(size()). After clear(), size() == 0 but capacity() is unchanged.
      */
     void clear() {
-        destroy(start_, finish_);
+        lstl::destroy(start_, finish_);
         finish_ = start_;
     }
 
@@ -484,7 +468,7 @@ public:
      */
     void resize(size_type n, const T& value = T()) {
         if (n < size()) {
-            destroy(start_ + n, finish_);
+            lstl::destroy(start_ + n, finish_);
             finish_ = start_ + n;
         } else if (n > size()) {
             if (n > capacity()) reserve(n);

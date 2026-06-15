@@ -41,6 +41,9 @@ public:
     typedef detail::hashtable_iterator<const value_type> const_iterator;
 
     unordered_multiset() : table_() {}
+    // move
+    decltype(*this)(decltype(*this)&& other) noexcept : table_() { table_.swap(other.table_); }
+    decltype(*this)& operator=(decltype(*this)&& other) noexcept { table_.swap(other.table_); return *this; }
 
     template <typename InputIterator, typename = typename enable_if<!is_integral<InputIterator>::value>::type>
     unordered_multiset(InputIterator first, InputIterator last) : table_() {

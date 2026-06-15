@@ -274,7 +274,7 @@ public:
     bool empty() const { return num_elements_ == 0; }
     size_type bucket_count() const { return num_buckets_; }
     float max_load_factor() const { return max_load_factor_; }
-    void max_load_factor(float mlf) { max_load_factor_ = mlf; }
+    void max_load_factor(float mlf) { max_load_factor_ = mlf; if (num_elements_ > 0) check_load_factor(); }
 
     //////////////////////////////////////////////////////////////////////////
     // Insert (unique keys)

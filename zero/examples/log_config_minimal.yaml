@@ -1,0 +1,7 @@
+# Zero 日志最小配置 — 仅控制台输出
+log:
+  root_level: INFO
+  appenders:
+    - type: console
+      color: true
+      pattern: "%C%d{%H:%M:%S} [%p] %m%n\033[0m"

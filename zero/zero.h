@@ -26,3 +26,43 @@
 // Scheduler
 #include "zero/scheduler/scheduler.h"
 #include "zero/scheduler/work_stealing_queue.h"
+
+// Net
+#include "zero/net/buffer.h"
+#include "zero/net/address.h"
+#include "zero/net/socket.h"
+#include "zero/net/stream.h"
+#include "zero/net/socket_stream.h"
+#include "zero/net/tcp_server.h"
+
+// Log
+#include "zero/log/log.h"
+#include "zero/log/async_log.h"
+
+// Config
+#include "zero/config/config.h"
+
+// Framework (in namespace zero)
+namespace zero {
+    void InitZero(int argc, char** argv);
+    void InitConfig();
+    void LoadConfig(const std::string& path);
+
+    // 便捷的配置读取
+    namespace config {
+        int          LogLevel();
+        std::string  LogFile();
+        std::string  LogPattern();
+        bool         LogAsync();
+        int          LogAsyncThreads();
+        uint32_t     FiberStackSize();
+        uint32_t     FiberPoolSize();
+        int          SchedulerThreads();
+        bool         SchedulerUseCaller();
+        int64_t      SocketConnectTimeoutMs();
+        int64_t      SocketRecvTimeoutMs();
+        int64_t      SocketSendTimeoutMs();
+        bool         SocketTcpNoDelay();
+        int          ReactorPollTimeoutMs();
+    }
+}

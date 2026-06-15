@@ -441,7 +441,7 @@ void rb_tree<K,V,KOV,C,A>::erase_fixup(base_ptr x, base_ptr x_parent) {
                 if (w->right) w->right->color = rb_black;
                 rotate_left(x_parent); break;
             }
-        } else if (w) {
+        } else {
             base_ptr w = x_parent->left;
             if (is_red(w)) { w->color = rb_black; x_parent->color = rb_red; rotate_right(x_parent); w = x_parent->left; }
             if (w && is_black(w->right) && is_black(w->left)) { w->color = rb_red; x = x_parent; x_parent = x_parent->parent; }
@@ -467,7 +467,7 @@ void rb_tree<K,V,KOV,C,A>::erase_node(base_ptr z) {
         x = z->right; x_parent = z->parent; transplant(z, z->right);
     } else if (z->right == nullptr) {
         x = z->left; x_parent = z->parent; transplant(z, z->left);
-    } else if (w) {
+    } else {
         y = base_type::minimum(z->right);
         y_original_color = y->color;
         x = y->right;

@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include <chrono>
+#include <functional>
 
 namespace zero {
 
@@ -15,6 +16,7 @@ namespace zero {
 // ====================================================================
 const char* LogLevel::ToString(Level level) {
     switch (level) {
+        case TRACE: return "TRACE";
         case DEBUG: return "DEBUG";
         case INFO:  return "INFO";
         case WARN:  return "WARN";
@@ -25,11 +27,13 @@ const char* LogLevel::ToString(Level level) {
 }
 
 LogLevel::Level LogLevel::FromString(const std::string& str) {
+    if (str == "TRACE") return TRACE;
     if (str == "DEBUG") return DEBUG;
     if (str == "INFO")  return INFO;
     if (str == "WARN")  return WARN;
     if (str == "ERROR") return ERROR;
     if (str == "FATAL") return FATAL;
+    if (str == "OFF")   return OFF;
     return UNKNOWN;
 }
 
@@ -118,6 +122,24 @@ void LogFormatter::init() {
                             }
                             break;
                         }
+                        case 'N': { // logger name
+                            os << event->getLogger()->getName();
+                            break;
+                        }
+                        case 'C': { // color start/end
+                            os << ConsoleLogAppender::levelColor(level);
+                            break;
+                        }
+                        case 'X': { // MDC value
+                            if (fmt[i+1] == '{') {
+                                size_t end = fmt.find('}', i+1);
+                                std::string key = (end != std::string::npos)
+                                    ? fmt.substr(i+2, end - i - 2) : "";
+                                i = (end != std::string::npos) ? end : i;
+                                os << MDC::get(key);
+                            }
+                            break;
+                        }
                         case '%':
                             os << '%';
                             break;
@@ -155,8 +177,48 @@ LogFormatter::ptr LogAppender::getFormatter() const {
     return formatter_;
 }
 
-void StdoutLogAppender::log(std::shared_ptr<Logger> logger,
-                             LogLevel::Level level, LogEvent::ptr event) {
+// ====================================================================
+// MDC
+// ====================================================================
+static thread_local std::map<std::string, std::string> t_mdc;
+
+void MDC::put(const std::string& key, const std::string& val) { t_mdc[key] = val; }
+std::string MDC::get(const std::string& key) { auto it = t_mdc.find(key); return it != t_mdc.end() ? it->second : ""; }
+void MDC::remove(const std::string& key) { t_mdc.erase(key); }
+void MDC::clear() { t_mdc.clear(); }
+const std::map<std::string, std::string>& MDC::getAll() { return t_mdc; }
+
+// ====================================================================
+// RateLimiter
+// ====================================================================
+bool RateLimiter::allow() {
+    Mutex::Lock lock(mutex_);
+    auto now = std::chrono::steady_clock::now();
+    double elapsed = std::chrono::duration<double>(now - last_update_).count();
+    last_update_ = now;
+    tokens_ += elapsed * rate_;
+    if (tokens_ > burst_) tokens_ = burst_;
+    if (tokens_ >= 1.0) { tokens_ -= 1.0; return true; }
+    return false;
+}
+
+// ====================================================================
+// ConsoleLogAppender (ANSI color)
+// ====================================================================
+const char* ConsoleLogAppender::levelColor(LogLevel::Level level) {
+    switch (level) {
+        case LogLevel::TRACE: return "\033[37m";    // white
+        case LogLevel::DEBUG: return "\033[36m";    // cyan
+        case LogLevel::INFO:  return "\033[32m";    // green
+        case LogLevel::WARN:  return "\033[33m";    // yellow
+        case LogLevel::ERROR: return "\033[31m";    // red
+        case LogLevel::FATAL: return "\033[35m";    // magenta
+        default:              return "\033[0m";
+    }
+}
+
+void ConsoleLogAppender::log(std::shared_ptr<Logger> logger,
+                              LogLevel::Level level, LogEvent::ptr event) {
     Mutex::Lock lock(mutex_);
     std::string output;
     if (formatter_) {
@@ -164,11 +226,19 @@ void StdoutLogAppender::log(std::shared_ptr<Logger> logger,
     } else {
         output = event->getSS().str() + "\n";
     }
-    std::cout << output << std::flush;
+    if (use_color_) {
+        std::cout << levelColor(level) << output << "\033[0m" << std::flush;
+    } else {
+        std::cout << output << std::flush;
+    }
 }
 
-FileLogAppender::FileLogAppender(const std::string& filename)
-    : filename_(filename) {
+// ====================================================================
+// FileLogAppender (with rolling)
+// ====================================================================
+FileLogAppender::FileLogAppender(const std::string& filename,
+                                   uint64_t max_size, uint32_t max_files)
+    : filename_(filename), max_size_(max_size), max_files_(max_files) {
     reopen();
 }
 
@@ -182,8 +252,28 @@ void FileLogAppender::log(std::shared_ptr<Logger> logger,
         output = event->getSS().str() + "\n";
     }
     if (stream_.is_open()) {
-        stream_ << output << std::flush;
+        stream_ << output;
+        current_size_ += output.size();
+        if (!output.empty() && output.back() != '\n') {
+            stream_ << std::endl;
+            current_size_++;
+        } else {
+            stream_ << std::flush;
+        }
     }
+    if (max_size_ > 0 && current_size_ >= max_size_) rotate();
+}
+
+void FileLogAppender::rotate() {
+    if (stream_.is_open()) stream_.close();
+    for (uint32_t i = max_files_; i > 0; --i) {
+        std::string old_name = filename_ + "." + std::to_string(i - 1);
+        std::string new_name = filename_ + "." + std::to_string(i);
+        if (i == 1) old_name = filename_;
+        if (i == max_files_) std::remove(new_name.c_str());
+        std::rename(old_name.c_str(), new_name.c_str());
+    }
+    reopen();
 }
 
 void FileLogAppender::flush() {
@@ -193,6 +283,10 @@ void FileLogAppender::flush() {
 bool FileLogAppender::reopen() {
     if (stream_.is_open()) stream_.close();
     stream_.open(filename_, std::ios::app);
+    if (stream_.is_open()) {
+        stream_.seekp(0, std::ios::end);
+        current_size_ = stream_.tellp();
+    }
     return stream_.is_open();
 }
 
@@ -201,16 +295,41 @@ bool FileLogAppender::reopen() {
 // ====================================================================
 Logger::Logger(const std::string& name) : name_(name) {
     formatter_.reset(new LogFormatter());
+    level_set_ = (name == "root"); // root level is explicit
 }
 
 void Logger::log(LogLevel::Level level, LogEvent::ptr event) {
-    if (level < level_) return;
-    MutexType::Lock lock(mutex_);
-    for (auto& ap : appenders_) {
-        if (level >= ap->getLevel()) {
-            ap->log(shared_from_this(), level, event);
+    // Check effective level (this logger or inherited from parent chain)
+    Logger::ptr cur = shared_from_this();
+    LogLevel::Level effective_level = level_;
+    while (!level_set_ && cur->parent_) {
+        cur = cur->parent_;
+        effective_level = cur->level_;
+    }
+    if (level < effective_level) return;
+
+    // Rate limiting (if configured)
+    if (limiter_ && !limiter_->allow()) return;
+
+    // Log to own appenders
+    {
+        MutexType::Lock lock(mutex_);
+        for (auto& ap : appenders_) {
+            if (level >= ap->getLevel()) {
+                ap->log(shared_from_this(), level, event);
+            }
         }
     }
+    // Also log to parent's appenders (inheritance)
+    if (parent_) {
+        parent_->log(level, event);
+    }
+}
+
+void Logger::forEachAppender(std::function<void(LogAppender::ptr)> cb) {
+    MutexType::Lock lock(mutex_);
+    for (auto& ap : appenders_) cb(ap);
+    if (parent_) parent_->forEachAppender(cb);
 }
 
 void Logger::addAppender(LogAppender::ptr appender) {
@@ -277,16 +396,35 @@ LogEventWrap::~LogEventWrap() {
 // ====================================================================
 LoggerManager::LoggerManager() {
     root_ = std::make_shared<Logger>("root");
-    root_->addAppender(std::make_shared<StdoutLogAppender>());
+    root_->addAppender(std::make_shared<ConsoleLogAppender>(true));
     loggers_["root"] = root_;
 }
 
+Logger::ptr LoggerManager::getOrCreateParent(const std::string& name) {
+    // "a.b.c" → parent is "a.b"
+    size_t pos = name.rfind('.');
+    if (pos == std::string::npos) return root_;
+
+    std::string parent_name = name.substr(0, pos);
+    auto it = loggers_.find(parent_name);
+    if (it != loggers_.end()) return it->second;
+
+    // Create parent recursively
+    auto parent = std::make_shared<Logger>(parent_name);
+    parent->setParent(getOrCreateParent(parent_name));
+    loggers_[parent_name] = parent;
+    return parent;
+}
+
 Logger::ptr LoggerManager::getLogger(const std::string& name) {
+    if (name == "root" || name.empty()) return root_;
+
     Mutex::Lock lock(mutex_);
     auto it = loggers_.find(name);
     if (it != loggers_.end()) return it->second;
 
     auto logger = std::make_shared<Logger>(name);
+    logger->setParent(getOrCreateParent(name));
     logger->setFormatter(root_->getFormatter());
     loggers_[name] = logger;
     return logger;

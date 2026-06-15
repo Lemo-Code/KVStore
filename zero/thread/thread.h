@@ -12,6 +12,7 @@
 
 #include "zero/base/noncopyable.h"
 #include "zero/thread/semaphore.h"
+#include "zero/log/log.h"
 
 namespace zero {
 
@@ -101,11 +102,11 @@ private:
         try {
             t->cb_();
         } catch (std::exception& e) {
-            fprintf(stderr, "Thread [%s] unhandled exception: %s\n",
-                    t->name_.c_str(), e.what());
+            ZERO_LOG_ERROR(ZERO_LOG_ROOT()) << "Thread [" << t->name_
+                << "] unhandled exception: " << e.what();
         } catch (...) {
-            fprintf(stderr, "Thread [%s] unhandled unknown exception\n",
-                    t->name_.c_str());
+            ZERO_LOG_ERROR(ZERO_LOG_ROOT()) << "Thread [" << t->name_
+                << "] unhandled unknown exception";
         }
 
         return nullptr;

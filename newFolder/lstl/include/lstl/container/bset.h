@@ -67,8 +67,33 @@ public:
         typename tree_type::leaf_node* leaf_;
         size_t pos_;
     };
+class const_iterator {
+    public:
+        typedef Key                      value_type;
+        typedef const Key&               reference;
+        typedef const Key*               pointer;
+        typedef ptrdiff_t                 difference_type;
+        typedef std::forward_iterator_tag  iterator_category;
 
-    typedef const iterator const_iterator;
+        const_iterator() : leaf_(nullptr), pos_(0) {}
+        const_iterator(const iterator& it) : leaf_(it.leaf()), pos_(it.pos()) {}
+        const_iterator(typename tree_type::leaf_node* leaf, size_t pos) : leaf_(leaf), pos_(pos) {}
+
+        reference operator*() const { return reinterpret_cast<reference>(leaf_->values[pos_]); }
+        pointer operator->() const { return &(operator*()); }
+
+        const_iterator& operator++() { ++pos_; if (pos_ >= leaf_->num_keys) { leaf_ = leaf_->next; pos_ = 0; } return *this; }
+        const_iterator operator++(int) { const_iterator tmp = *this; ++(*this); return tmp; }
+        bool operator==(const const_iterator& o) const { return leaf_ == o.leaf_ && pos_ == o.pos_; }
+        bool operator!=(const const_iterator& o) const { return !(*this == o); }
+
+        friend class bmap;
+    private:
+        typename tree_type::leaf_node* leaf_;
+        size_t pos_;
+    };
+
+    
 
     bset() : tree_() {}
     explicit bset(const Compare& comp) : tree_(comp) {}
@@ -84,12 +109,14 @@ public:
 
     iterator begin() { return iterator(tree_.first_leaf(), 0); }
     iterator end() { return iterator(nullptr, 0); }
+    const_iterator begin() const { return const_iterator(tree_.first_leaf(), 0); }
+    const_iterator end() const { return const_iterator(nullptr, 0); }
 
     bool empty() const { return tree_.empty(); }
     size_type size() const { return tree_.size(); }
 
-    void insert(const value_type& v) { tree_.insert(v, v); }
-    bool erase(const key_type& k) { return tree_.erase(k); }
+    pair<iterator,bool> insert(const value_type& v) { auto sz = tree_.size(); tree_.insert(v, v); return lstl::make_pair(find(v), tree_.size() > sz); }
+    size_type erase(const key_type& k) { return tree_.erase(k) ? 1 : 0; }
     void clear() { tree_.clear(); }
 
     iterator find(const key_type& k) {

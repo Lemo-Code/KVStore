@@ -25,3 +25,13 @@ add_executable(epoll_test epoll_test.cc)
 
 add_executable(stress_test stress_test.cc)
 target_link_libraries(stress_test zero)
+
+add_executable(log_bench log_bench.cc)
+target_link_libraries(log_bench zero)
+
+add_executable(config_test config_test.cc)
+target_link_libraries(config_test zero)
+
+# Benchmark
+add_executable(bench_echo bench_echo.cc)
+target_link_libraries(bench_echo zero)

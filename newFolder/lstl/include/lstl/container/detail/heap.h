@@ -108,7 +108,7 @@ void make_heap(RandomAccessIterator first, RandomAccessIterator last,
     if (n <= 1) return;
 
     // Start from last parent and sift down each node
-    for (distance_type i = n / 2 - 1; i >= 0; --i) {
+    for (distance_type i = n / 2; i > 0; --i) {
         auto value = lstl::move(*(first + i));
         distance_type parent = i;
         distance_type child = heap_left_child(parent);

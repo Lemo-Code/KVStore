@@ -20,7 +20,7 @@ namespace zero {
 // ============ LogLevel ============
 class LogLevel {
 public:
-    enum Level { UNKNOWN = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, FATAL = 5 };
+    enum Level { UNKNOWN = 0, TRACE = 1, DEBUG = 2, INFO = 3, WARN = 4, ERROR = 5, FATAL = 6, OFF = 99 };
     static const char* ToString(Level level);
     static Level FromString(const std::string& str);
 };
@@ -86,6 +86,34 @@ private:
     bool error_ = false;
 };
 
+// ============ MDC (Mapped Diagnostic Context) ============
+// Fiber-local key-value store for structured logging.
+// Usage: MDC::put("request_id", "abc123");  // appears as %X{request_id}
+class MDC {
+public:
+    static void put(const std::string& key, const std::string& val);
+    static std::string get(const std::string& key);
+    static void remove(const std::string& key);
+    static void clear();
+    static const std::map<std::string, std::string>& getAll();
+};
+
+// ============ RateLimiter (Token Bucket) ============
+class RateLimiter {
+public:
+    RateLimiter(double rate_per_sec = 100.0, int burst = 10)
+        : rate_(rate_per_sec), burst_(burst), tokens_(burst),
+          last_update_(std::chrono::steady_clock::now()) {}
+    bool allow();
+
+private:
+    double rate_;
+    int burst_;
+    double tokens_;
+    std::chrono::steady_clock::time_point last_update_;
+    Mutex mutex_;
+};
+
 // ============ LogAppender ============
 class LogAppender {
     friend class Logger;
@@ -108,24 +136,37 @@ protected:
     Mutex mutex_;
 };
 
-// Stdout
-class StdoutLogAppender : public LogAppender {
+// Console with ANSI color support
+class ConsoleLogAppender : public LogAppender {
 public:
-    using ptr = std::shared_ptr<StdoutLogAppender>;
+    using ptr = std::shared_ptr<ConsoleLogAppender>;
+    explicit ConsoleLogAppender(bool use_color = true) : use_color_(use_color) {}
     void log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) override;
+    static const char* levelColor(LogLevel::Level level);
+private:
+    bool use_color_;
 };
 
-// File
+// Stdout (backward compat)
+using StdoutLogAppender = ConsoleLogAppender;
+
+// File with rolling support
 class FileLogAppender : public LogAppender {
 public:
     using ptr = std::shared_ptr<FileLogAppender>;
-    explicit FileLogAppender(const std::string& filename);
+    explicit FileLogAppender(const std::string& filename,
+                             uint64_t max_size = 0,       // 0=no rolling
+                             uint32_t max_files = 10);
     void log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) override;
     void flush() override;
     bool reopen();
 private:
+    void rotate();
     std::string filename_;
     std::ofstream stream_;
+    uint64_t max_size_;
+    uint32_t max_files_;
+    uint64_t current_size_ = 0;
 };
 
 // ============ Logger ============
@@ -137,15 +178,23 @@ public:
     explicit Logger(const std::string& name = "root");
 
     void log(LogLevel::Level level, LogEvent::ptr event);
+    void trace(LogEvent::ptr e) { log(LogLevel::TRACE, e); }
     void debug(LogEvent::ptr e) { log(LogLevel::DEBUG, e); }
     void info(LogEvent::ptr e)  { log(LogLevel::INFO, e); }
     void warn(LogEvent::ptr e)  { log(LogLevel::WARN, e); }
     void error(LogEvent::ptr e) { log(LogLevel::ERROR, e); }
     void fatal(LogEvent::ptr e) { log(LogLevel::FATAL, e); }
 
+    // Hierarchical logger support
+    void setParent(Logger::ptr parent) { parent_ = parent; }
+    Logger::ptr getParent() const { return parent_; }
+
     void addAppender(LogAppender::ptr appender);
     void delAppender(LogAppender::ptr appender);
     void clearAppenders();
+
+    // Get all effective appenders (own + inherited from parent chain)
+    void forEachAppender(std::function<void(LogAppender::ptr)> cb);
 
     void setFormatter(LogFormatter::ptr fmt);
     void setFormatter(const std::string& pattern);
@@ -155,13 +204,19 @@ public:
     void setLevel(LogLevel::Level l) { level_ = l; }
     const std::string& getName() const { return name_; }
 
+    // Rate limiting
+    void setRateLimiter(std::shared_ptr<RateLimiter> limiter) { limiter_ = limiter; }
+
     void flush();
 
 private:
     std::string name_;
     LogLevel::Level level_ = LogLevel::DEBUG;
+    bool level_set_ = false; ///< true if user explicitly set level (vs inherited)
     LogFormatter::ptr formatter_;
     std::list<LogAppender::ptr> appenders_;
+    Logger::ptr parent_;
+    std::shared_ptr<RateLimiter> limiter_;
     MutexType mutex_;
 };
 
@@ -182,9 +237,12 @@ private:
 class LoggerManager {
 public:
     LoggerManager();
+    /// Get or create a logger. Hierarchical: "a.b.c" auto-creates parents "a" and "a.b".
     Logger::ptr getLogger(const std::string& name);
     Logger::ptr getRoot() const { return root_; }
+    void setRootLevel(LogLevel::Level l) { root_->setLevel(l); }
 private:
+    Logger::ptr getOrCreateParent(const std::string& name);
     std::map<std::string, Logger::ptr> loggers_;
     Logger::ptr root_;
     Mutex mutex_;
@@ -197,6 +255,7 @@ using LoggerMgr = Singleton<LoggerManager>;
     if (logger->getLevel() <= level) \
         zero::LogEventWrap(logger, level, __FILE__, __LINE__).getSS()
 
+#define ZERO_LOG_TRACE(logger) ZERO_LOG_LEVEL(logger, zero::LogLevel::TRACE)
 #define ZERO_LOG_DEBUG(logger) ZERO_LOG_LEVEL(logger, zero::LogLevel::DEBUG)
 #define ZERO_LOG_INFO(logger)  ZERO_LOG_LEVEL(logger, zero::LogLevel::INFO)
 #define ZERO_LOG_WARN(logger)  ZERO_LOG_LEVEL(logger, zero::LogLevel::WARN)

@@ -1,3 +1,4 @@
+#include "zero/log/log.h"
 #include "zero/scheduler/hook.h"
 #include "zero/scheduler/reactor.h"
 #include "zero/scheduler/fd_manager.h"
@@ -41,7 +42,7 @@ static void hook_init() {
         name##_f = (name##_func_t)dlsym(RTLD_DEFAULT, #name); \
     } \
     if (!name##_f) { \
-        fprintf(stderr, "hook_init: failed to find %s\n", #name); \
+        ZERO_LOG_ERROR(ZERO_LOG_ROOT()) << "hook_init: failed to find " << #name; \
     }
     HOOK_FUN(XX)
 #undef XX

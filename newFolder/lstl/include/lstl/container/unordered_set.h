@@ -59,6 +59,9 @@ public:
     typedef detail::hashtable_iterator<const value_type>  const_iterator;
 
     unordered_set() : table_() {}
+    // move
+    unordered_set(unordered_set&& other) noexcept : table_() { table_.swap(other.table_); }
+    unordered_set& operator=(unordered_set&& other) noexcept { table_.swap(other.table_); return *this; }
     template <typename InputIterator, typename = typename enable_if<!is_integral<InputIterator>::value>::type>
     unordered_set(InputIterator first, InputIterator last) : table_() {
         for (; first != last; ++first) insert(*first);

@@ -1,0 +1,157 @@
+# =============================================================================
+# Zero 日志库 — 完整配置参考 (所有可用选项 + 详细注释)
+# =============================================================================
+# 加载方式:
+#   1. YAML 文件:  LogConfig::LoadFromYamlFile("log_config.yaml")
+#   2. Config 系统: Config::LoadFromYaml("config.yaml")
+#   3. 程序化:      LogConfig::QuickSetup(console, file, level)
+# =============================================================================
+
+log:
+
+  # ---------------------------------------------------------------------------
+  # root_level: 根日志器级别
+  # ---------------------------------------------------------------------------
+  # 可选值: TRACE | DEBUG | INFO | WARN | ERROR | FATAL | OFF
+  # 默认值: DEBUG
+  # 说明:   低于此级别的日志被过滤。子 Logger 如未显式设置, 继承此值。
+  root_level: DEBUG
+
+  # ---------------------------------------------------------------------------
+  # pattern: 全局默认格式
+  # ---------------------------------------------------------------------------
+  # 格式符说明:
+  #   %d{格式}   时间戳, 格式为 strftime 格式
+  #              示例: %d{%Y-%m-%d %H:%M:%S} → 2025-06-15 14:30:00
+  #                    %d{%H:%M:%S}           → 14:30:00
+  #   %p         日志级别 (TRACE/DEBUG/INFO/WARN/ERROR/FATAL)
+  #   %t         线程 ID (pthread_self)
+  #   %F         Fiber/Coroutine ID
+  #   %N         Logger 名称 (如 "zero.net.http")
+  #   %f         源文件名 (__FILE__)
+  #   %l         源行号 (__LINE__)
+  #   %m         日志消息正文
+  #   %n         换行符
+  #   %X{key}    MDC 上下文值, 如 %X{request_id}
+  #   %C         ANSI 颜色起始 (根据级别: 白=TRACE 青=DEBUG 绿=INFO 黄=WARN 红=ERROR 紫=FATAL)
+  #               注意: 颜色会持续到下一个 %C 或终端重置, 建议配合 \033[0m 使用
+  #   %%         字面量百分号
+  # 默认值: "%d{%Y-%m-%d %H:%M:%S} [%p] [%t] [%F:%l] %m%n"
+  pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%N] [%t] [%f:%l] %m%n"
+
+  # ---------------------------------------------------------------------------
+  # appenders: 输出器列表
+  # ---------------------------------------------------------------------------
+  # 每个 appender 是独立的输出目标, 可以有不同的格式、级别过滤和目的地。
+  # 支持类型: console (控制台) | file (文件)
+  appenders:
+
+    # ============ Appender 1: 控制台 (带颜色) ============
+    - type: console
+      # --- color: 是否启用 ANSI 颜色 (默认: true) ---
+      # true  = 各级别不同颜色输出
+      # false = 纯文本输出
+      color: true
+      # --- level: 此 appender 的最低输出级别 (默认: DEBUG) ---
+      # 低于此级别的日志不会输出到此 appender
+      level: DEBUG
+      # --- pattern: 此 appender 专用的格式 (可选, 不设则用全局 pattern) ---
+      # 含颜色的格式: %C 开启颜色, \033[0m 重置
+      pattern: "%C%d{%H:%M:%S} [%p] [%N] %m%n\033[0m"
+
+    # ============ Appender 2: 普通日志文件 ============
+    - type: file
+      # --- file: 日志文件路径 ---
+      file: /var/log/zero/app.log
+      # --- level: 此文件的最低输出级别 ---
+      level: DEBUG
+      # --- max_size: 文件轮转阈值 (字节), 0=不轮转 (默认: 0) ---
+      # 104857600 = 100MB, 209715200 = 200MB
+      max_size: 104857600
+      # --- max_files: 保留的历史文件数量 (默认: 10) ---
+      # 轮转命名: app.log → app.log.1 → app.log.2 → ...
+      # 超过 max_files 的旧文件被删除
+      max_files: 10
+      # pattern: 文件日志通常不含颜色, 包含完整时间戳
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%N] [%t] [%F:%l] %m%n"
+
+    # ============ Appender 3: 错误日志文件 (仅 ERROR+) ============
+    - type: file
+      file: /var/log/zero/error.log
+      # level=ERROR: 此文件只记录 ERROR 和 FATAL
+      level: ERROR
+      max_size: 52428800    # 50 MB
+      max_files: 5
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%N] [%t] [%f:%l] %m%n"
+
+    # ============ Appender 4: 无颜色控制台 (CI/重定向场景) ============
+    - type: console
+      color: false
+      level: INFO
+      pattern: "%d{%H:%M:%S} [%p] [%N] %m%n"
+
+  # ---------------------------------------------------------------------------
+  # loggers: 子 Logger 级别覆盖
+  # ---------------------------------------------------------------------------
+  # 只设置 level 的子 logger 会继承父 logger 的 appender。
+  # Logger 名称支持层级: "zero.reactor.epoll" 的父是 "zero.reactor", 祖父是 "zero"。
+  loggers:
+
+    # ---------- Reactor 模块 (IO 事件循环) ----------
+    zero.reactor:
+      level: TRACE       # 调试模式下可看到所有 epoll 事件
+      # 可以为子 logger 单独添加 appender (可选)
+      # appenders 会叠加到父级的 appenders 上
+      # appenders:
+      #   - type: file
+      #     file: /var/log/zero/reactor.log
+      #     max_size: 10485760   # 10 MB
+
+    # ---------- Scheduler 模块 (M:N 调度) ----------
+    zero.scheduler:
+      level: INFO        # 调度器通常不需要 DEBUG
+
+    # ---------- Hook 模块 (syscall 劫持) ----------
+    zero.hook:
+      level: WARN        # hook 调用频繁, 仅记录异常
+
+    # ---------- Net 模块 (Socket/Buffer/Stream) ----------
+    zero.net:
+      level: DEBUG
+
+    # ---------- Net HTTP 子模块 ----------
+    zero.net.http:
+      level: INFO        # HTTP 请求日志
+
+    # ---------- Fiber 模块 ----------
+    zero.fiber:
+      level: DEBUG       # 协程创建/销毁/切换
+
+    # ---------- Config 模块 ----------
+    zero.config:
+      level: INFO        # 配置加载/变更
+
+  # ---------------------------------------------------------------------------
+  # rate_limits: 日志限流 (按 Logger)
+  # ---------------------------------------------------------------------------
+  # 格式: logger_name: { rate: 每秒允许条数, burst: 突发容量 }
+  # 超过限制的日志被丢弃
+  # rate_limits:
+  #   zero.hook:   { rate: 50, burst: 10 }   # hook 模块最多 50条/秒
+  #   zero.reactor: { rate: 200, burst: 50 }  # reactor 最多 200条/秒
+
+# =============================================================================
+# 场景模板
+# =============================================================================
+# 开发环境:
+#   root_level: DEBUG
+#   appenders: [ console(color:true) ]
+#
+# 测试环境:
+#   root_level: INFO
+#   appenders: [ console(color:true), file(app.log, 50MB, 5) ]
+#
+# 生产环境:
+#   root_level: INFO        (或 WARN 减少 IO)
+#   appenders: [ console(color:false, level:ERROR), file(app.log, 200MB, 20), file(error.log, 50MB, 10, level:ERROR) ]
+#   loggers:   { zero.hook: WARN, zero.reactor: INFO }

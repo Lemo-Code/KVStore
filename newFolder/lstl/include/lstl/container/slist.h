@@ -156,7 +156,7 @@ public:
     }
 
     iterator begin() { return iterator(head_.next); }
-    const_iterator begin() const { return iterator(head_.next); }
+    const_iterator begin() const { return const_iterator(head_.next); }
     const_iterator cbegin() const { return begin(); }
     iterator end() { return iterator(nullptr); }
     const_iterator end() const { return iterator(nullptr); }
@@ -185,6 +185,11 @@ public:
     }
 
     // Insert after position
+    iterator insert_after(const_iterator pos, T&& value) {
+        node_type* node = create_node(lstl::move(value));
+        detail::slist_insert_after(pos.base(), node);
+        return iterator(node);
+    }
     iterator insert_after(const_iterator pos, const T& value) {
         node_type* node = create_node(value);
         detail::slist_insert_after(pos.base(), node);

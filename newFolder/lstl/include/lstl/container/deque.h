@@ -53,8 +53,11 @@ public:
     typedef size_t                                      size_type;
     typedef ptrdiff_t                                   difference_type;
 
-    /** @brief  Number of elements per internal buffer (cache-line friendly). */
-    static const size_t kBufferSize = 64;
+    /** @brief  Dynamic buffer size: emulates std::deque's 512-byte block strategy. */
+    static constexpr size_t buffer_size() {
+        return sizeof(T) < 512 ? 512 / sizeof(T) : 1;
+    }
+    static const size_t kBufferSize = buffer_size();
 
     typedef detail::deque_iterator<T, kBufferSize>       iterator;
     typedef detail::deque_iterator<const T, kBufferSize> const_iterator;
@@ -62,8 +65,8 @@ public:
     typedef detail::reverse_iterator<const_iterator>     const_reverse_iterator;
     typedef Alloc                                       allocator_type;
 
-    typedef simple_alloc<T, default_alloc>              data_allocator;
-    typedef simple_alloc<T*, default_alloc>             map_allocator;
+    typedef simple_alloc<T, malloc_alloc>               data_allocator;
+    typedef simple_alloc<T*, malloc_alloc>              map_allocator;
 
 private:
     iterator start_;     ///< Iterator to the first element.
@@ -116,13 +119,92 @@ public:
     bool empty() const { return start_ == finish_; }
 
     // ---- Modifiers ----
-    void push_front(const T& value);
-    void push_back(const T& value);
-    void pop_front();
-    void pop_back();
+    void push_front(const T& value) {
+        if (start_.cur != start_.first) {
+            --start_.cur;
+            construct(start_.cur, value);
+        } else {
+            reserve_map_at_front();
+            *(start_.node - 1) = allocate_buffer();
+            start_.set_node(start_.node - 1);
+            start_.cur = start_.last - 1;
+            construct(start_.cur, value);
+        }
+    }
+    void push_front(T&& value) {
+        if (start_.cur != start_.first) {
+            --start_.cur;
+            construct(start_.cur, lstl::move(value));
+        } else {
+            reserve_map_at_front();
+            *(start_.node - 1) = allocate_buffer();
+            start_.set_node(start_.node - 1);
+            start_.cur = start_.last - 1;
+            construct(start_.cur, lstl::move(value));
+        }
+    }
+    void push_back(const T& value) {
+        if (finish_.cur != finish_.last - 1) {
+            construct(finish_.cur, value);
+            ++finish_.cur;
+        } else {
+            reserve_map_at_back();
+            *(finish_.node + 1) = allocate_buffer();
+            construct(finish_.cur, value);
+            finish_.set_node(finish_.node + 1);
+            finish_.cur = finish_.first;
+        }
+    }
+    void push_back(T&& value) {
+        if (finish_.cur != finish_.last - 1) {
+            construct(finish_.cur, lstl::move(value));
+            ++finish_.cur;
+        } else {
+            reserve_map_at_back();
+            *(finish_.node + 1) = allocate_buffer();
+            construct(finish_.cur, lstl::move(value));
+            finish_.set_node(finish_.node + 1);
+            finish_.cur = finish_.first;
+        }
+    }
+    void pop_front() {
+        lstl::destroy(start_.cur);
+        ++start_.cur;
+        if (start_.cur == start_.last) {
+            if (start_.node != finish_.node) {
+                data_allocator::deallocate(*start_.node, kBufferSize);
+                *start_.node = nullptr;  // prevent double-free
+                start_.set_node(start_.node + 1);
+                start_.cur = start_.first;
+            } else {
+                start_.cur = start_.first;
+                finish_.cur = start_.first;
+            }
+        }
+    }
+    void pop_back() {
+        if (finish_.cur != finish_.first) {
+            --finish_.cur;
+        } else {
+            if (finish_.node != start_.node) {
+                data_allocator::deallocate(*finish_.node, kBufferSize);
+                *finish_.node = nullptr;
+                finish_.set_node(finish_.node - 1);
+                finish_.cur = finish_.last;
+            } else {
+                finish_.cur = finish_.first;
+            }
+            --finish_.cur;
+        }
+        lstl::destroy(finish_.cur);
+    }
     void clear();
     void destroy_all();  ///< Full cleanup: destroys elements + frees all buffers + map.
     void swap(deque& other);
+
+private:
+    // Direct assignment for trivially-copyable types
+public:
 };
 
 // =========================================================================
@@ -176,57 +258,6 @@ auto deque<T,A>::at(size_type n) const -> const_reference {
 }
 
 template <typename T, typename A>
-void deque<T,A>::push_front(const T& value) {
-    if (start_.cur != start_.first) {
-        --start_.cur;
-        construct(start_.cur, value);
-    } else {
-        reserve_map_at_front();
-        *(start_.node - 1) = allocate_buffer();
-        start_.set_node(start_.node - 1);
-        start_.cur = start_.last - 1;
-        construct(start_.cur, value);
-    }
-}
-
-template <typename T, typename A>
-void deque<T,A>::push_back(const T& value) {
-    if (finish_.cur != finish_.last - 1) {
-        construct(finish_.cur, value);
-        ++finish_.cur;
-    } else {
-        reserve_map_at_back();
-        *(finish_.node + 1) = allocate_buffer();
-        construct(finish_.cur, value);
-        finish_.set_node(finish_.node + 1);
-        finish_.cur = finish_.first;
-    }
-}
-
-template <typename T, typename A>
-void deque<T,A>::pop_front() {
-    destroy(start_.cur);
-    ++start_.cur;
-    if (start_.cur == start_.last) {
-        data_allocator::deallocate(*start_.node, kBufferSize);
-        start_.set_node(start_.node + 1);
-        start_.cur = start_.first;
-    }
-}
-
-template <typename T, typename A>
-void deque<T,A>::pop_back() {
-    if (finish_.cur != finish_.first) {
-        --finish_.cur;
-    } else {
-        data_allocator::deallocate(*finish_.node, kBufferSize);
-        finish_.set_node(finish_.node - 1);
-        finish_.cur = finish_.last;
-    }
-    destroy(finish_.cur);
-}
-
-template <typename T, typename A>
 void deque<T,A>::clear() {
     // Destroy elements in all buffers between start_ and finish_
     for (T** node = start_.node; node <= finish_.node; ++node) {
@@ -241,9 +272,11 @@ void deque<T,A>::clear() {
         }
     }
     // Reset to single reusable buffer in the middle of the map
-    start_.set_node(map_ + map_size_ / 2);
+    T** mid_node = map_ + map_size_ / 2;
+    if (!*mid_node) *mid_node = allocate_buffer();
+    start_.set_node(mid_node);
     start_.cur = start_.first;
-    finish_.set_node(start_.node);
+    finish_.set_node(mid_node);
     finish_.cur = start_.first;
 }
 

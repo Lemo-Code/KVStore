@@ -3,6 +3,7 @@
 #include "zero/fiber/fiber_pool.h"
 #include "zero/scheduler/scheduler.h"
 #include "zero/base/macro.h"
+#include "zero/log/log.h"
 
 #include <cstring>
 #include <exception>
@@ -143,12 +144,12 @@ void Fiber::MainFunc(void* /*arg*/) {
         cur->state_ = TERM;
     } catch (std::exception& ex) {
         cur->state_ = EXCEPT;
-        fprintf(stderr, "Fiber [%s:%lu] exception: %s\n",
-                cur->name_.c_str(), cur->id_, ex.what());
+        ZERO_LOG_ERROR(ZERO_LOG_ROOT()) << "Fiber [" << cur->name_ << ":" << cur->id_
+            << "] exception: " << ex.what();
     } catch (...) {
         cur->state_ = EXCEPT;
-        fprintf(stderr, "Fiber [%s:%lu] unknown exception\n",
-                cur->name_.c_str(), cur->id_);
+        ZERO_LOG_ERROR(ZERO_LOG_ROOT()) << "Fiber [" << cur->name_ << ":" << cur->id_
+            << "] unknown exception";
     }
 
     Fiber* main = Scheduler::GetMainFiber();

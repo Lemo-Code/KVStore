@@ -133,10 +133,11 @@ public:
 
     /** @brief  Copy assignment (copy-swap idiom). */
     list& operator=(const list& other) {
-    list& operator=(list&& other) noexcept { swap(other); return *this; }
         if (this != &other) { list tmp(other); swap(tmp); }
         return *this;
     }
+    /** @brief  Move assignment. */
+    list& operator=(list&& other) noexcept { swap(other); return *this; }
 
     // ---- Element Access ----
     reference front() { return *begin(); }
@@ -163,8 +164,8 @@ public:
     // ---- Modifiers ----
     void push_front(const T& value) { node_type* n = create_node(value); n->hook(sentinel_.next); ++count_; }
     void push_back(const T& value)  { node_type* n = create_node(value); n->hook(&sentinel_); ++count_; }
-    void pop_front() { erase(begin()); --count_; }
-    void pop_back()  { erase(--end()); --count_; }
+    void pop_front() { erase(begin()); }
+    void pop_back()  { erase(--end()); }
 
     /**
      * @brief  Inserts @p value before @p pos. O(1).
@@ -173,9 +174,10 @@ public:
      * @return        Iterator to the newly inserted element.
      */
     iterator insert(const_iterator pos, const T& value) {
-        node_type* node = create_node(value);
-        node->hook(pos.base());
-        return iterator(node);
+        node_type* node = create_node(value); node->hook(pos.base()); ++count_; return iterator(node);
+    }
+    iterator insert(const_iterator pos, T&& value) {
+        node_type* node = create_node(lstl::move(value)); node->hook(pos.base()); ++count_; return iterator(node);
     }
 
     /**
@@ -188,7 +190,9 @@ public:
         iterator next(n->next);
         n->unhook();
         destroy_node(static_cast<node_type*>(n));
-        return next; --count_; }
+        --count_;
+        return next;
+    }
 
     /** @brief  Destroys all nodes. O(n). */
     void clear() {

@@ -23,7 +23,7 @@ public:
     typedef typename Container::size_type        size_type;
     typedef Container                            container_type;
 
-protected:
+public:
     Container c_;
 
 public:
@@ -49,3 +49,16 @@ public:
 };
 
 } // namespace lstl
+
+template <typename T, typename C>
+bool operator==(const stack<T,C>& a, const stack<T,C>& b) { return a.c_ == b.c_; }
+template <typename T, typename C>
+bool operator!=(const stack<T,C>& a, const stack<T,C>& b) { return !(a == b); }
+template <typename T, typename C>
+bool operator<(const stack<T,C>& a, const stack<T,C>& b) { return a.c_ < b.c_; }
+template <typename T, typename C>
+bool operator<=(const stack<T,C>& a, const stack<T,C>& b) { return !(b < a); }
+template <typename T, typename C>
+bool operator>(const stack<T,C>& a, const stack<T,C>& b) { return b < a; }
+template <typename T, typename C>
+bool operator>=(const stack<T,C>& a, const stack<T,C>& b) { return !(a < b); }

@@ -134,7 +134,7 @@ public:
         return *(*this + n);
     }
 
-    bool operator==(const self& other) const { return cur == other.cur; }
+    bool operator==(const self& other) const { return cur == other.cur && node == other.node; }
     bool operator!=(const self& other) const { return cur != other.cur; }
     bool operator<(const self& other) const  {
         return (node == other.node) ? (cur < other.cur) : (node < other.node);

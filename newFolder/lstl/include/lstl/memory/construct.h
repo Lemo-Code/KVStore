@@ -44,8 +44,17 @@ void construct(T* p) {
     ::new (static_cast<void*>(p)) T();
 }
 
+// Optimized path for trivially copyable types: direct assignment
+// avoids placement-new overhead (alias analysis barrier)
 template <typename T, typename U>
-void construct(T* p, const U& value) {
+typename enable_if<is_trivially_copyable<T>::value>::type
+construct(T* p, const U& value) {
+    *p = value;
+}
+
+template <typename T, typename U>
+typename enable_if<!is_trivially_copyable<T>::value>::type
+construct(T* p, const U& value) {
     ::new (static_cast<void*>(p)) T(value);
 }
 

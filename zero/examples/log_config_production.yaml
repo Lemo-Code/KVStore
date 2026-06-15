@@ -1,0 +1,33 @@
+# Zero 日志生产环境配置 — 异步文件 + 控制台
+log:
+  root_level: INFO
+
+  pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%t] [%N] [%F:%l] %m%n"
+
+  appenders:
+    # 控制台 (仅 ERROR 及以上)
+    - type: console
+      color: true
+      level: ERROR
+      pattern: "%C%d{%H:%M:%S} [%p] [%N] %m%n\033[0m"
+
+    # 主日志文件 (按 200MB 轮转)
+    - type: file
+      file: /var/log/zero/app.log
+      max_size: 209715200   # 200 MB
+      max_files: 20
+      level: DEBUG
+
+    # 错误日志单独文件
+    - type: file
+      file: /var/log/zero/error.log
+      max_size: 104857600
+      max_files: 10
+      level: ERROR
+
+  # 模块级日志控制
+  loggers:
+    zero.reactor:    { level: DEBUG }
+    zero.scheduler:  { level: INFO }
+    zero.net:        { level: INFO }
+    zero.hook:       { level: WARN }   # hook 层较吵闹, 仅 WARN+

@@ -140,7 +140,34 @@ KVStore/
 | `lstl.bench.concurrent` | **文件**: `../newFolder/lstl/bench/bench_concurrent.cpp` |
 | | **描述**: 多线程内存池压力测试 — 4/8 线程并发分配/释放。 |
 
-### 2.6 RPC 框架层 (lrpc)
+### 2.6 网络库层 (zero)
+
+| Key | Value |
+|-----|-------|
+| `zero.api` | **文件**: `../zero/docs/API.md` |
+| | **描述**: Zero 网络库完整 API 参考 — Fiber/Scheduler/Reactor/Hook/Net/Log/Config/Thread 全部 8 个模块的使用示例和接口说明。 |
+| | **性能**: Echo 35 万 QPS / P50=67μs / 日志 550 万 QPS |
+| | **状态**: ✅ 已完成 |
+| `zero.fiber` | **文件**: `../zero/fiber/fiber.h` |
+| | **描述**: 有栈非对称协程 — ucontext 上下文切换 ~200ns, 128KB 栈 + guard page, FiberPool + StackPool。 |
+| `zero.scheduler` | **文件**: `../zero/scheduler/scheduler.h` |
+| | **描述**: M:N 协程调度器 — per-thread LIFO 队列 + Chase-Lev work-stealing deque + 全局 MPSC 队列。 |
+| `zero.reactor` | **文件**: `../zero/scheduler/reactor.h` |
+| | **描述**: Per-thread epoll — EPOLLONESHOT + eventfd 唤醒 + Timer Wheel 分层时间轮。 |
+| `zero.hook` | **文件**: `../zero/scheduler/hook.h` |
+| | **描述**: Syscall 劫持 — dlsym(RTLD_NEXT) 拦截 sleep/read/write/connect/send/recv 等，透明 fiber 化。 |
+| `zero.net` | **文件**: `../zero/net/` |
+| | **描述**: Socket/Address/Buffer(链式零拷贝)/Stream/SocketStream/TcpServer。 |
+| `zero.log` | **文件**: `../zero/log/log.h` |
+| | **描述**: 企业级日志 — 7级/层级Logger/ANSI颜色/MDC/限流/RollingFile/Async(RingBuffer)/YAML配置。 |
+| `zero.config` | **文件**: `../zero/config/config.h` |
+| | **描述**: ConfigVar<T> + YAML 加载 + 变更回调(热加载) + 容器类型支持。 |
+| `zero.thread` | **文件**: `../zero/thread/mutex.h` |
+| | **描述**: SpinLock(指数退避) + Mutex(pthread) + RWMutex(pthread_rwlock) + Semaphore + Thread。 |
+| `zero.bench` | **文件**: `../zero/examples/bench_echo.cc` |
+| | **描述**: Echo 基准测试 — 35 万 QPS, P50=67μs, 9.2 MB/s。 |
+
+### 2.7 RPC 框架层 (lrpc)
 
 | Key | Value |
 |-----|-------|
@@ -178,8 +205,9 @@ KVStore/
 | 内存子系统 | `lstl.memory.*` | ✅ 完成 |
 | 容器子系统 | `lstl.container.*` | ✅ 完成 |
 | RPC 框架 | `lrpc.*` | 📝 设计阶段 |
-| 网络库 | `arch.network` | 📝 设计阶段 |
-| 缓存服务器 | (待定) | ⏳ 规划中 |
+| Zero 网络库 | `zero.*` | ✅ 完成 |
+| lstl 复盘 | `lstl.retrospect` | ✅ 完成 |
+| RPC 框架 | `lrpc.*` | 📝 设计阶段 |
 
 ### 按状态导航
 
@@ -202,14 +230,14 @@ Architecture (ARCHITECTURE.md)
     │   ├── tests/      (15 测试)
     │   └── bench/      (4 基准)
     │
-    ├── Zero 网络库 ←──────── 设计完成，待实现
-    │   ├── fiber       (协程)
-    │   ├── scheduler   (M:N 调度)
-    │   ├── reactor     (epoll)
-    │   ├── hook        (syscall 劫持)
-    │   ├── net         (socket/stream/buffer)
-    │   ├── log         (异步日志)
-    │   └── config      (RCU 配置)
+    ├── Zero 网络库 ←──────── 已实现 ✅
+    │   ├── fiber       (协程) → 34万 QPS / P50=67μs
+    │   ├── scheduler   (M:N 调度) → work-stealing
+    │   ├── reactor     (epoll) → EPOLLONESHOT + eventfd
+    │   ├── hook        (syscall 劫持) → 透明异步化
+    │   ├── net         (socket/stream/buffer) → 链式零拷贝
+    │   ├── log         (异步日志) → 550万 QPS
+    │   └── config      (RCU 配置) → YAML + 热加载
     │
     ├── lrpc (RPC 框架) ←───── 设计阶段
     │   └── docs/ (5 文档)

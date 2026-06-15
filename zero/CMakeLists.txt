@@ -50,9 +50,17 @@ set(ZERO_SOURCES
 
     # Phase 5: log
     log/log.cc
+    log/async_log.cc
+    log/config.cc
 
     # Phase 6: tcp_server
     net/tcp_server.cc
+
+    # Phase 7: config
+    config/config.cc
+
+    # Framework init
+    zero.cc
 )
 
 add_library(zero STATIC ${ZERO_SOURCES})
@@ -64,6 +72,7 @@ target_include_directories(zero PUBLIC
 target_link_libraries(zero PUBLIC
     pthread
     dl
+    yaml-cpp
 )
 
 # 示例程序

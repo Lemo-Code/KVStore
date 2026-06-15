@@ -1,0 +1,113 @@
+# ============================================================
+# Zero 高性能网络库 — 完整配置文件示例
+# 用法: ./app -c config.yml
+# ============================================================
+
+# ──────────────────────────────────────────────
+# 日志模块 (log)
+# ──────────────────────────────────────────────
+log:
+  # 日志级别: 0=UNKNOWN 1=DEBUG 2=INFO 3=WARN 4=ERROR 5=FATAL
+  level: 2   # INFO
+
+  # 日志文件路径 (空字符串 = 仅输出到 stdout)
+  # file: "/var/log/zero.log"
+  file: ""
+
+  # 日志格式模式
+  # %d{...} 时间, %p 级别, %t 线程ID, %F 协程ID, %f 文件名, %l 行号, %m 消息, %n 换行
+  pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%t:%F] [%f:%l] %m%n"
+
+  # 是否启用异步日志 (lock-free ring buffer, 503w+ QPS)
+  async: true
+
+  # 异步 writer 线程数 (推荐 1, 最大 4)
+  async_threads: 1
+
+  # 日志模块列表
+  modules:
+    - system
+    - network
+    - auth
+
+
+# ──────────────────────────────────────────────
+# 协程模块 (fiber)
+# ──────────────────────────────────────────────
+fiber:
+  # 每个协程的栈大小 (字节), 默认 128KB
+  # 可根据业务需要调整: IO 密集型用 128KB, 计算密集型用 256KB+
+  stack_size: 131072   # 128KB
+
+  # 预分配的 Fiber 对象池大小
+  # 减少运行时 new/delete 开销
+  pool_size: 128
+
+
+# ──────────────────────────────────────────────
+# 调度器 (scheduler)
+# ──────────────────────────────────────────────
+scheduler:
+  # 工作线程数 (0 = 自动使用 CPU 核心数)
+  threads: 4
+
+  # 是否将调用线程也作为一个工作线程
+  # true  = 实际创建 threads-1 个线程, 调用线程参与调度
+  # false = 创建 threads 个新线程
+  use_caller: false
+
+
+# ──────────────────────────────────────────────
+# Socket / 网络层 (socket)
+# ──────────────────────────────────────────────
+socket:
+  # TCP connect 超时 (毫秒)
+  connect_timeout_ms: 5000
+
+  # Socket recv 超时 (毫秒, -1 = 无超时)
+  recv_timeout_ms: -1
+
+  # Socket send 超时 (毫秒, -1 = 无超时)
+  send_timeout_ms: -1
+
+  # 是否启用 TCP_NODELAY (禁用 Nagle 算法, 低延迟)
+  tcp_nodelay: true
+
+
+# ──────────────────────────────────────────────
+# Reactor / 事件循环 (reactor)
+# ──────────────────────────────────────────────
+reactor:
+  # 空闲时的 epoll poll 间隔 (毫秒)
+  # 1ms  = 更低延迟但 CPU 稍高
+  # 10ms = 平衡
+  # 100ms= 省 CPU 但有 100ms 任务启动延迟
+  poll_timeout_ms: 10
+
+
+# ──────────────────────────────────────────────
+# HTTP / 应用层配置示例 (容器类型)
+# ──────────────────────────────────────────────
+http:
+  # vector<string> — 监听地址列表
+  listen_addresses:
+    - "0.0.0.0:8080"
+    - "0.0.0.0:8443"
+
+  # set<string> — 允许的 methods
+  allowed_methods:
+    - GET
+    - POST
+    - PUT
+
+  # map<string,int> — 限制配置
+  rate_limits:
+    api: 100
+    static: 500
+    admin: 50
+
+  # vector<int> — 超时阶梯 (ms)
+  timeout_tiers:
+    - 1000
+    - 5000
+    - 30000

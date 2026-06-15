@@ -52,7 +52,7 @@ struct skip_list_node {
     // forward[] array follows this struct in memory
     // Access via helper: forward_ptr(this, level)
 
-    static skip_list_node** forward_ptr(skip_list_node* node, int /*dummy*/) {
+    static skip_list_node** forward_ptr(skip_list_node* node) {
         return reinterpret_cast<skip_list_node**>(
             reinterpret_cast<char*>(node) + sizeof(skip_list_node));
     }
@@ -86,7 +86,7 @@ private:
 
     // Get forward array for a node
     static skip_list_node<Value>** forward(node_ptr n) {
-        return node_type::forward_ptr(n, 0);
+        return node_type::forward_ptr(n);
     }
 
     // Aligned size: rounds up sizeof(node_type) to alignment of pointer type

@@ -56,9 +56,7 @@ void TcpServer::acceptLoop() {
             continue;
         }
 
-        auto remote = client->getRemoteAddress();
-        ZERO_LOG_INFO(g_logger) << "New connection from "
-                                 << (remote ? remote->toString() : "?");
+        (void)client; // silence unused warning
 
         // 为每个连接创建 fiber
         if (conn_cb_) {

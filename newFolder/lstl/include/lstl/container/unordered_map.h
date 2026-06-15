@@ -68,6 +68,9 @@ public:
 
     // ---- Construction ----
     unordered_map() : table_() {}
+    // move
+    unordered_map(unordered_map&& other) noexcept : table_() { table_.swap(other.table_); }
+    unordered_map& operator=(unordered_map&& other) noexcept { table_.swap(other.table_); return *this; }
     template <typename InputIterator, typename = typename enable_if<!is_integral<InputIterator>::value>::type>
     unordered_map(InputIterator first, InputIterator last) : table_() {
         for (; first != last; ++first) insert(*first);

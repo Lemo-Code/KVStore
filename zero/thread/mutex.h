@@ -90,18 +90,22 @@ public:
 
     class ReadLock {
     public:
-        explicit ReadLock(RWMutex& m) : m_(m) { m_.read_lock(); }
-        ~ReadLock() { m_.read_unlock(); }
+        explicit ReadLock(RWMutex& m) : m_(m), locked_(true) { m_.read_lock(); }
+        ~ReadLock() { if (locked_) m_.read_unlock(); }
+        void unlock() { if (locked_) { m_.read_unlock(); locked_ = false; } }
     private:
         RWMutex& m_;
+        bool locked_;
     };
 
     class WriteLock {
     public:
-        explicit WriteLock(RWMutex& m) : m_(m) { m_.write_lock(); }
-        ~WriteLock() { m_.write_unlock(); }
+        explicit WriteLock(RWMutex& m) : m_(m), locked_(true) { m_.write_lock(); }
+        ~WriteLock() { if (locked_) m_.write_unlock(); }
+        void unlock() { if (locked_) { m_.write_unlock(); locked_ = false; } }
     private:
         RWMutex& m_;
+        bool locked_;
     };
 
 private:

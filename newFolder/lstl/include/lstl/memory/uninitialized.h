@@ -79,7 +79,7 @@ uninitialized_copy_aux(InputIterator first, InputIterator last,
         }
         return cur;
     } catch (...) {
-        destroy(result, cur);
+        lstl::destroy(result, cur);
         throw;
     }
 }
@@ -118,7 +118,7 @@ void uninitialized_fill_aux(ForwardIterator first, ForwardIterator last,
             construct(&*cur, x);
         }
     } catch (...) {
-        destroy(first, cur);
+        lstl::destroy(first, cur);
         throw;
     }
 }
@@ -153,7 +153,7 @@ uninitialized_fill_n_aux(ForwardIterator first, Size n, const T& x, false_type) 
         }
         return cur;
     } catch (...) {
-        destroy(first, cur);
+        lstl::destroy(first, cur);
         throw;
     }
 }
@@ -260,7 +260,7 @@ uninitialized_move(InputIterator first, InputIterator last,
         }
         return cur;
     } catch (...) {
-        destroy(result, cur);
+        lstl::destroy(result, cur);
         throw;
     }
 }
