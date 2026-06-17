@@ -35,3 +35,9 @@ target_link_libraries(config_test zero)
 # Benchmark
 add_executable(bench_echo bench_echo.cc)
 target_link_libraries(bench_echo zero)
+
+add_executable(stress_client stress_client.cc)
+target_link_libraries(stress_client pthread)
+
+add_executable(stress_client_mt stress_client_mt.cc)
+target_link_libraries(stress_client_mt pthread)

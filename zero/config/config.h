@@ -208,8 +208,7 @@ public:
             setValue(new_val);
             return true;
         } catch (const std::exception& e) {
-            ZERO_LOG_ERROR(ZERO_LOG_ROOT()) << "ConfigVar::fromYaml error for " << name << ": " << e.what(); // was:
-                    getName().c_str(), e.what());
+            ZERO_LOG_ERROR(ZERO_LOG_ROOT()) << "ConfigVar::fromYaml error for " << getName() << ": " << e.what();
             return false;
         }
     }
@@ -253,8 +252,11 @@ public:
     template<typename T>
     static typename ConfigVar<T>::ptr Lookup(const std::string& name);
 
-    static void LoadFromYaml(const std::string& filepath);
+    static bool LoadFromYamlFile(const std::string& filepath);
     static void LoadFromYaml(const YAML::Node& root);
+
+    // 按名称查找 (不关心类型, 用于 YAML 加载)
+    static ConfigVarBase::ptr LookupBase(const std::string& name);
 
     static void Visit(std::function<void(ConfigVarBase::ptr)> cb);
 
@@ -263,5 +265,91 @@ private:
     static ConfigVarMap& GetDatas();
     static RWMutex& GetMutex();
 };
+
+} // namespace zero
+
+// ============================================================
+// Template / inline 实现
+// ============================================================
+namespace zero {
+
+// ConfigVar<T> static member
+template<typename T>
+std::atomic<uint64_t> ConfigVar<T>::s_cb_id{0};
+
+// ConfigVar<T> 构造函数
+template<typename T>
+ConfigVar<T>::ConfigVar(const std::string& name, const T& default_val,
+                        const std::string& description)
+    : ConfigVarBase(name, description), val_(default_val) {}
+
+// ConfigVar<T>::setValue
+template<typename T>
+void ConfigVar<T>::setValue(const T& val) {
+    T old_val;
+    {
+        RWMutex::WriteLock lock(mutex_);
+        old_val = val_;
+        val_ = val;
+    }
+    for (auto& [id, cb] : listeners_) {
+        cb(old_val, val);
+    }
+}
+
+// Config private statics
+inline Config::ConfigVarMap& Config::GetDatas() {
+    static ConfigVarMap datas;
+    return datas;
+}
+
+inline RWMutex& Config::GetMutex() {
+    static RWMutex mutex;
+    return mutex;
+}
+
+// Config::Lookup<T>(name, default_val, desc)
+template<typename T>
+typename ConfigVar<T>::ptr Config::Lookup(const std::string& name,
+                                           const T& default_val,
+                                           const std::string& desc) {
+    RWMutex::WriteLock lock(GetMutex());
+    auto& datas = GetDatas();
+    auto it = datas.find(name);
+    if (it != datas.end()) {
+        return std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
+    }
+    auto var = std::make_shared<ConfigVar<T>>(name, default_val, desc);
+    datas[name] = var;
+    return var;
+}
+
+// Config::Lookup<T>(name)
+template<typename T>
+typename ConfigVar<T>::ptr Config::Lookup(const std::string& name) {
+    RWMutex::ReadLock lock(GetMutex());
+    auto& datas = GetDatas();
+    auto it = datas.find(name);
+    if (it != datas.end()) {
+        return std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
+    }
+    return nullptr;
+}
+
+// Config::LookupBase
+inline ConfigVarBase::ptr Config::LookupBase(const std::string& name) {
+    RWMutex::ReadLock lock(GetMutex());
+    auto& datas = GetDatas();
+    auto it = datas.find(name);
+    return it != datas.end() ? it->second : nullptr;
+}
+
+// Config::Visit
+inline void Config::Visit(std::function<void(ConfigVarBase::ptr)> cb) {
+    RWMutex::ReadLock lock(GetMutex());
+    for (auto& [name, var] : GetDatas()) {
+        cb(var);
+    }
+}
 
 } // namespace zero

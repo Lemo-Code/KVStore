@@ -1,6 +1,10 @@
 #include "zero/config/config.h"
 #include <yaml-cpp/yaml.h>
 namespace zero {
+
+ConfigVarBase::ConfigVarBase(const std::string& name, const std::string& description)
+    : name_(name), description_(description) {}
+
 void Config::LoadFromYaml(const YAML::Node& root) {
     for (auto it = root.begin(); it != root.end(); ++it) {
         std::string key = it->first.as<std::string>();

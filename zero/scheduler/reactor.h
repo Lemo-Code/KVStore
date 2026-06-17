@@ -95,6 +95,10 @@ public:
 
     std::atomic<size_t> pending_count_{0};
 
+    // cancelEvent 触发的 waiter 暂存区
+    // timer 回调中取消事件后，waiter 暂存于此; poll() 结束时合并到 ready_fibers
+    std::vector<Fiber::ptr> cancelled_waiters_;
+
     static constexpr size_t kMaxEvents = 256;
 };
 

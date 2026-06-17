@@ -1,4 +1,5 @@
 #include "zero/scheduler/reactor.h"
+#include "zero/scheduler/fd_manager.h"
 #include "zero/base/macro.h"
 
 #include <sys/eventfd.h>
@@ -77,6 +78,36 @@ bool Reactor::resizeFdContexts(int fd) {
 // ====================================================================
 int Reactor::addEvent(int fd, Event event, Fiber::ptr waiter, uint64_t timeout_ms) {
     FdContext* ctx = getFdContext(fd);
+
+    // 检测 fd 复用: 旧 fd 已关闭, 新 socket 复用了相同 fd 号
+    // FdManager 中的 FdCtx 已更新, 但 Reactor 的 FdContext 是残留的
+    if (ctx) {
+        FdCtx::ptr fdctx = FdMgr::GetInstance()->get(fd);
+        if (!fdctx || fdctx->isClosed()) {
+            // 旧 FdContext 已失效, 清理并重建
+            if (ctx->registered_events) {
+                epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, fd, nullptr);
+                pending_count_ -= (ctx->read_waiter ? 1 : 0) + (ctx->write_waiter ? 1 : 0);
+            }
+            // 旧 waiter 移入 cancelled_waiters_ 通知调度器, 避免 fiber 被丢弃
+            if (ctx->read_waiter) {
+                if (ctx->read_waiter->getState() == Fiber::HOLD) {
+                    ctx->read_waiter->setState(Fiber::READY);
+                }
+                cancelled_waiters_.push_back(std::move(ctx->read_waiter));
+            }
+            if (ctx->write_waiter) {
+                if (ctx->write_waiter->getState() == Fiber::HOLD) {
+                    ctx->write_waiter->setState(Fiber::READY);
+                }
+                cancelled_waiters_.push_back(std::move(ctx->write_waiter));
+            }
+            delete ctx;
+            fd_ctxs_[fd] = nullptr;
+            ctx = nullptr;
+        }
+    }
+
     if (!ctx) {
         ctx = new FdContext();
         ctx->fd = fd;
@@ -84,12 +115,47 @@ int Reactor::addEvent(int fd, Event event, Fiber::ptr waiter, uint64_t timeout_m
     }
 
     uint32_t targeted = static_cast<uint32_t>(event) & (EPOLLIN | EPOLLOUT);
+    // 如果事件已注册: 更新 waiter 并设置超时, 不重复 epoll_ctl (避免丢事件)
     if (ctx->registered_events & targeted) {
-        // 事件已注册
-        return -1;
+        // 清理旧 waiter: 将其移到 cancelled_waiters_ 以便调度器重新调度
+        if (event == READ) {
+            if (ctx->read_waiter) {
+                cancelled_waiters_.push_back(std::move(ctx->read_waiter));
+            }
+            if (ctx->read_timeout_id) {
+                timer_wheel_.cancelTimer(ctx->read_timeout_id);
+                ctx->read_timeout_id = 0;
+            }
+            ctx->read_waiter = std::move(waiter);
+        } else {
+            if (ctx->write_waiter) {
+                cancelled_waiters_.push_back(std::move(ctx->write_waiter));
+            }
+            if (ctx->write_timeout_id) {
+                timer_wheel_.cancelTimer(ctx->write_timeout_id);
+                ctx->write_timeout_id = 0;
+            }
+            ctx->write_waiter = std::move(waiter);
+        }
+
+        // 设置新超时定时器
+        if (timeout_ms != ~0ull) {
+            auto timer_cb = [this, fd, event]() {
+                cancelEvent(fd, event);
+            };
+            uint64_t tid = timer_wheel_.addTimer(timeout_ms, timer_cb);
+            if (event == READ) {
+                ctx->read_timeout_id = tid;
+            } else {
+                ctx->write_timeout_id = tid;
+            }
+        }
+
+        // 不增加 pending_count_: 替换旧 waiter, 总数不变
+        return 0;
     }
 
-    // 设置 waiter
+    // 首次注册: 设置 waiter 并加入 epoll
     if (event == READ) {
         ctx->read_waiter = std::move(waiter);
     } else if (event == WRITE) {
@@ -201,11 +267,11 @@ bool Reactor::cancelEvent(int fd, Event event) {
     ctx->registered_events = new_events;
     --pending_count_;
 
-    // 唤醒 waiter (将 fiber 放回调度器)
+    // 唤醒 waiter: 移入 cancelled_waiters_, 由 poll() 统一收集到 ready_fibers
+    // 再由 Scheduler::idle() 调度回就绪队列
     if (waiter && waiter->getState() == Fiber::HOLD) {
-        // 由调用者处理 fiber 的重新调度
-        // 此处仅做记录, 实际调度由 Scheduler 完成
         waiter->setState(Fiber::READY);
+        cancelled_waiters_.push_back(std::move(waiter));
     }
 
     return true;
@@ -247,14 +313,20 @@ int Reactor::poll(int timeout_ms, std::vector<Fiber::ptr>& ready_fibers) {
     std::vector<TimerWheel::TimerCallback> timer_cbs;
     timer_wheel_.tick(now_ms, timer_cbs);
 
-    // 执行定时器回调 (可能触发 cancelEvent 修改 fiber 状态)
+    // 执行定时器回调 (可能触发 cancelEvent 将 waiter 暂存到 cancelled_waiters_)
     for (auto& cb : timer_cbs) {
         cb();
     }
 
-    // 2. 检查是否有定时器触发的 fiber 就绪
-    //    cancelEvent 设置了 fiber 状态为 READY
-    //    但我们需要收集它们 — 这由 Scheduler 在 poll 返回后统一扫描
+    // 2. 收集 timer 回调中 cancelEvent 产生的就绪 fiber
+    if (!cancelled_waiters_.empty()) {
+        for (auto& w : cancelled_waiters_) {
+            if (w && w->getState() == Fiber::READY) {
+                ready_fibers.push_back(std::move(w));
+            }
+        }
+        cancelled_waiters_.clear();
+    }
 
     // 3. 如果没有待处理的 IO 事件且无定时器, 可以更快返回
     if (pending_count_ == 0 && timer_wheel_.empty()) {
@@ -298,39 +370,49 @@ int Reactor::poll(int timeout_ms, std::vector<Fiber::ptr>& ready_fibers) {
 
         if (active == NONE) continue;
 
-        // 从 epoll 中移除就绪的事件 (EPOLLET 下, 需重新注册)
-        uint32_t remaining = ctx->registered_events & ~active;
-        int op = remaining ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
-
-        epoll_event mod_ev;
-        memset(&mod_ev, 0, sizeof(mod_ev));
-        mod_ev.events = EPOLLET | remaining;
-        mod_ev.data.ptr = ctx;
-
-        epoll_ctl(epoll_fd_, op, ctx->fd, &mod_ev);
-        ctx->registered_events = remaining;
+        bool is_err = triggered & (EPOLLERR | EPOLLHUP);
 
         // 唤醒等待的 fiber
+        // EPOLLERR/HUP 时也需唤醒 waiter 通知错误, 避免 fiber 永远阻塞
         if (active & READ) {
-            --pending_count_;
-            if (ctx->read_waiter && ctx->read_waiter->getState() == Fiber::HOLD) {
-                ready_fibers.push_back(std::move(ctx->read_waiter));
+            Fiber::ptr rw = std::move(ctx->read_waiter);
+            if (rw && rw->getState() == Fiber::HOLD) {
+                --pending_count_;
+                ready_fibers.push_back(std::move(rw));
                 if (ctx->read_timeout_id) {
                     timer_wheel_.cancelTimer(ctx->read_timeout_id);
                     ctx->read_timeout_id = 0;
                 }
+            } else if (is_err && (ctx->registered_events & EPOLLIN)) {
+                // 无 waiter 但事件仍注册 (边缘情况): 清理计数
+                --pending_count_;
             }
         }
         if (active & WRITE) {
-            --pending_count_;
-            if (ctx->write_waiter && ctx->write_waiter->getState() == Fiber::HOLD) {
-                ready_fibers.push_back(std::move(ctx->write_waiter));
+            Fiber::ptr ww = std::move(ctx->write_waiter);
+            if (ww && ww->getState() == Fiber::HOLD) {
+                --pending_count_;
+                ready_fibers.push_back(std::move(ww));
                 if (ctx->write_timeout_id) {
                     timer_wheel_.cancelTimer(ctx->write_timeout_id);
                     ctx->write_timeout_id = 0;
                 }
+            } else if (is_err && (ctx->registered_events & EPOLLOUT)) {
+                --pending_count_;
             }
         }
+
+        // 清理 epoll 登记 — 仅在连接断开 (ERR/HUP) 时
+        if (is_err) {
+            // fd 已关闭: 完全从 epoll 移除 + 释放 FdContext
+            epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, ctx->fd, nullptr);
+            ctx->registered_events = 0;
+            fd_ctxs_[ctx->fd] = nullptr;
+            delete ctx;
+        }
+        // 常规 IO: 保持 epoll 注册不变, 不清理 fd
+        // EPOLLET 语义下, fiber drain buffer 后新数据到达才触发新事件
+        // 如果移除再重新注册, 中间到达的数据会被丢失
     }
 
     return static_cast<int>(ready_fibers.size());
