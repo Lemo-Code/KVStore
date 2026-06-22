@@ -178,9 +178,13 @@ void initCommandTable() {
     SCMD("smismember",  smismember,  -3, CMD_READONLY, "r");
 
     // ---- ZSet extras ----
+    SCMD("bzpopmin",    zpopmin,     -3, CMD_WRITE, "wm");
+    SCMD("bzpopmax",    zpopmax,     -3, CMD_WRITE, "wm");
     SCMD("zpopmin",     zpopmin,     -2, CMD_WRITE, "wm");
     SCMD("zpopmax",     zpopmax,     -2, CMD_WRITE, "wm");
     SCMD("zrandmember", zrandmember, -2, CMD_READONLY, "r");
+    SCMD("zinter",      zinter,      -3, CMD_READONLY, "r");
+    SCMD("zunion",      zunion,      -3, CMD_READONLY, "r");
     SCMD("zlexcount",   zlexcount,    4, CMD_READONLY, "r");
     SCMD("zrangebylex", zrangebylex, -4, CMD_READONLY, "r");
 
@@ -214,8 +218,10 @@ void initCommandTable() {
     SCMD("shutdown",    cmdShutdown, -1, 0, "w");
     SCMD("monitor",     cmdMonitor,   1, 0, "w");
     SCMD("slowlog",     cmdSlowlog,  -2, CMD_READONLY, "r");
+    SCMD("memory",      cmdMemory,   -1, CMD_READONLY, "r");
     SCMD("save",        cmdSave,      1, CMD_WRITE, "w");
     SCMD("select",      cmdSelect,    2, 0, "w");
+    SCMD("touch",       cmdTouch,    -2, CMD_READONLY, "r");
 
     // 排序 (二分查找要求)
     std::sort(g_commands.begin(), g_commands.end(),

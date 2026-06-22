@@ -153,6 +153,8 @@ public:
     void zrandmember(CmdContext& ctx);
     void zlexcount(CmdContext& ctx);
     void zrangebylex(CmdContext& ctx);
+    void zinter(CmdContext& ctx);
+    void zunion(CmdContext& ctx);
 
     // ======== Hash 补齐 ========
     void hrandfield(CmdContext& ctx);
@@ -186,6 +188,8 @@ public:
     void cmdSlowlog(CmdContext& ctx);
     void cmdSelect(CmdContext& ctx);
     void cmdSave(CmdContext& ctx);
+    void cmdMemory(CmdContext& ctx);
+    void cmdTouch(CmdContext& ctx);
 
     // ======== 内部 API ========
     Value* find(const std::string& key) { return dict_.find(key); }
@@ -2418,7 +2422,145 @@ inline void StorageEngine::cmdMonitor(CmdContext& ctx) { ctx.replyOK(); /* stub 
 inline void StorageEngine::cmdSlowlog(CmdContext& ctx) { ctx.replyOK(); /* stub */ }
 inline void StorageEngine::cmdSelect(CmdContext& ctx) { ctx.replyOK(); /* stub */ }
 
-// SAVE: 全量 RDB 快照 (简化: AOF 格式写入 dump.rdb)
+// ZINTER / ZUNION
+inline void StorageEngine::zinter(CmdContext& ctx) {
+    int64_t numkeys;
+    if (!tryParseInt64(std::string(ctx.args[1]), numkeys) || numkeys < 1) {
+        ctx.replyError("ERR syntax error"); return;
+    }
+    lstl::vector<Value*> sources;
+    for (int64_t i = 0; i < numkeys && 2 + i < static_cast<int64_t>(ctx.args.size()); ++i) {
+        Value* sv = dict_.find(std::string(ctx.args[2 + i]));
+        if (!sv || sv->type != ValueType::ZSET || sv->isExpired(CmdContext::nowMs())) {
+            ctx.replyEmptyArray(); return;
+        }
+        sources.push_back(sv);
+    }
+
+    // 解析 WEIGHTS / AGGREGATE
+    lstl::vector<double> weights(numkeys, 1.0);
+    std::string aggregate = "SUM";
+    size_t pos = 2 + static_cast<size_t>(numkeys);
+    while (pos < ctx.args.size()) {
+        if ((ctx.args[pos] == "WEIGHTS" || ctx.args[pos] == "weights") && pos + numkeys < ctx.args.size()) {
+            for (int64_t i = 0; i < numkeys; ++i) {
+                try { weights[i] = std::stod(std::string(ctx.args[pos + 1 + i])); } catch (...) {}
+            }
+            pos += 1 + static_cast<size_t>(numkeys);
+        } else if ((ctx.args[pos] == "AGGREGATE" || ctx.args[pos] == "aggregate") && pos + 1 < ctx.args.size()) {
+            aggregate = std::string(ctx.args[pos + 1]);
+            for (char& c : aggregate) c |= 0x20;
+            pos += 2;
+        } else break;
+    }
+
+    // 交集: 以最小 ZSet 为基准
+    size_t min_idx = 0; size_t min_sz = SIZE_MAX;
+    for (size_t i = 0; i < sources.size(); ++i) {
+        if (sources[i]->asZSet()->scores.size() < min_sz)
+            { min_sz = sources[i]->asZSet()->scores.size(); min_idx = i; }
+    }
+
+    lstl::vector<std::string> result;
+    for (auto& kv : sources[min_idx]->asZSet()->scores) {
+        bool in_all = true;
+        double agg_score = weights[min_idx] * kv.second;
+        for (size_t j = 0; j < sources.size(); ++j) {
+            if (j == min_idx) continue;
+            auto sj = sources[j]->asZSet()->scores.find(kv.first);
+            if (sj == sources[j]->asZSet()->scores.end()) { in_all = false; break; }
+            double s = weights[j] * sj->second;
+            if (aggregate == "sum") agg_score += s;
+            else if (aggregate == "min") agg_score = std::min(agg_score, s);
+            else if (aggregate == "max") agg_score = std::max(agg_score, s);
+        }
+        if (in_all) {
+            result.push_back(kv.first);
+            char buf[64]; snprintf(buf, sizeof(buf), "%.17g", agg_score);
+            result.push_back(buf);
+        }
+    }
+    ctx.replyStringArray(result);
+}
+
+inline void StorageEngine::zunion(CmdContext& ctx) {
+    int64_t numkeys;
+    if (!tryParseInt64(std::string(ctx.args[1]), numkeys) || numkeys < 1) {
+        ctx.replyError("ERR syntax error"); return;
+    }
+    lstl::vector<Value*> sources;
+    for (int64_t i = 0; i < numkeys && 2 + i < static_cast<int64_t>(ctx.args.size()); ++i) {
+        Value* sv = dict_.find(std::string(ctx.args[2 + i]));
+        if (!sv || sv->type != ValueType::ZSET || sv->isExpired(CmdContext::nowMs())) continue;
+        sources.push_back(sv);
+    }
+    if (sources.empty()) { ctx.replyEmptyArray(); return; }
+
+    lstl::vector<double> weights(numkeys, 1.0);
+    std::string aggregate = "SUM";
+    size_t pos = 2 + static_cast<size_t>(numkeys);
+    while (pos < ctx.args.size()) {
+        if ((ctx.args[pos] == "WEIGHTS" || ctx.args[pos] == "weights") && pos + numkeys < ctx.args.size()) {
+            for (int64_t i = 0; i < numkeys; ++i) {
+                try { weights[i] = std::stod(std::string(ctx.args[pos + 1 + i])); } catch (...) {}
+            }
+            pos += 1 + static_cast<size_t>(numkeys);
+        } else if ((ctx.args[pos] == "AGGREGATE" || ctx.args[pos] == "aggregate") && pos + 1 < ctx.args.size()) {
+            aggregate = std::string(ctx.args[pos + 1]);
+            for (char& c : aggregate) c |= 0x20;
+            pos += 2;
+        } else break;
+    }
+
+    // 并集: 收集所有 member
+    lstl::unordered_map<std::string, double> agg;
+    for (size_t i = 0; i < sources.size(); ++i) {
+        for (auto& kv : sources[i]->asZSet()->scores) {
+            double s = weights[i] * kv.second;
+            auto it = agg.find(kv.first);
+            if (it == agg.end()) { agg[kv.first] = s; }
+            else {
+                if (aggregate == "sum") it->second += s;
+                else if (aggregate == "min") it->second = std::min(it->second, s);
+                else if (aggregate == "max") it->second = std::max(it->second, s);
+            }
+        }
+    }
+
+    lstl::vector<std::string> result;
+    for (auto& kv : agg) {
+        result.push_back(kv.first);
+        char buf[64]; snprintf(buf, sizeof(buf), "%.17g", kv.second);
+        result.push_back(buf);
+    }
+    ctx.replyStringArray(result);
+}
+
+// MEMORY
+inline void StorageEngine::cmdMemory(CmdContext& ctx) {
+    if (ctx.args.size() >= 2 && (ctx.args[1] == "USAGE" || ctx.args[1] == "usage")) {
+        Value* v = dict_.find(std::string(ctx.args[2]));
+        if (!v) { ctx.replyNull(); return; }
+        // 粗略估算
+        size_t mem = sizeof(Value) + v->str.size() + 32;
+        ctx.replyInteger(static_cast<int64_t>(mem));
+    } else {
+        ctx.replyOK();
+    }
+}
+
+// TOUCH: 更新 LRU 但不修改值
+inline void StorageEngine::cmdTouch(CmdContext& ctx) {
+    int touched = 0;
+    uint64_t now = CmdContext::nowMs();
+    for (size_t i = 1; i < ctx.args.size(); ++i) {
+        Value* v = dict_.find(std::string(ctx.args[i]));
+        if (v && !v->isExpired(now)) { v->lru = static_cast<uint32_t>(now); touched++; }
+    }
+    ctx.replyInteger(touched);
+}
+
+// SAVE: 全量 RDB 快照
 inline void StorageEngine::cmdSave(CmdContext& ctx) {
     int fd = ::open("dump.rdb", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) { ctx.replyError("ERR failed to open dump.rdb"); return; }

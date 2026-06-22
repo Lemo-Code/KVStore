@@ -395,6 +395,60 @@ private:
         ctx.args = args;
         ctx.response = &out;
 
+        // ---- BZPOPMIN / BZPOPMAX 阻塞处理 ----
+        if (cn == "bzpopmin" || cn == "bzpopmax") {
+            bool is_min = (cn == "bzpopmin");
+            int64_t timeout = 0;
+            size_t key_end = args.size();
+            auto& last = args[args.size() - 1];
+            bool last_is_int = true;
+            for (char c : last) if (c < '0' || c > '9') last_is_int = false;
+            if (last_is_int && args.size() >= 2) {
+                try { timeout = std::stoll(std::string(last)); } catch (...) {}
+                key_end = args.size() - 1;
+            }
+            for (size_t i = 1; i < key_end; ++i) {
+                Value* v = engine_.find(std::string(args[i]));
+                if (v && v->type == ValueType::ZSET && !v->isExpired(CmdContext::nowMs())) {
+                    auto* zd = v->asZSet();
+                    if (!zd->by_score.empty()) {
+                        auto elem = is_min ? *zd->by_score.begin() : *(----zd->by_score.end());
+                        // collect max element (set has no rbegin)
+                        if (!is_min) {
+                            double mx = -1e308; std::string mm;
+                            for (auto& e : zd->by_score)
+                                if (e.first >= mx) { mx = e.first; mm = e.second; }
+                            elem = {mx, mm};
+                        }
+                        RespWriter::writeArrayHeader(out, 3);
+                        RespWriter::writeBulkString(out, args[i]);
+                        RespWriter::writeBulkString(out, elem.second);
+                        char buf[64]; snprintf(buf, sizeof(buf), "%.17g", elem.first);
+                        RespWriter::writeBulkString(out, std::string(buf));
+                        zd->scores.erase(elem.second);
+                        zd->by_score.erase(elem);
+                        if (args.size() >= 2) key_versions_[std::string(args[1])]++;
+                        return;
+                    }
+                }
+            }
+            if (timeout > 0) {
+                s->blocked = true;
+                lstl::vector<std::string> keys;
+                for (size_t i = 1; i < key_end; ++i) keys.push_back(std::string(args[i]));
+                blocking_.addWaiter(s.get(), keys, timeout);
+                s->write_buf_for_block = &out;
+                uint64_t deadline = static_cast<uint64_t>(time(nullptr))*1000 + static_cast<uint64_t>(timeout)*1000;
+                while (s->blocked && !s->closed) {
+                    uint64_t now = static_cast<uint64_t>(time(nullptr))*1000;
+                    if (now >= deadline) break;
+                    zero::Fiber::YieldToReady();
+                }
+                if (!s->blocked) return;
+                out += "*-1\r\n"; return;
+            } else { out += "*-1\r\n"; return; }
+        }
+
         // ---- BLPOP / BRPOP 阻塞处理 ----
         if (cn == "blpop" || cn == "brpop") {
             bool left = (cn == "blpop");
@@ -528,8 +582,37 @@ private:
             slowlog_.push_back(std::move(e));
         }
 
-        if (ctx.is_write && args.size() >= 2)
-            key_versions_[std::string(args[1])]++;
+        // 写命令后自动唤醒阻塞等待者 (LPUSH/ZADD 等)
+        if (ctx.is_write && args.size() >= 2) {
+            std::string wk(args[1]);
+            key_versions_[wk]++;
+            auto* w = blocking_.popWaiter(wk);
+            if (w && w->session && !w->session->closed) {
+                // 重新获取数据并写响应
+                Value* wv = engine_.find(w->keys.empty() ? "" : w->keys[0]);
+                std::string& wb = w->session->pubsub_buf; wb.clear();
+                if (wv && wv->type == ValueType::LIST && !wv->asList()->elements.empty()) {
+                    auto* ld = wv->asList();
+                    std::string val = std::move(ld->elements.front());
+                    ld->elements.pop_front();
+                    RespWriter::writeArrayHeader(wb, 2);
+                    RespWriter::writeBulkString(wb, w->keys[0]);
+                    RespWriter::writeBulkString(wb, val);
+                } else if (wv && wv->type == ValueType::ZSET && !wv->asZSet()->by_score.empty()) {
+                    auto* zd = wv->asZSet();
+                    auto elem = *zd->by_score.begin();
+                    RespWriter::writeArrayHeader(wb, 3);
+                    RespWriter::writeBulkString(wb, w->keys[0]);
+                    RespWriter::writeBulkString(wb, elem.second);
+                    char b[64]; snprintf(b, sizeof(b), "%.17g", elem.first);
+                    RespWriter::writeBulkString(wb, std::string(b));
+                    zd->scores.erase(elem.second);
+                    zd->by_score.erase(elem);
+                }
+                w->session->blocked = false;
+                delete w;
+            }
+        }
         if (ctx.is_write && !cfg_.aof_path.empty())
             aof_.appendArgs(args);
     }
