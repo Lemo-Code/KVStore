@@ -155,6 +155,12 @@ public:
     void zrangebylex(CmdContext& ctx);
     void zinter(CmdContext& ctx);
     void zunion(CmdContext& ctx);
+    void zdiff(CmdContext& ctx);
+    void zinterstore(CmdContext& ctx);
+    void zunionstore(CmdContext& ctx);
+    void zdiffstore(CmdContext& ctx);
+    void zremrangebylex(CmdContext& ctx);
+    void zrevrangebyscore(CmdContext& ctx);
 
     // ======== Hash 补齐 ========
     void hrandfield(CmdContext& ctx);
@@ -190,6 +196,16 @@ public:
     void cmdSave(CmdContext& ctx);
     void cmdMemory(CmdContext& ctx);
     void cmdTouch(CmdContext& ctx);
+    void cmdTime(CmdContext& ctx);
+    void cmdHello(CmdContext& ctx);
+    void cmdCopy(CmdContext& ctx);
+    void cmdExpiretime(CmdContext& ctx);
+    void cmdPexpiretime(CmdContext& ctx);
+    void cmdObject(CmdContext& ctx);
+    void cmdRestore(CmdContext& ctx);
+    void cmdBgsave(CmdContext& ctx);
+    void cmdCommand(CmdContext& ctx);
+    void smove(CmdContext& ctx);
 
     // ======== 内部 API ========
     Value* find(const std::string& key) { return dict_.find(key); }
@@ -2591,5 +2607,165 @@ inline void StorageEngine::cmdPunsubscribe(CmdContext& ctx) { ctx.replyOK(); }
 inline void StorageEngine::cmdPubsub(CmdContext& ctx) { ctx.replyOK(); }
 inline void StorageEngine::cmdSscan(CmdContext& ctx) { ctx.replyOK(); }
 inline void StorageEngine::cmdZscan(CmdContext& ctx) { ctx.replyOK(); }
+
+// ============================================================
+// SMOVE: 集合间移动成员
+// ============================================================
+inline void StorageEngine::smove(CmdContext& ctx) {
+    Value* src = dict_.find(std::string(ctx.args[1]));
+    if (!src || src->type != ValueType::SET || src->isExpired(CmdContext::nowMs())) { ctx.replyInteger(0); return; }
+    std::string member(ctx.args[3]);
+    if (src->asSet()->members.find(member) == src->asSet()->members.end()) { ctx.replyInteger(0); return; }
+    src->asSet()->members.erase(member);
+    Value* dst = getOrCreate(ctx.args[2], ValueType::SET);
+    dst->asSet()->members.insert(std::move(member));
+    ctx.replyInteger(1);
+    ctx.is_write = true;
+}
+
+// ============================================================
+// ZDIFF / ZINTERSTORE / ZUNIONSTORE / ZDIFFSTORE
+// ============================================================
+inline void StorageEngine::zdiff(CmdContext& ctx) {
+    int64_t numkeys;
+    if (!tryParseInt64(std::string(ctx.args[1]), numkeys) || numkeys < 2) { ctx.replyError("ERR syntax error"); return; }
+    Value* first = dict_.find(std::string(ctx.args[2]));
+    if (!first || first->type != ValueType::ZSET || first->isExpired(CmdContext::nowMs())) { ctx.replyEmptyArray(); return; }
+
+    lstl::vector<std::string> result;
+    for (auto& kv : first->asZSet()->scores) {
+        bool in_others = false;
+        for (int64_t i = 1; i < numkeys && 2 + i < static_cast<int64_t>(ctx.args.size()); ++i) {
+            Value* ov = dict_.find(std::string(ctx.args[2 + i]));
+            if (ov && ov->type == ValueType::ZSET)
+                if (ov->asZSet()->scores.find(kv.first) != ov->asZSet()->scores.end())
+                    { in_others = true; break; }
+        }
+        if (!in_others) { result.push_back(kv.first); char b[64]; snprintf(b,sizeof(b),"%.17g",kv.second); result.push_back(b); }
+    }
+    ctx.replyStringArray(result);
+}
+
+inline void StorageEngine::zinterstore(CmdContext& ctx) { ctx.replyInteger(0); }
+inline void StorageEngine::zunionstore(CmdContext& ctx) { ctx.replyInteger(0); }
+inline void StorageEngine::zdiffstore(CmdContext& ctx) { ctx.replyInteger(0); }
+
+inline void StorageEngine::zremrangebylex(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) { ctx.replyInteger(0); return; }
+    auto* zd = v->asZSet();
+    std::string min_s(ctx.args[2]), max_s(ctx.args[3]);
+    bool min_excl = (min_s[0] == '('), max_excl = (max_s[0] == '(');
+    if (min_excl) min_s = min_s.substr(1);
+    if (max_excl) max_s = max_s.substr(1);
+    lstl::vector<std::string> to_remove;
+    for (auto& elem : zd->by_score) {
+        if (min_s != "-" && (elem.second < min_s || (min_excl && elem.second == min_s))) continue;
+        if (max_s != "+" && (elem.second > max_s || (max_excl && elem.second == max_s))) break;
+        to_remove.push_back(elem.second);
+    }
+    for (auto& m : to_remove) { auto it = zd->scores.find(m); if (it != zd->scores.end()) { zd->by_score.erase({it->second, m}); zd->scores.erase(m); } }
+    ctx.replyInteger(static_cast<int64_t>(to_remove.size()));
+    ctx.is_write = !to_remove.empty();
+}
+
+inline void StorageEngine::zrevrangebyscore(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) { ctx.replyEmptyArray(); return; }
+    auto* zd = v->asZSet();
+    double min_s, max_s; std::string_view a2(ctx.args[2]), a3(ctx.args[3]);
+    bool min_ex = (a2[0] == '('), max_ex = (a3[0] == '(');
+    if (min_ex) a2.remove_prefix(1); if (max_ex) a3.remove_prefix(1);
+    if (a2 == "-inf") min_s = -1e308; else if (a2 == "+inf") min_s = 1e308; else if (!tryParseDouble(std::string(a2), min_s)) { ctx.replyError("ERR min/max not float"); return; }
+    if (a3 == "+inf") max_s = 1e308; else if (a3 == "-inf") max_s = -1e308; else if (!tryParseDouble(std::string(a3), max_s)) { ctx.replyError("ERR min/max not float"); return; }
+    // ZREVRANGEBYSCORE: 高到低 (lstl::set 无 rbegin, 手动反向)
+    lstl::vector<std::pair<double,std::string>> all;
+    for (auto& e : zd->by_score) all.push_back(e);
+    lstl::vector<std::string> result;
+    for (int64_t i = static_cast<int64_t>(all.size()) - 1; i >= 0; --i) {
+        double s = all[i].first;
+        if (s < min_s || (min_ex && s == min_s)) continue;
+        if (s > max_s || (max_ex && s == max_s)) break;
+        result.push_back(all[i].second);
+    }
+    ctx.replyStringArray(result);
+}
+
+// ============================================================
+// TIME / EXPIRETIME / BGSAVE / COPY / OBJECT / HELLO / COMMAND
+// ============================================================
+inline void StorageEngine::cmdTime(CmdContext& ctx) {
+    struct timespec ts; clock_gettime(CLOCK_REALTIME, &ts);
+    RespWriter::writeArrayHeader(*ctx.response, 2);
+    RespWriter::writeBulkString(*ctx.response, std::to_string(ts.tv_sec));
+    RespWriter::writeBulkString(*ctx.response, std::to_string(ts.tv_nsec / 1000));
+}
+
+inline void StorageEngine::cmdHello(CmdContext& ctx) {
+    // 简化 HELLO: 返回 RESP2 信息
+    ctx.replyOK();
+    // 实际应返回 map, 简化为 OK
+}
+
+inline void StorageEngine::cmdCopy(CmdContext& ctx) {
+    std::string src(ctx.args[1]), dst(ctx.args[2]);
+    Value* v = dict_.find(src);
+    if (!v || v->isExpired(CmdContext::nowMs())) { ctx.replyInteger(0); return; }
+    // 简化为 move+copy (不支持复杂类型深拷贝)
+    Value copy = Value::createString(v->str);
+    copy.expire_at_ms = v->expire_at_ms;
+    copy.type = v->type;
+    dict_.insert(std::move(dst), std::move(copy));
+    ctx.replyInteger(1);
+    ctx.is_write = true;
+}
+
+inline void StorageEngine::cmdExpiretime(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->expire_at_ms == 0 || v->isExpired(CmdContext::nowMs())) ctx.replyInteger(-1);
+    else ctx.replyInteger(static_cast<int64_t>(v->expire_at_ms / 1000));
+}
+
+inline void StorageEngine::cmdPexpiretime(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->expire_at_ms == 0 || v->isExpired(CmdContext::nowMs())) ctx.replyInteger(-1);
+    else ctx.replyInteger(static_cast<int64_t>(v->expire_at_ms));
+}
+
+inline void StorageEngine::cmdObject(CmdContext& ctx) {
+    if (ctx.args.size() >= 3) {
+        Value* v = dict_.find(std::string(ctx.args[2]));
+        if (!v || v->isExpired(CmdContext::nowMs())) { ctx.replyNull(); return; }
+        if (ctx.args[1] == "ENCODING" || ctx.args[1] == "encoding") ctx.replyBulk(valueTypeName(v->type));
+        else if (ctx.args[1] == "IDLETIME" || ctx.args[1] == "idletime") ctx.replyInteger(0);
+        else ctx.replyNull();
+    } else ctx.replyNull();
+}
+
+inline void StorageEngine::cmdRestore(CmdContext& ctx) {
+    // 简化: 只恢复 string 类型
+    std::string key(ctx.args[1]);
+    int64_t ttl;
+    if (!tryParseInt64(std::string(ctx.args[2]), ttl)) { ctx.replyError("ERR invalid ttl"); return; }
+    Value v = Value::createString(std::string(ctx.args[3]));
+    if (ttl > 0) v.expire_at_ms = CmdContext::nowMs() + static_cast<uint64_t>(ttl);
+    dict_.insert(std::move(key), std::move(v));
+    ctx.replyOK();
+    ctx.is_write = true;
+}
+
+inline void StorageEngine::cmdBgsave(CmdContext& ctx) {
+    // 简化: 同步执行 (无 fork)
+    cmdSave(ctx);
+}
+
+inline void StorageEngine::cmdCommand(CmdContext& ctx) {
+    if (ctx.args.size() >= 2 && (ctx.args[1] == "INFO" || ctx.args[1] == "info")) {
+        // 返回所有命令信息
+        RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(0));  // 简化: 空数组
+    } else {
+        ctx.replyOK();
+    }
+}
 
 } // namespace ledis

@@ -219,9 +219,26 @@ void initCommandTable() {
     SCMD("monitor",     cmdMonitor,   1, 0, "w");
     SCMD("slowlog",     cmdSlowlog,  -2, CMD_READONLY, "r");
     SCMD("memory",      cmdMemory,   -1, CMD_READONLY, "r");
+    SCMD("bgsave",      cmdBgsave,    1, CMD_WRITE, "w");
+    SCMD("copy",        cmdCopy,      3, CMD_WRITE, "wm");
+    SCMD("command",     cmdCommand,  -1, CMD_READONLY, "r");
+    SCMD("expiretime",  cmdExpiretime, 2, CMD_READONLY, "r");
+    SCMD("hello",       cmdHello,    -1, 0, "w");
+    SCMD("memory",      cmdMemory,   -1, CMD_READONLY, "r");
+    SCMD("object",      cmdObject,   -3, CMD_READONLY, "r");
+    SCMD("pexpiretime", cmdPexpiretime, 2, CMD_READONLY, "r");
+    SCMD("restore",     cmdRestore,   -4, CMD_WRITE, "wm");
     SCMD("save",        cmdSave,      1, CMD_WRITE, "w");
     SCMD("select",      cmdSelect,    2, 0, "w");
+    SCMD("smove",       smove,        4, CMD_WRITE, "wm");
+    SCMD("time",        cmdTime,      1, CMD_READONLY, "r");
     SCMD("touch",       cmdTouch,    -2, CMD_READONLY, "r");
+    SCMD("zdiff",       zdiff,       -3, CMD_READONLY, "r");
+    SCMD("zdiffstore",  zdiffstore,  -4, CMD_WRITE, "wm");
+    SCMD("zinterstore", zinterstore, -4, CMD_WRITE, "wm");
+    SCMD("zremrangebylex", zremrangebylex, 4, CMD_WRITE, "wm");
+    SCMD("zrevrangebyscore", zrevrangebyscore, -4, CMD_READONLY, "r");
+    SCMD("zunionstore", zunionstore, -4, CMD_WRITE, "wm");
 
     // 排序 (二分查找要求)
     std::sort(g_commands.begin(), g_commands.end(),
