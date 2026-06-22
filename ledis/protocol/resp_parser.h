@@ -6,7 +6,7 @@
 #include <string_view>
 #include <lstl/container/vector.h>
 
-#include "kv_ledis/protocol/resp_types.h"
+#include "ledis/protocol/resp_types.h"
 
 namespace ledis {
 

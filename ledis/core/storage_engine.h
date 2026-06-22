@@ -8,8 +8,8 @@
 #include <unistd.h>
 #include <lstl/container/vector.h>
 
-#include "kv_ledis/core/dict.h"
-#include "kv_ledis/core/command.h"
+#include "ledis/core/dict.h"
+#include "ledis/core/command.h"
 
 namespace ledis {
 

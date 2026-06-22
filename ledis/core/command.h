@@ -6,8 +6,8 @@
 #include <string_view>
 #include <lstl/container/vector.h>
 
-#include "kv_ledis/protocol/resp_writer.h"
-#include "kv_ledis/core/value.h"
+#include "ledis/protocol/resp_writer.h"
+#include "ledis/core/value.h"
 
 namespace ledis {
 

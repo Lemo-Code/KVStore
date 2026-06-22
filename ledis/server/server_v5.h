@@ -25,9 +25,9 @@
 #include "zero/thread/mutex.h"
 #include "zero/log/log.h"
 
-#include "kv_ledis/server/shard_worker.h"
-#include "kv_ledis/core/command.h"
-#include "kv_ledis/replication/aof_writer.h"
+#include "ledis/server/shard_worker.h"
+#include "ledis/core/command.h"
+#include "ledis/replication/aof_writer.h"
 
 namespace ledis {
 

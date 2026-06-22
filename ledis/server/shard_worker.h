@@ -40,11 +40,11 @@
 #include "zero/thread/mutex.h"   // SpinLock
 #include "zero/log/log.h"
 
-#include "kv_ledis/core/storage_engine.h"
-#include "kv_ledis/core/command.h"
-#include "kv_ledis/protocol/resp_parser.h"
-#include "kv_ledis/protocol/resp_writer.h"
-#include "kv_ledis/replication/aof_writer.h"
+#include "ledis/core/storage_engine.h"
+#include "ledis/core/command.h"
+#include "ledis/protocol/resp_parser.h"
+#include "ledis/protocol/resp_writer.h"
+#include "ledis/replication/aof_writer.h"
 
 namespace ledis {
 

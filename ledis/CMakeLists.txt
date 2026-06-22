@@ -18,7 +18,7 @@ set(LEDIS_SOURCES
 
 add_library(ledis STATIC ${LEDIS_SOURCES})
 
-# Include 路径: KVStore 根 (用于 #include "kv_ledis/..." 和 #include "zero/...")
+# Include 路径: KVStore 根 (用于 #include "ledis/..." 和 #include "zero/...")
 target_include_directories(ledis PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/..
     ${CMAKE_CURRENT_SOURCE_DIR}/../newFolder/lstl/include

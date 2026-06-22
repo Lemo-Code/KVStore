@@ -20,8 +20,8 @@ extern "C" {
 #include <lauxlib.h>
 }
 
-#include "kv_ledis/core/storage_engine.h"
-#include "kv_ledis/protocol/resp_writer.h"
+#include "ledis/core/storage_engine.h"
+#include "ledis/protocol/resp_writer.h"
 
 namespace ledis {
 

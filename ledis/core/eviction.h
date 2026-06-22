@@ -22,8 +22,8 @@
 #include <ctime>
 #include <string>
 #include <lstl/container/vector.h>
-#include "kv_ledis/core/dict.h"
-#include "kv_ledis/core/value.h"
+#include "ledis/core/dict.h"
+#include "ledis/core/value.h"
 
 namespace ledis {
 
