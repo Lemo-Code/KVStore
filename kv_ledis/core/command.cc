@@ -214,6 +214,7 @@ void initCommandTable() {
     SCMD("shutdown",    cmdShutdown, -1, 0, "w");
     SCMD("monitor",     cmdMonitor,   1, 0, "w");
     SCMD("slowlog",     cmdSlowlog,  -2, CMD_READONLY, "r");
+    SCMD("save",        cmdSave,      1, CMD_WRITE, "w");
     SCMD("select",      cmdSelect,    2, 0, "w");
 
     // 排序 (二分查找要求)

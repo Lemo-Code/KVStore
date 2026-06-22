@@ -1,7 +1,10 @@
 #pragma once
 
+#include <cmath>
 #include <fnmatch.h>
 #include <string>
+#include <fcntl.h>
+#include <unistd.h>
 #include <lstl/container/vector.h>
 
 #include "kv_ledis/core/dict.h"
@@ -182,6 +185,7 @@ public:
     void cmdMonitor(CmdContext& ctx);
     void cmdSlowlog(CmdContext& ctx);
     void cmdSelect(CmdContext& ctx);
+    void cmdSave(CmdContext& ctx);
 
     // ======== 内部 API ========
     Value* find(const std::string& key) { return dict_.find(key); }
@@ -1958,8 +1962,61 @@ inline void StorageEngine::zrandmember(CmdContext& ctx) {
     ctx.replyBulk(it->first);
 }
 
-inline void StorageEngine::zlexcount(CmdContext& ctx) { ctx.replyInteger(0); /* stub */ }
-inline void StorageEngine::zrangebylex(CmdContext& ctx) { ctx.replyEmptyArray(); /* stub */ }
+inline void StorageEngine::zlexcount(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) {
+        ctx.replyInteger(0); return;
+    }
+    auto* zd = v->asZSet();
+    std::string min_s(ctx.args[2]), max_s(ctx.args[3]);
+    bool min_excl = (min_s[0] == '(');
+    bool max_excl = (max_s[0] == '(');
+    if (min_excl) min_s = min_s.substr(1);
+    if (max_excl) max_s = max_s.substr(1);
+
+    int64_t count = 0;
+    for (auto& elem : zd->by_score) {
+        const std::string& m = elem.second;
+        if (min_s != "-" && (m < min_s || (min_excl && m == min_s))) continue;
+        if (max_s != "+" && (m > max_s || (max_excl && m == max_s))) break;
+        count++;
+    }
+    ctx.replyInteger(count);
+}
+
+inline void StorageEngine::zrangebylex(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) {
+        ctx.replyEmptyArray(); return;
+    }
+    auto* zd = v->asZSet();
+    std::string min_s(ctx.args[2]), max_s(ctx.args[3]);
+    bool min_excl = (min_s[0] == '(');
+    bool max_excl = (max_s[0] == '(');
+    if (min_excl) min_s = min_s.substr(1);
+    if (max_excl) max_s = max_s.substr(1);
+
+    int64_t offset = 0, limit = -1;
+    for (size_t i = 4; i + 1 < ctx.args.size(); ++i) {
+        if ((ctx.args[i] == "LIMIT" || ctx.args[i] == "limit")) {
+            try { offset = std::stoll(std::string(ctx.args[i+1])); } catch (...) {}
+            if (i + 2 < ctx.args.size()) try { limit = std::stoll(std::string(ctx.args[i+2])); } catch (...) {}
+            break;
+        }
+    }
+
+    lstl::vector<std::string> result;
+    int64_t idx = 0;
+    for (auto& elem : zd->by_score) {
+        const std::string& m = elem.second;
+        if (min_s != "-" && (m < min_s || (min_excl && m == min_s))) continue;
+        if (max_s != "+" && (m > max_s || (max_excl && m == max_s))) break;
+        if (limit < 0 || (idx >= offset && idx < offset + limit))
+            result.push_back(m);
+        idx++;
+    }
+    ctx.replyStringArray(result);
+}
 
 // ============================================================
 // Hash 补齐
@@ -2103,18 +2160,33 @@ inline void StorageEngine::pfmerge(CmdContext& ctx) {
 // Geo (简化: 复用 ZSET, score = geohash 编码)
 // ============================================================
 
-static inline uint64_t interleave64(uint32_t x, uint32_t y) {
+static inline uint64_t interleave52(uint32_t x, uint32_t y) {
+    // 26-bit per coord → 52-bit total, fits in double mantissa (53-bit)
     uint64_t r = 0;
-    for (int i = 0; i < 32; ++i) {
-        r |= static_cast<uint64_t>((x & (1U << i)) << i) | static_cast<uint64_t>((y & (1U << i)) << (i + 1));
+    for (int i = 0; i < 26; ++i) {
+        uint64_t xbit = static_cast<uint64_t>(x & (1U << i)) << i;
+        uint64_t ybit = static_cast<uint64_t>(y & (1U << i)) << (i + 1);
+        r |= xbit | ybit;
     }
     return r;
 }
 
 static inline double geoEncode(double lon, double lat) {
-    uint32_t x = static_cast<uint32_t>((lon + 180.0) / 360.0 * (1ULL << 32));
-    uint32_t y = static_cast<uint32_t>((lat + 90.0) / 180.0 * (1ULL << 32));
-    return static_cast<double>(interleave64(x, y));
+    uint32_t x = static_cast<uint32_t>((lon + 180.0) / 360.0 * (1ULL << 26));
+    uint32_t y = static_cast<uint32_t>((lat + 90.0) / 180.0 * (1ULL << 26));
+    return static_cast<double>(interleave52(x, y));
+}
+
+// Geo decode
+static inline void geoDecode(double score, double& lon, double& lat) {
+    uint64_t bits = static_cast<uint64_t>(score);
+    uint32_t x = 0, y = 0;
+    for (int i = 0; i < 26; ++i) {
+        x |= static_cast<uint32_t>((bits >> (i * 2)) & 1) << i;
+        y |= static_cast<uint32_t>((bits >> (i * 2 + 1)) & 1) << i;
+    }
+    lon = static_cast<double>(x) / static_cast<double>(1ULL << 26) * 360.0 - 180.0;
+    lat = static_cast<double>(y) / static_cast<double>(1ULL << 26) * 180.0 - 90.0;
 }
 
 inline void StorageEngine::geoadd(CmdContext& ctx) {
@@ -2144,10 +2216,119 @@ inline void StorageEngine::geoadd(CmdContext& ctx) {
     ctx.is_write = true;
 }
 
-inline void StorageEngine::geodist(CmdContext& ctx) { ctx.replyNull(); /* stub */ }
-inline void StorageEngine::geohash(CmdContext& ctx) { ctx.replyNull(); /* stub */ }
-inline void StorageEngine::geopos(CmdContext& ctx) { ctx.replyNull(); /* stub */ }
-inline void StorageEngine::georadius(CmdContext& ctx) { ctx.replyEmptyArray(); /* stub */ }
+static inline double geoDistHaversine(double lon1, double lat1, double lon2, double lat2) {
+    double dlat = (lat2 - lat1) * M_PI / 180.0;
+    double dlon = (lon2 - lon1) * M_PI / 180.0;
+    double a = sin(dlat / 2) * sin(dlat / 2)
+             + cos(lat1 * M_PI / 180.0) * cos(lat2 * M_PI / 180.0)
+             * sin(dlon / 2) * sin(dlon / 2);
+    return 6371000.0 * 2.0 * atan2(sqrt(a), sqrt(1 - a));
+}
+
+inline void StorageEngine::geodist(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) {
+        ctx.replyNull(); return;
+    }
+    auto* zd = v->asZSet();
+    auto it1 = zd->scores.find(std::string(ctx.args[2]));
+    auto it2 = zd->scores.find(std::string(ctx.args[3]));
+    if (it1 == zd->scores.end() || it2 == zd->scores.end()) { ctx.replyNull(); return; }
+
+    double lon1, lat1, lon2, lat2;
+    geoDecode(it1->second, lon1, lat1);
+    geoDecode(it2->second, lon2, lat2);
+
+    double dist = geoDistHaversine(lon1, lat1, lon2, lat2);
+    std::string unit = "m";
+    if (ctx.args.size() >= 5) unit = std::string(ctx.args[4]);
+    for (char& c : unit) c |= 0x20;
+    if (unit == "km") dist /= 1000.0;
+    else if (unit == "mi") dist /= 1609.34;
+    else if (unit == "ft") dist /= 0.3048;
+
+    char buf[64]; snprintf(buf, sizeof(buf), "%.4f", dist);
+    ctx.replyBulk(std::string(buf));
+}
+
+static inline void geoHashEncode(double lon, double lat, char* out, int precision) {
+    uint32_t x = static_cast<uint32_t>((lon + 180.0) / 360.0 * (1ULL << 26));
+    uint32_t y = static_cast<uint32_t>((lat + 90.0) / 180.0 * (1ULL << 26));
+    uint64_t bits = interleave52(x, y);
+    static const char* base32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+    for (int i = 0; i < precision && i < 11; ++i) {
+        out[i] = base32[(bits >> ((10 - i) * 5)) & 0x1F];
+    }
+    out[std::min(precision, 11)] = '\0';
+}
+
+inline void StorageEngine::geohash(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) {
+        ctx.replyEmptyArray(); return;
+    }
+    auto* zd = v->asZSet();
+    RespWriter::writeArrayHeader(*ctx.response,
+        static_cast<int64_t>(ctx.args.size() - 2));
+    for (size_t i = 2; i < ctx.args.size(); ++i) {
+        auto it = zd->scores.find(std::string(ctx.args[i]));
+        if (it == zd->scores.end()) { RespWriter::writeNull(*ctx.response); continue; }
+        double lon, lat;
+        geoDecode(it->second, lon, lat);
+        char hash[12]; geoHashEncode(lon, lat, hash, 10);
+        RespWriter::writeBulkString(*ctx.response, std::string(hash));
+    }
+}
+
+inline void StorageEngine::geopos(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) {
+        ctx.replyEmptyArray(); return;
+    }
+    auto* zd = v->asZSet();
+    RespWriter::writeArrayHeader(*ctx.response,
+        static_cast<int64_t>(ctx.args.size() - 2));
+    for (size_t i = 2; i < ctx.args.size(); ++i) {
+        auto it = zd->scores.find(std::string(ctx.args[i]));
+        if (it == zd->scores.end()) { RespWriter::writeNull(*ctx.response); continue; }
+        double lon, lat;
+        geoDecode(it->second, lon, lat);
+        RespWriter::writeArrayHeader(*ctx.response, 2);
+        char buf[64];
+        snprintf(buf, sizeof(buf), "%.6f", lon);
+        RespWriter::writeBulkString(*ctx.response, std::string(buf));
+        snprintf(buf, sizeof(buf), "%.6f", lat);
+        RespWriter::writeBulkString(*ctx.response, std::string(buf));
+    }
+}
+
+inline void StorageEngine::georadius(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::ZSET || v->isExpired(CmdContext::nowMs())) {
+        ctx.replyEmptyArray(); return;
+    }
+    double clon, clat, radius;
+    if (!tryParseDouble(std::string(ctx.args[2]), clon) ||
+        !tryParseDouble(std::string(ctx.args[3]), clat) ||
+        !tryParseDouble(std::string(ctx.args[4]), radius)) {
+        ctx.replyError("ERR invalid lon/lat/radius"); return;
+    }
+    std::string unit = "m";
+    if (ctx.args.size() >= 6) { unit = std::string(ctx.args[5]); for (char& c : unit) c |= 0x20; }
+    if (unit == "km") radius *= 1000;
+    else if (unit == "mi") radius *= 1609.34;
+    else if (unit == "ft") radius *= 0.3048;
+
+    auto* zd = v->asZSet();
+    lstl::vector<std::string> result;
+    for (auto& elem : zd->by_score) {
+        double lon, lat;
+        geoDecode(elem.first, lon, lat);
+        if (geoDistHaversine(clon, clat, lon, lat) <= radius)
+            result.push_back(elem.second);
+    }
+    ctx.replyStringArray(result);
+}
 
 // ============================================================
 // Sort
@@ -2236,6 +2417,30 @@ inline void StorageEngine::cmdShutdown(CmdContext& ctx) { ctx.replyOK(); /* stub
 inline void StorageEngine::cmdMonitor(CmdContext& ctx) { ctx.replyOK(); /* stub */ }
 inline void StorageEngine::cmdSlowlog(CmdContext& ctx) { ctx.replyOK(); /* stub */ }
 inline void StorageEngine::cmdSelect(CmdContext& ctx) { ctx.replyOK(); /* stub */ }
+
+// SAVE: 全量 RDB 快照 (简化: AOF 格式写入 dump.rdb)
+inline void StorageEngine::cmdSave(CmdContext& ctx) {
+    int fd = ::open("dump.rdb", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd < 0) { ctx.replyError("ERR failed to open dump.rdb"); return; }
+    Dict::Iterator it(const_cast<Dict*>(&dict_));
+    while (it.valid()) {
+        if (!it.value().isExpired(CmdContext::nowMs())) {
+            // 写 RESP 格式: SET key value
+            std::string buf;
+            buf += "*3\r\n$3\r\nSET\r\n";
+            buf += "$" + std::to_string(it.key().size()) + "\r\n" + it.key() + "\r\n";
+            if (it.value().type == ValueType::STRING) {
+                buf += "$" + std::to_string(it.value().str.size()) + "\r\n" + it.value().str + "\r\n";
+            } else {
+                buf += "$0\r\n\r\n";  // 复杂类型跳过
+            }
+            ::write(fd, buf.data(), buf.size());
+        }
+        it.next();
+    }
+    ::close(fd);
+    ctx.replyOK();
+}
 
 // Pub/Sub stubs (server 层处理)
 inline void StorageEngine::cmdUnsubscribe(CmdContext& ctx) { ctx.replyOK(); }
