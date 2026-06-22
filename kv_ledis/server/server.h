@@ -345,10 +345,32 @@ private:
         }
         if (cn == "acl") {
             if (args.size() >= 2 && (args[1] == "WHOAMI" || args[1] == "whoami"))
-                RespWriter::writeSimpleString(out, "User default");
-            else if (args.size() >= 2 && (args[1] == "LIST" || args[1] == "list"))
-                out += "*0\r\n";
-            else out += "+OK\r\n";
+                RespWriter::writeSimpleString(out, s->authenticated ? "User default" : "User default");
+            else if (args.size() >= 2 && (args[1] == "LIST" || args[1] == "list")) {
+                RespWriter::writeArrayHeader(out, static_cast<int64_t>(acl_users_.size()));
+                for (auto& kv : acl_users_) {
+                    RespWriter::writeBulkString(out, "user " + kv.first + " on");
+                }
+            } else if (args.size() >= 4 && (args[1] == "SETUSER" || args[1] == "setuser")) {
+                std::string username(args[2]);
+                std::string action(args[3]);
+                if (action == ">" && args.size() >= 5) {
+                    acl_users_[username] = std::string(args[4]);
+                    out += "+OK\r\n";
+                } else if (action == "on" || action == "off") {
+                    out += "+OK\r\n";
+                } else {
+                    out += "-ERR syntax error\r\n";
+                }
+            } else if (args.size() >= 3 && (args[1] == "DELUSER" || args[1] == "deluser")) {
+                acl_users_.erase(std::string(args[2]));
+                out += ":1\r\n";
+            } else if (args.size() >= 2 && (args[1] == "USERS" || args[1] == "users")) {
+                RespWriter::writeArrayHeader(out, static_cast<int64_t>(acl_users_.size()));
+                for (auto& kv : acl_users_) RespWriter::writeBulkString(out, kv.first);
+            } else {
+                out += "+OK\r\n";
+            }
             return;
         }
         if (cn == "client") {
@@ -598,8 +620,38 @@ private:
             }
         }
 
+        // XREAD BLOCK 处理 (dispatchCommand 返回后检查)
+        bool is_xread_block = false;
+        {
+            std::string lc; for (char c : args[0]) lc += c | 0x20;
+            is_xread_block = (lc == "xread" && ctx.block_for_stream);
+        }
+
         auto start_us = std::chrono::steady_clock::now();
         dispatchCommand(ctx);
+
+        // XREAD BLOCK: 无数据时阻塞等待
+        if (is_xread_block && ctx.block_for_stream) {
+            s->blocked = true;
+            int64_t timeout = ctx.block_ms;
+            ctx.block_for_stream = false;
+            uint64_t deadline = static_cast<uint64_t>(time(nullptr))*1000 + static_cast<uint64_t>(timeout);
+            // 注册到 block manager (用第一个 key)
+            if (!ctx.block_keys.empty()) {
+                lstl::vector<std::string> bkeys;
+                for (auto& k : ctx.block_keys) bkeys.push_back(k);
+                blocking_.addWaiter(s.get(), bkeys, timeout / 1000);
+            }
+            while (s->blocked && !s->closed) {
+                if (static_cast<uint64_t>(time(nullptr))*1000 >= deadline) break;
+                zero::Fiber::YieldToReady();
+            }
+            if (!s->blocked) return;  // XADD 已唤醒并写入响应
+            // 超时: 返回 null
+            out.clear();
+            out += "$-1\r\n";
+            return;
+        }
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::steady_clock::now() - start_us).count();
 
@@ -754,6 +806,9 @@ private:
 
     // Lua
     LuaScriptEngine lua_{&engine_};
+
+    // ACL
+    lstl::unordered_map<std::string, std::string> acl_users_;
 };
 
 } // namespace ledis

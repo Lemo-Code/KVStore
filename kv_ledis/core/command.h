@@ -25,6 +25,9 @@ struct CmdContext {
     int      db_index  = 0;
     bool     is_write  = false;
     bool     authenticated = true;
+    bool     block_for_stream = false;
+    int64_t  block_ms = 0;
+    lstl::vector<std::string> block_keys;
 
     // 便捷回复
     void replyOK()               { RespWriter::writeOK(*response); }

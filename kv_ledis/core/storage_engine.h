@@ -2811,8 +2811,64 @@ inline void StorageEngine::cmdRestore(CmdContext& ctx) {
     std::string key(ctx.args[1]);
     int64_t ttl;
     if (!tryParseInt64(std::string(ctx.args[2]), ttl)) { ctx.replyError("ERR invalid ttl"); return; }
-    std::string val(ctx.args[3]);
-    Value v = Value::createString(val);
+    std::string payload(ctx.args[3]);
+
+    // 格式: "TYPE:data"  其中 TYPE = S|H|L|T (set)|Z (zset)
+    char type = payload.empty() ? 'S' : payload[0];
+    std::string data = payload.size() > 2 ? payload.substr(2) : "";
+
+    Value v;
+    switch (type) {
+    case 'S': v = Value::createString(data); break;
+    case 'H': {
+        v = Value::createHash(); auto* hd = v.asHash();
+        size_t pos = 0;
+        while (pos < data.size()) {
+            auto sep1 = data.find(':', pos); if (sep1 == std::string::npos) break;
+            auto sep2 = data.find(';', sep1 + 1);
+            std::string f = data.substr(pos, sep1 - pos);
+            std::string fv = data.substr(sep1 + 1, sep2 != std::string::npos ? sep2 - sep1 - 1 : data.size() - sep1 - 1);
+            hd->fields[f] = fv;
+            pos = sep2 != std::string::npos ? sep2 + 1 : data.size();
+        }
+        break;
+    }
+    case 'L': {
+        v = Value::createList(); auto* ld = v.asList();
+        size_t pos = 0;
+        while (pos < data.size()) {
+            auto sep = data.find(';', pos);
+            ld->elements.push_back(data.substr(pos, sep != std::string::npos ? sep - pos : data.size() - pos));
+            pos = sep != std::string::npos ? sep + 1 : data.size();
+        }
+        break;
+    }
+    case 'T': {
+        v = Value::createSet(); auto* sd = v.asSet();
+        size_t pos = 0;
+        while (pos < data.size()) {
+            auto sep = data.find(';', pos);
+            sd->members.insert(data.substr(pos, sep != std::string::npos ? sep - pos : data.size() - pos));
+            pos = sep != std::string::npos ? sep + 1 : data.size();
+        }
+        break;
+    }
+    case 'Z': {
+        v = Value::createZSet(); auto* zd = v.asZSet();
+        size_t pos = 0;
+        while (pos < data.size()) {
+            auto sep1 = data.find(':', pos); if (sep1 == std::string::npos) break;
+            auto sep2 = data.find(';', sep1 + 1);
+            double s = 0;
+            try { s = std::stod(data.substr(pos, sep1 - pos)); } catch (...) {}
+            zd->scores[data.substr(sep1 + 1, sep2 != std::string::npos ? sep2 - sep1 - 1 : data.size() - sep1 - 1)] = s;
+            zd->by_score.insert({s, data.substr(sep1 + 1, sep2 != std::string::npos ? sep2 - sep1 - 1 : data.size() - sep1 - 1)});
+            pos = sep2 != std::string::npos ? sep2 + 1 : data.size();
+        }
+        break;
+    }
+    default: v = Value::createString(data); break;
+    }
     if (ttl > 0) v.expire_at_ms = CmdContext::nowMs() + static_cast<uint64_t>(ttl);
     dict_.insert(std::move(key), std::move(v));
     ctx.replyOK(); ctx.is_write = true;
@@ -2945,59 +3001,72 @@ inline void StorageEngine::xadd(CmdContext& ctx) {
 }
 
 inline void StorageEngine::xread(CmdContext& ctx) {
-    // XREAD [COUNT n] STREAMS key [key...] id [id...]
-    int64_t count = -1; size_t pos = 1;
-    if (ctx.args.size() >= 3 && (ctx.args[1] == "COUNT" || ctx.args[1] == "count")) {
-        try { count = std::stoll(std::string(ctx.args[2])); } catch (...) {}
-        pos = 3;
+    // XREAD [COUNT n] [BLOCK ms] STREAMS key [key...] id [id...]
+    int64_t count = -1, block_ms = -1; size_t pos = 1;
+    while (pos < ctx.args.size()) {
+        if ((ctx.args[pos] == "COUNT" || ctx.args[pos] == "count") && pos+1 < ctx.args.size()) {
+            try { count = std::stoll(std::string(ctx.args[++pos])); } catch (...) {}
+        } else if ((ctx.args[pos] == "BLOCK" || ctx.args[pos] == "block") && pos+1 < ctx.args.size()) {
+            try { block_ms = std::stoll(std::string(ctx.args[++pos])); } catch (...) {}
+        } else break;
+        pos++;
     }
     if (pos >= ctx.args.size() || (ctx.args[pos] != "STREAMS" && ctx.args[pos] != "streams")) {
         ctx.replyError("ERR syntax error"); return;
     }
     pos++;
-    size_t key_start = pos;
-    size_t key_count = 0;
-    while (pos < ctx.args.size() && (pos - key_start < ctx.args.size() / 2)) {
-        key_count++; pos++;
+    size_t key_start = pos, key_count = (ctx.args.size() - pos) / 2;
+    if (key_count == 0) { ctx.replyError("ERR Unbalanced XREAD list of streams"); return; }
+
+    // 先检查是否有数据
+    bool has_data = false;
+    for (size_t i = 0; i < key_count && !has_data; ++i) {
+        Value* v = dict_.find(std::string(ctx.args[key_start + i]));
+        if (v && v->type == ValueType::STREAM) {
+            std::string start_id(ctx.args[key_start + key_count + i]);
+            if (start_id == "$") start_id = v->asStream()->last_id;
+            for (auto& e : v->asStream()->entries)
+                if (e.id > start_id) { has_data = true; break; }
+        }
     }
-    if (key_count == 0 || key_count * 2 + key_start > ctx.args.size()) {
-        ctx.replyError("ERR Unbalanced XREAD list of streams"); return;
+
+    // BLOCK 模式: 无数据时标记需要阻塞 (server层处理)
+    if (!has_data && block_ms > 0) {
+        ctx.replyNullArray();  // server层会在BeforeDispatch中检测并阻塞
+        ctx.block_for_stream = true;
+        ctx.block_ms = block_ms;
+        ctx.block_keys.clear();
+        for (size_t i = 0; i < key_count; ++i)
+            ctx.block_keys.push_back(std::string(ctx.args[key_start + i]));
+        return;
     }
+    if (!has_data) { ctx.replyNullArray(); return; }
 
     RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(key_count));
-
     for (size_t i = 0; i < key_count; ++i) {
         std::string key(ctx.args[key_start + i]);
         std::string start_id(ctx.args[key_start + key_count + i]);
         Value* v = dict_.find(key);
         if (!v || v->type != ValueType::STREAM) { RespWriter::writeNull(*ctx.response); continue; }
         auto* sd = v->asStream();
+        if (start_id == "$") start_id = sd->last_id;
+
+        lstl::vector<StreamEntry*> result;
+        for (auto& e : sd->entries) if (e.id > start_id) result.push_back(&e);
+        size_t limit = count > 0 ? std::min(static_cast<size_t>(count), result.size()) : result.size();
 
         RespWriter::writeArrayHeader(*ctx.response, 2);
         RespWriter::writeBulkString(*ctx.response, key);
-        RespWriter::writeArrayHeader(*ctx.response, 0);  // entries count
-
-        size_t entry_start = 0;
-        if (start_id != "0-0" && start_id != "$") {
-            // Find entries after start_id
-            for (size_t j = 0; j < sd->entries.size(); ++j) {
-                if (sd->entries[j].id > start_id) { entry_start = j; break; }
+        RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(limit));
+        for (size_t j = 0; j < limit; ++j) {
+            auto* e = result[j];
+            RespWriter::writeArrayHeader(*ctx.response, 2);
+            RespWriter::writeBulkString(*ctx.response, e->id);
+            RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(e->fields.size() * 2));
+            for (auto& f : e->fields) {
+                RespWriter::writeBulkString(*ctx.response, f.first);
+                RespWriter::writeBulkString(*ctx.response, f.second);
             }
-        } else if (start_id == "0-0") {
-            entry_start = 0;
-        } else {
-            entry_start = sd->entries.size();  // $ means no history
-        }
-
-        // Count entries to return
-        size_t end = sd->entries.size();
-        if (count >= 0) end = std::min(entry_start + static_cast<size_t>(count), sd->entries.size());
-
-        // Overwrite array header with correct count
-        // (Simplified: just write entries)
-        for (size_t j = entry_start; j < end; ++j) {
-            // Each entry: [id, [field1, value1, ...]]
-            // Simplified output format
         }
     }
 }
