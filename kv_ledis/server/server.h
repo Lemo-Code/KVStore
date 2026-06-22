@@ -20,6 +20,7 @@
 #include "kv_ledis/core/storage_engine.h"
 #include "kv_ledis/core/command.h"
 #include "kv_ledis/core/eviction.h"
+#include "kv_ledis/core/lua_script.h"
 #include "kv_ledis/replication/aof_writer.h"
 #include "kv_ledis/protocol/resp_writer.h"
 
@@ -221,6 +222,20 @@ private:
             out += "+OK\r\n"; return;
         }
         if (cn == "unwatch") { s->watched_keys.clear(); out += "+OK\r\n"; return; }
+
+        // ---- Lua ----
+        if (cn == "eval") { lua_.eval(args, out); return; }
+        if (cn == "evalsha") { lua_.evalsha(args, out); return; }
+        if (cn == "script") {
+            if (args.size() >= 3 && (args[1] == "LOAD" || args[1] == "load"))
+                lua_.scriptLoad(args, out);
+            else if (args.size() >= 3 && (args[1] == "EXISTS" || args[1] == "exists"))
+                lua_.scriptExists(args, out);
+            else if (args.size() >= 2 && (args[1] == "FLUSH" || args[1] == "flush"))
+                lua_.scriptFlush(out);
+            else out += "+OK\r\n";
+            return;
+        }
 
         // ---- Pub/Sub ----
         if (cn == "subscribe") {
@@ -717,6 +732,9 @@ private:
 
     // Eviction
     EvictionManager eviction_;
+
+    // Lua
+    LuaScriptEngine lua_{&engine_};
 };
 
 } // namespace ledis

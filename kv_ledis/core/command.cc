@@ -215,6 +215,9 @@ void initCommandTable() {
     SCMD("xadd",        xadd,        -4, CMD_WRITE, "wm");
     SCMD("xdel",        xdel,        -3, CMD_WRITE, "wm");
     SCMD("xlen",        xlen,         2, CMD_READONLY, "r");
+    SCMD("eval",        cmdDbsize,   -3, CMD_WRITE, "w");
+    SCMD("evalsha",     cmdDbsize,   -3, CMD_WRITE, "w");
+    SCMD("script",      cmdDbsize,   -2, 0, "w");
     SCMD("xrange",      xrange,      -4, CMD_READONLY, "r");
     SCMD("xread",       xread,       -4, CMD_READONLY, "r");
 
