@@ -13,7 +13,7 @@ namespace ledis {
 // ValueType
 // ============================================================
 enum class ValueType : uint8_t {
-    STRING = 0, LIST = 1, HASH = 2, SET = 3, ZSET = 4,
+    STRING = 0, LIST = 1, HASH = 2, SET = 3, ZSET = 4, STREAM = 5,
 };
 
 inline const char* valueTypeName(ValueType t) {
@@ -23,6 +23,7 @@ inline const char* valueTypeName(ValueType t) {
     case ValueType::HASH:   return "hash";
     case ValueType::SET:    return "set";
     case ValueType::ZSET:   return "zset";
+    case ValueType::STREAM: return "stream";
     default:                return "none";
     }
 }
@@ -44,10 +45,18 @@ struct SetData {
 };
 
 struct ZSetData {
-    // 有序集合: (score, member) 按 score→member 字典序排列
     lstl::set<std::pair<double, std::string>> by_score;
-    // member → score 映射 (O(1) 查找)
     lstl::unordered_map<std::string, double> scores;
+};
+
+struct StreamEntry {
+    std::string id;
+    lstl::vector<std::pair<std::string, std::string>> fields;
+};
+
+struct StreamData {
+    lstl::vector<StreamEntry> entries;
+    std::string last_id = "0-0";
 };
 
 // ============================================================
@@ -84,6 +93,9 @@ struct Value {
     static Value createZSet() {
         Value v; v.type = ValueType::ZSET; v.opaque_ptr = new ZSetData(); return v;
     }
+    static Value createStream() {
+        Value v; v.type = ValueType::STREAM; v.opaque_ptr = new StreamData(); return v;
+    }
 
     // ---- 类型安全访问器 ----
     HashData* asHash() const {
@@ -98,6 +110,9 @@ struct Value {
     ZSetData* asZSet() const {
         return (type == ValueType::ZSET) ? static_cast<ZSetData*>(opaque_ptr) : nullptr;
     }
+    StreamData* asStream() const {
+        return (type == ValueType::STREAM) ? static_cast<StreamData*>(opaque_ptr) : nullptr;
+    }
 
     // ---- 生命周期 ----
     void destroy() {
@@ -106,6 +121,7 @@ struct Value {
         case ValueType::LIST: delete static_cast<ListData*>(opaque_ptr); break;
         case ValueType::SET:  delete static_cast<SetData*>(opaque_ptr);  break;
         case ValueType::ZSET: delete static_cast<ZSetData*>(opaque_ptr); break;
+        case ValueType::STREAM: delete static_cast<StreamData*>(opaque_ptr); break;
         default: break;
         }
         opaque_ptr = nullptr;

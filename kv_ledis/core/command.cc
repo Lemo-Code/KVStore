@@ -211,6 +211,13 @@ void initCommandTable() {
     // ---- Sort ----
     SCMD("sort",        cmdSort,     -2, CMD_READONLY, "r");
 
+    // ---- Stream ----
+    SCMD("xadd",        xadd,        -4, CMD_WRITE, "wm");
+    SCMD("xdel",        xdel,        -3, CMD_WRITE, "wm");
+    SCMD("xlen",        xlen,         2, CMD_READONLY, "r");
+    SCMD("xrange",      xrange,      -4, CMD_READONLY, "r");
+    SCMD("xread",       xread,       -4, CMD_READONLY, "r");
+
     // ---- Server management ----
     SCMD("config",      cmdConfig,   -2, 0, "w");
     SCMD("info",        cmdInfo,     -1, CMD_READONLY, "r");
