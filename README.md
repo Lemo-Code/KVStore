@@ -141,4 +141,4 @@ redis-benchmark -p 6379 -t set -n 500000 -c 50 -P 16 --csv
 
 ## 作者
 
-求职作品 | 2025-2026 | [GitHub](https://github.com/Lemo-Code/KVStore)
+LemoDis | 2026-2027 | [GitHub](https://github.com/Lemo-Code/KVStore)
