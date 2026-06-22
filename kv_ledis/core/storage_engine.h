@@ -214,6 +214,10 @@ public:
     void xrange(CmdContext& ctx);
     void xlen(CmdContext& ctx);
     void xdel(CmdContext& ctx);
+    void xgroup(CmdContext& ctx);
+    void xreadgroup(CmdContext& ctx);
+    void xack(CmdContext& ctx);
+    void xpending(CmdContext& ctx);
 
     // ======== 内部 API ========
     Value* find(const std::string& key) { return dict_.find(key); }
@@ -3034,6 +3038,127 @@ inline void StorageEngine::xdel(CmdContext& ctx) {
     }
     ctx.replyInteger(deleted);
     ctx.is_write = deleted > 0;
+}
+
+// ============================================================
+// Stream Consumer Group (XGROUP / XREADGROUP / XACK / XPENDING)
+// ============================================================
+
+inline void StorageEngine::xgroup(CmdContext& ctx) {
+    if (ctx.args.size() < 3) { ctx.replyError("ERR syntax error"); return; }
+    std::string sub(ctx.args[1]);
+    for (char& c : sub) c |= 0x20;
+
+    Value* v = dict_.find(std::string(ctx.args[2]));
+    if (!v || v->type != ValueType::STREAM || v->isExpired(CmdContext::nowMs())) {
+        ctx.replyError("ERR no such key"); return;
+    }
+    auto* sd = v->asStream();
+
+    if (sub == "create" && ctx.args.size() >= 4) {
+        std::string gname(ctx.args[3]);
+        if (sd->groups.find(gname) != sd->groups.end()) {
+            ctx.replyError("ERR BUSYGROUP Consumer Group name already exists"); return;
+        }
+        std::string start_id = ctx.args.size() >= 5 ? std::string(ctx.args[4]) : "$";
+        if (start_id == "$") start_id = sd->last_id;
+        StreamGroup g; g.name = gname; g.last_delivered_id = start_id;
+        sd->groups[gname] = std::move(g);
+        ctx.replyOK(); ctx.is_write = true;
+    } else if (sub == "destroy" && ctx.args.size() >= 4) {
+        if (sd->groups.erase(std::string(ctx.args[3])) > 0) { ctx.replyInteger(1); ctx.is_write = true; }
+        else ctx.replyInteger(0);
+    } else {
+        ctx.replyOK();
+    }
+}
+
+inline void StorageEngine::xreadgroup(CmdContext& ctx) {
+    // XREADGROUP GROUP group consumer [COUNT n] STREAMS key [key...] id [id...]
+    if (ctx.args.size() < 7) { ctx.replyError("ERR syntax error"); return; }
+    std::string gname(ctx.args[2]), cname(ctx.args[3]);
+    int64_t count = -1; size_t pos = 4;
+    if (ctx.args[4] == "COUNT" || ctx.args[4] == "count") {
+        try { count = std::stoll(std::string(ctx.args[5])); } catch (...) {}; pos = 6;
+    }
+    if (pos >= ctx.args.size() || (ctx.args[pos] != "STREAMS" && ctx.args[pos] != "streams")) {
+        ctx.replyError("ERR syntax error"); return;
+    }
+    pos++;
+
+    Value* v = dict_.find(std::string(ctx.args[pos]));
+    if (!v || v->type != ValueType::STREAM) { ctx.replyNullArray(); return; }
+    auto* sd = v->asStream();
+
+    auto git = sd->groups.find(gname);
+    if (git == sd->groups.end()) { ctx.replyError("ERR NOGROUP"); return; }
+    auto& g = git->second;
+
+    std::string from_id(ctx.args[pos + 1]);
+    if (from_id == ">") from_id = g.last_delivered_id;
+
+    // 找未投递的消息
+    lstl::vector<StreamEntry*> undelivered;
+    for (auto& e : sd->entries) {
+        if (e.id > from_id) undelivered.push_back(&e);
+    }
+
+    size_t limit = count > 0 ? static_cast<size_t>(count) : undelivered.size();
+    if (limit > undelivered.size()) limit = undelivered.size();
+
+    RespWriter::writeArrayHeader(*ctx.response, 1);
+    RespWriter::writeArrayHeader(*ctx.response, 2);
+    RespWriter::writeBulkString(*ctx.response, ctx.args[pos]);
+    RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(limit));
+
+    for (size_t i = 0; i < limit; ++i) {
+        auto* e = undelivered[i];
+        RespWriter::writeArrayHeader(*ctx.response, 2);
+        RespWriter::writeBulkString(*ctx.response, e->id);
+        RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(e->fields.size() * 2));
+        for (auto& f : e->fields) {
+            RespWriter::writeBulkString(*ctx.response, f.first);
+            RespWriter::writeBulkString(*ctx.response, f.second);
+        }
+        // 标记为 pending
+        g.pending.push_back({e->id, cname});
+    }
+
+    if (limit > 0 && !undelivered.empty())
+        g.last_delivered_id = undelivered[limit - 1]->id;
+}
+
+inline void StorageEngine::xack(CmdContext& ctx) {
+    // XACK key group id [id...]
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::STREAM) { ctx.replyInteger(0); return; }
+    auto* sd = v->asStream();
+    auto git = sd->groups.find(std::string(ctx.args[2]));
+    if (git == sd->groups.end()) { ctx.replyInteger(0); return; }
+
+    int64_t acked = 0;
+    for (size_t i = 3; i < ctx.args.size(); ++i) {
+        for (auto it = git->second.pending.begin(); it != git->second.pending.end(); ++it) {
+            if (it->first == ctx.args[i]) { git->second.pending.erase(it); acked++; break; }
+        }
+    }
+    ctx.replyInteger(acked); ctx.is_write = (acked > 0);
+}
+
+inline void StorageEngine::xpending(CmdContext& ctx) {
+    Value* v = dict_.find(std::string(ctx.args[1]));
+    if (!v || v->type != ValueType::STREAM) { ctx.replyInteger(0); return; }
+    auto* sd = v->asStream();
+    auto git = sd->groups.find(std::string(ctx.args[2]));
+    if (git == sd->groups.end()) { ctx.replyInteger(0); return; }
+    RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(git->second.pending.size()));
+    for (auto& p : git->second.pending) {
+        RespWriter::writeArrayHeader(*ctx.response, 4);
+        RespWriter::writeBulkString(*ctx.response, p.first);
+        RespWriter::writeBulkString(*ctx.response, p.second);
+        RespWriter::writeInteger(*ctx.response, 0);
+        RespWriter::writeInteger(*ctx.response, 1);
+    }
 }
 
 } // namespace ledis

@@ -218,8 +218,12 @@ void initCommandTable() {
     SCMD("eval",        cmdDbsize,   -3, CMD_WRITE, "w");
     SCMD("evalsha",     cmdDbsize,   -3, CMD_WRITE, "w");
     SCMD("script",      cmdDbsize,   -2, 0, "w");
+    SCMD("xack",        xack,        -4, CMD_WRITE, "wm");
+    SCMD("xgroup",      xgroup,      -4, CMD_WRITE, "wm");
+    SCMD("xpending",    xpending,    -3, CMD_READONLY, "r");
     SCMD("xrange",      xrange,      -4, CMD_READONLY, "r");
     SCMD("xread",       xread,       -4, CMD_READONLY, "r");
+    SCMD("xreadgroup",  xreadgroup,  -7, CMD_READONLY, "r");
 
     // ---- Server management ----
     SCMD("config",      cmdConfig,   -2, 0, "w");
@@ -229,6 +233,7 @@ void initCommandTable() {
     SCMD("monitor",     cmdMonitor,   1, 0, "w");
     SCMD("slowlog",     cmdSlowlog,  -2, CMD_READONLY, "r");
     SCMD("memory",      cmdMemory,   -1, CMD_READONLY, "r");
+    SCMD("acl",         cmdClient,   -2, 0, "w");
     SCMD("bgsave",      cmdBgsave,    1, CMD_WRITE, "w");
     SCMD("copy",        cmdCopy,      3, CMD_WRITE, "wm");
     SCMD("command",     cmdCommand,  -1, CMD_READONLY, "r");

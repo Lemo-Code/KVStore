@@ -54,9 +54,16 @@ struct StreamEntry {
     lstl::vector<std::pair<std::string, std::string>> fields;
 };
 
+struct StreamGroup {
+    std::string name;
+    std::string last_delivered_id = "0-0";
+    lstl::vector<std::pair<std::string, std::string>> pending;  // [{id, consumer_name}]
+};
+
 struct StreamData {
     lstl::vector<StreamEntry> entries;
     std::string last_id = "0-0";
+    lstl::unordered_map<std::string, StreamGroup> groups;
 };
 
 // ============================================================

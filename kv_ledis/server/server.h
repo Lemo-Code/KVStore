@@ -343,15 +343,34 @@ private:
             RespWriter::writeBulkString(out, info);
             return;
         }
+        if (cn == "acl") {
+            if (args.size() >= 2 && (args[1] == "WHOAMI" || args[1] == "whoami"))
+                RespWriter::writeSimpleString(out, "User default");
+            else if (args.size() >= 2 && (args[1] == "LIST" || args[1] == "list"))
+                out += "*0\r\n";
+            else out += "+OK\r\n";
+            return;
+        }
         if (cn == "client") {
-            if (args.size() >= 3 && (args[1] == "SETNAME" || args[1] == "setname")) {
+            if (args.size() >= 2 && (args[1] == "ID" || args[1] == "id")) {
+                RespWriter::writeInteger(out, reinterpret_cast<int64_t>(s.get()));
+            } else if (args.size() >= 2 && (args[1] == "INFO" || args[1] == "info")) {
+                std::string ci;
+                ci += "id=" + std::to_string(reinterpret_cast<int64_t>(s.get()));
+                ci += " addr=" + s->remote_addr;
+                ci += " name=" + (s->name.empty() ? "" : s->name);
+                ci += " db=0";
+                RespWriter::writeBulkString(out, ci);
+            } else if (args.size() >= 3 && (args[1] == "SETNAME" || args[1] == "setname")) {
                 s->name = std::string(args[2]); out += "+OK\r\n";
             } else if (args.size() >= 2 && (args[1] == "GETNAME" || args[1] == "getname")) {
                 RespWriter::writeBulkString(out, s->name.empty() ? std::string_view{} : std::string_view(s->name));
+            } else if (args.size() >= 3 && (args[1] == "UNBLOCK" || args[1] == "unblock")) {
+                out += ":1\r\n";  // simplified
             } else if (args.size() >= 2 && (args[1] == "LIST" || args[1] == "list")) {
-                out += "+OK\r\n";  // stub
+                out += "*0\r\n";
             } else if (args.size() >= 3 && (args[1] == "KILL" || args[1] == "kill")) {
-                out += "+OK\r\n";  // stub
+                out += "+OK\r\n";
             }
             return;
         }
