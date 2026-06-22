@@ -16,8 +16,10 @@
 
 #include "kv_ledis/server/session.h"
 #include "kv_ledis/server/pubsub.h"
+#include "kv_ledis/server/blocking.h"
 #include "kv_ledis/core/storage_engine.h"
 #include "kv_ledis/core/command.h"
+#include "kv_ledis/core/eviction.h"
 #include "kv_ledis/replication/aof_writer.h"
 #include "kv_ledis/protocol/resp_writer.h"
 
@@ -177,8 +179,9 @@ private:
                 engine_.activeExpireCycle();
             }
         }
-        // 清理 Pub/Sub 订阅
+        // 清理
         pubsub_.cleanup(session.get());
+        blocking_.cleanup(session.get());
         // 清理 Monitor
         if (session->is_monitor) {
             for (auto it = monitors_.begin(); it != monitors_.end(); ++it) {
@@ -296,10 +299,14 @@ private:
                 if (args[2] == "port") RespWriter::writeBulkString(out, std::to_string(cfg_.port));
                 else if (args[2] == "bind") RespWriter::writeBulkString(out, cfg_.bind_addr);
                 else if (args[2] == "requirepass") RespWriter::writeBulkString(out, cfg_.requirepass.empty() ? "" : cfg_.requirepass);
+                else if (args[2] == "maxmemory") RespWriter::writeBulkString(out, std::to_string(eviction_.maxmemory()));
+                else if (args[2] == "maxmemory-policy") RespWriter::writeBulkString(out, evictionPolicyName(eviction_.policy()));
                 else if (args[2] == "aof_path") RespWriter::writeBulkString(out, cfg_.aof_path);
                 else RespWriter::writeNull(out);
             } else if (args.size() >= 4 && (args[1] == "SET" || args[1] == "set")) {
                 if (args[2] == "requirepass") cfg_.requirepass = std::string(args[3]);
+                else if (args[2] == "maxmemory") eviction_.setMaxmemory(static_cast<size_t>(std::stoull(std::string(args[3]))));
+                else if (args[2] == "maxmemory-policy") eviction_.setPolicy(evictionPolicyFromString(std::string(args[3])));
                 out += "+OK\r\n";
             } else out += "+OK\r\n";
             return;
@@ -314,6 +321,10 @@ private:
             info += "total_connections:" + std::to_string(total_connections.load()) + "\r\n";
             info += "# Keyspace\r\n";
             info += "keys:" + std::to_string(engine_.size()) + "\r\n";
+            info += "# Memory\r\n";
+            info += "maxmemory:" + std::to_string(eviction_.maxmemory()) + "\r\n";
+            info += "used_memory_estimate:" + std::to_string(eviction_.estimateMemory(engine_.dict())) + "\r\n";
+            info += "maxmemory_policy:" + std::string(evictionPolicyName(eviction_.policy())) + "\r\n";
             RespWriter::writeBulkString(out, info);
             return;
         }
@@ -383,6 +394,121 @@ private:
         ctx.engine = &engine_;
         ctx.args = args;
         ctx.response = &out;
+
+        // ---- BLPOP / BRPOP 阻塞处理 ----
+        if (cn == "blpop" || cn == "brpop") {
+            bool left = (cn == "blpop");
+            int64_t timeout = 0;
+            size_t key_end = args.size();
+            // 最后一个参数可能是 timeout
+            if (args.size() >= 2) {
+                auto& last = args[args.size() - 1];
+                bool is_int = true;
+                for (char c : last) if (c < '0' || c > '9') { is_int = false; break; }
+                if (is_int) {
+                    try { timeout = std::stoll(std::string(last)); } catch (...) {}
+                    key_end = args.size() - 1;
+                }
+            }
+
+            // 尝试弹出
+            for (size_t i = 1; i < key_end; ++i) {
+                Value* v = engine_.find(std::string(args[i]));
+                if (v && v->type == ValueType::LIST && !v->isExpired(CmdContext::nowMs())) {
+                    auto* ld = v->asList();
+                    if (!ld->elements.empty()) {
+                        std::string val = left ? std::move(ld->elements.front()) : std::move(ld->elements.back());
+                        if (left) ld->elements.pop_front(); else ld->elements.pop_back();
+                        RespWriter::writeArrayHeader(out, 2);
+                        RespWriter::writeBulkString(out, args[i]);
+                        RespWriter::writeBulkString(out, val);
+                        if (key_end >= 3) key_versions_[std::string(args[1])]++;
+                        if (!cfg_.aof_path.empty()) {
+                            lstl::vector<std::string_view> aof_args;
+                            aof_args.push_back(args[0]);
+                            aof_args.push_back(args[i]);
+                            aof_args.push_back(val);
+                            aof_.appendArgs(aof_args);
+                        }
+                        return;
+                    }
+                }
+            }
+
+            // 无数据，阻塞
+            if (timeout > 0) {
+                s->blocked = true;
+                lstl::vector<std::string> keys;
+                for (size_t i = 1; i < key_end; ++i) keys.push_back(std::string(args[i]));
+                blocking_.addWaiter(s.get(), keys, timeout);
+                s->write_buf_for_block = &out;  // 用于 LPUSH 时写入响应
+                // spin-wait 直到被唤醒或超时
+                uint64_t deadline = static_cast<uint64_t>(time(nullptr)) * 1000 + static_cast<uint64_t>(timeout) * 1000;
+                while (s->blocked && !s->closed) {
+                    uint64_t now = static_cast<uint64_t>(time(nullptr)) * 1000;
+                    if (now >= deadline) break;
+                    zero::Fiber::YieldToReady();
+                }
+                if (!s->blocked) return;  // 已在 LPUSH 中写入响应
+                // 超时: 返回 nil
+                out += "*-1\r\n";
+                return;
+            } else {
+                out += "*-1\r\n";  // timeout=0, 立即返回
+                return;
+            }
+        }
+
+        // ---- LPUSH/RPUSH 后检查阻塞等待者 ----
+        if (cn == "lpush" || cn == "rpush") {
+            // 先执行 push
+            CmdContext ctx;
+            ctx.engine = &engine_; ctx.args = args; ctx.response = &out;
+            dispatchCommand(ctx);
+            if (ctx.is_write && args.size() >= 2) key_versions_[std::string(args[1])]++;
+            if (ctx.is_write && !cfg_.aof_path.empty()) aof_.appendArgs(args);
+
+            // 检查阻塞等待者
+            auto* w = blocking_.popWaiter(std::string(args[1]));
+            if (w && w->session && !w->session->closed) {
+                // 重新获取 list (可能刚被 push 修改)
+                Value* v = engine_.find(w->keys.empty() ? "" : w->keys[0]);
+                if (v && v->type == ValueType::LIST) {
+                    auto* ld = v->asList();
+                    if (!ld->elements.empty()) {
+                        bool left = true;  // BLPOP 默认
+                        std::string val = left ? std::move(ld->elements.front()) : std::move(ld->elements.back());
+                        if (left) ld->elements.pop_front(); else ld->elements.pop_back();
+                        // 写响应到被阻塞的 session
+                        std::string& wb = w->session->pubsub_buf;  // 复用 pubsub_buf
+                        wb.clear();
+                        RespWriter::writeArrayHeader(wb, 2);
+                        RespWriter::writeBulkString(wb, args[1]);
+                        RespWriter::writeBulkString(wb, val);
+                        w->session->blocked = false;
+                    }
+                }
+                delete w;
+            }
+            return;
+        }
+
+        // maxmemory 淘汰检查 (写命令前)
+        const CmdInfo* info = lookupCommand(std::string(args[0]));
+        bool is_write_cmd = info && (info->flags & CMD_WRITE);
+        if (is_write_cmd && eviction_.maxmemory() > 0) {
+            if (eviction_.policy() == EVICT_NOEVICTION) {
+                size_t used = eviction_.estimateMemory(engine_.dict());
+                if (used > eviction_.maxmemory()) {
+                    out += "-ERR OOM command not allowed when used memory > 'maxmemory'\r\n";
+                    return;
+                }
+            } else {
+                size_t target = eviction_.maxmemory() > 1048576
+                    ? eviction_.maxmemory() - 1048576 : eviction_.maxmemory() / 2;
+                eviction_.evict(engine_.dict(), target);
+            }
+        }
 
         auto start_us = std::chrono::steady_clock::now();
         dispatchCommand(ctx);
@@ -485,6 +611,9 @@ private:
     // Pub/Sub
     PubSubManager pubsub_;
 
+    // Blocking
+    BlockingManager blocking_;
+
     // Monitor
     lstl::vector<Session*> monitors_;
 
@@ -502,6 +631,9 @@ private:
 
     // INFO
     uint64_t start_time_sec_ = 0;
+
+    // Eviction
+    EvictionManager eviction_;
 };
 
 } // namespace ledis

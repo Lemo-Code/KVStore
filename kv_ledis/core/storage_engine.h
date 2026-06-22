@@ -2153,7 +2153,77 @@ inline void StorageEngine::georadius(CmdContext& ctx) { ctx.replyEmptyArray(); /
 // Sort
 // ============================================================
 
-inline void StorageEngine::cmdSort(CmdContext& ctx) { ctx.replyEmptyArray(); /* stub */ }
+inline void StorageEngine::cmdSort(CmdContext& ctx) {
+    // SORT key [BY pattern] [LIMIT offset count] [ASC|DESC] [ALPHA] [STORE destination]
+    std::string_view src_key = ctx.args[1];
+    Value* v = dict_.find(std::string(src_key));
+    if (!v || v->isExpired(CmdContext::nowMs())) { ctx.replyEmptyArray(); return; }
+
+    // 收集所有成员
+    lstl::vector<std::string> members;
+    bool is_alpha = false;
+    bool desc = false;
+    int64_t offset = 0, limit = -1;
+    std::string store_dest;
+
+    if (v->type == ValueType::LIST) {
+        for (auto& m : v->asList()->elements) members.push_back(m);
+    } else if (v->type == ValueType::SET) {
+        for (auto& m : v->asSet()->members) members.push_back(m);
+    } else if (v->type == ValueType::ZSET) {
+        // ZSet: 已按 score 排序, 取 member
+        for (auto& elem : v->asZSet()->by_score) members.push_back(elem.second);
+    } else {
+        ctx.replyWrongType(); return;
+    }
+
+    // 解析参数
+    for (size_t i = 2; i < ctx.args.size(); ++i) {
+        if ((ctx.args[i] == "ASC" || ctx.args[i] == "asc")) desc = false;
+        else if ((ctx.args[i] == "DESC" || ctx.args[i] == "desc")) desc = true;
+        else if ((ctx.args[i] == "ALPHA" || ctx.args[i] == "alpha")) is_alpha = true;
+        else if ((ctx.args[i] == "LIMIT" || ctx.args[i] == "limit") && i + 2 < ctx.args.size()) {
+            try { offset = std::stoll(std::string(ctx.args[++i])); } catch (...) {}
+            try { limit = std::stoll(std::string(ctx.args[++i])); } catch (...) {}
+        }
+        else if ((ctx.args[i] == "STORE" || ctx.args[i] == "store") && i + 1 < ctx.args.size()) {
+            store_dest = std::string(ctx.args[++i]);
+        }
+    }
+
+    // 排序
+    if (is_alpha) {
+        std::sort(members.begin(), members.end());
+    } else {
+        // 尝试数值排序
+        std::sort(members.begin(), members.end(),
+            [](const std::string& a, const std::string& b) {
+                double da = 0, db = 0;
+                try { da = std::stod(a); } catch (...) {}
+                try { db = std::stod(b); } catch (...) {}
+                return da < db;
+            });
+    }
+    if (desc) std::reverse(members.begin(), members.end());
+
+    // LIMIT
+    if (limit >= 0) {
+        lstl::vector<std::string> limited;
+        for (int64_t i = offset; i < offset + limit && i < static_cast<int64_t>(members.size()); ++i)
+            limited.push_back(members[static_cast<size_t>(i)]);
+        members = std::move(limited);
+    }
+
+    if (!store_dest.empty()) {
+        auto dest_val = Value::createList();
+        for (auto& m : members) dest_val.asList()->elements.push_back(m);
+        dict_.insert(std::move(store_dest), std::move(dest_val));
+        ctx.replyInteger(static_cast<int64_t>(members.size()));
+        ctx.is_write = true;
+    } else {
+        ctx.replyStringArray(members);
+    }
+}
 
 // ============================================================
 // 服务器命令

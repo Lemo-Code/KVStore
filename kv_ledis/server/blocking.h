@@ -1,117 +1,90 @@
 #pragma once
 
-// ============================================================
-// BlockingManager — 阻塞命令管理 (BLPOP/BRPOP/BZPOPMIN/BZPOPMAX)
-// ============================================================
-
 #include <string>
 #include <lstl/container/unordered_map.h>
 #include <lstl/container/list.h>
 #include <lstl/container/vector.h>
 #include <ctime>
 
-#include "kv_ledis/protocol/resp_writer.h"
-
 namespace ledis {
 
 struct Session;
-struct Value;
-
-struct BlockedClient {
-    Session* session;
-    lstl::vector<std::string> keys;
-    uint64_t timeout_ms;  // 绝对超时时间, 0 = 无限
-    // 区分 BLPOP/BRPOP/BZPOPMIN/BZPOPMAX
-    enum OpType { BLPOP, BRPOP, BZPOPMIN, BZPOPMAX } op;
-};
 
 class BlockingManager {
 public:
-    // 注册阻塞等待
-    void block(Session* s, const lstl::vector<std::string_view>& keys,
-               int64_t timeout_sec, BlockedClient::OpType op) {
-        auto* bc = new BlockedClient();
-        bc->session = s;
-        for (auto& k : keys) bc->keys.push_back(std::string(k));
-        bc->timeout_ms = (timeout_sec > 0)
-            ? (static_cast<uint64_t>(time(nullptr)) * 1000 + static_cast<uint64_t>(timeout_sec) * 1000)
-            : 0;
-        bc->op = op;
-        blocked_.push_back(bc);
+    struct Waiter {
+        Session* session;
+        lstl::vector<std::string> keys;
+        uint64_t timeout_ms;  // 0 = 无限
+    };
 
-        // 注册到 key 等待队列
-        for (auto& k : bc->keys) {
-            waiters_[k].push_back(bc);
-        }
+    // 注册阻塞 (BLPOP/BRPOP 无数据时)
+    void addWaiter(Session* s, const lstl::vector<std::string>& keys,
+                   int64_t timeout_sec) {
+        auto* w = new Waiter();
+        w->session = s;
+        for (auto& k : keys) w->keys.push_back(k);
+        w->timeout_ms = (timeout_sec > 0)
+            ? (static_cast<uint64_t>(time(nullptr)) * 1000
+               + static_cast<uint64_t>(timeout_sec) * 1000) : 0;
+        waiters_.push_back(w);
+
+        for (auto& k : w->keys)
+            key_map_[k].push_back(w);
     }
 
-    // key 有数据时唤醒等待者
-    // 返回被唤醒的 client 列表 (需要发响应)
-    lstl::vector<BlockedClient*> unblockOnKey(const std::string& key) {
-        lstl::vector<BlockedClient*> result;
-        auto it = waiters_.find(key);
-        if (it == waiters_.end()) return result;
+    // key 有数据时, 获取该 key 上的第一个等待者
+    Waiter* popWaiter(const std::string& key) {
+        auto it = key_map_.find(key);
+        if (it == key_map_.end() || it->second.empty()) return nullptr;
 
-        for (auto* bc : it->second) {
-            result.push_back(bc);
-            // 从其他 key 的等待队列中移除
-            for (auto& k : bc->keys) {
-                if (k != key) {
-                    auto wit = waiters_.find(k);
-                    if (wit != waiters_.end())
-                        wit->second.remove(bc);
+        Waiter* w = it->second.front();
+        it->second.erase(it->second.begin());
+        if (it->second.empty()) key_map_.erase(it->first);
+
+        // 从 waiters_ 移除
+        waiters_.remove(w);
+        return w;
+    }
+
+    // 检查超时
+    lstl::vector<Waiter*> checkTimeout(uint64_t now_ms) {
+        lstl::vector<Waiter*> timed_out;
+        auto it = waiters_.begin();
+        while (it != waiters_.end()) {
+            auto* w = *it;
+            if (w->timeout_ms > 0 && now_ms >= w->timeout_ms) {
+                timed_out.push_back(w);
+                // 从 key_map_ 清理
+                for (auto& k : w->keys) {
+                    auto ki = key_map_.find(k);
+                    if (ki != key_map_.end()) ki->second.remove(w);
                 }
-            }
-            // 从 blocked_ 列表移除
-            blocked_.remove(bc);
+                it = waiters_.erase(it);
+                delete w;
+            } else { ++it; }
         }
-        waiters_.erase(it);
-        return result;
+        return timed_out;
     }
 
-    // 检查超时 (每秒调用一次)
-    lstl::vector<BlockedClient*> checkTimeout(uint64_t now_ms) {
-        lstl::vector<BlockedClient*> result;
-        auto it = blocked_.begin();
-        while (it != blocked_.end()) {
-            auto* bc = *it;
-            if (bc->timeout_ms > 0 && now_ms >= bc->timeout_ms) {
-                result.push_back(bc);
-                // 清理等待队列
-                for (auto& k : bc->keys) {
-                    auto wit = waiters_.find(k);
-                    if (wit != waiters_.end())
-                        wit->second.remove(bc);
-                }
-                it = blocked_.erase(it);
-                continue;
-            }
-            ++it;
-        }
-        return result;
-    }
-
-    // session 断开时清理
+    // 清理 session
     void cleanup(Session* s) {
-        auto it = blocked_.begin();
-        while (it != blocked_.end()) {
+        auto it = waiters_.begin();
+        while (it != waiters_.end()) {
             if ((*it)->session == s) {
                 for (auto& k : (*it)->keys) {
-                    auto wit = waiters_.find(k);
-                    if (wit != waiters_.end())
-                        wit->second.remove(*it);
+                    auto ki = key_map_.find(k);
+                    if (ki != key_map_.end()) ki->second.remove(*it);
                 }
                 delete *it;
-                it = blocked_.erase(it);
-            } else {
-                ++it;
-            }
+                it = waiters_.erase(it);
+            } else { ++it; }
         }
     }
 
 private:
-    lstl::list<BlockedClient*> blocked_;
-    lstl::unordered_map<std::string, lstl::list<BlockedClient*>> waiters_;
+    lstl::list<Waiter*> waiters_;
+    lstl::unordered_map<std::string, lstl::list<Waiter*>> key_map_;
 };
 
 } // namespace ledis

@@ -19,6 +19,8 @@ struct Session {
 
     bool authenticated = true;
     bool closed = false;
+    bool blocked = false;  // BLPOP/BRPOP 等阻塞中
+    std::string* write_buf_for_block = nullptr;  // 阻塞等待时, LPUSH 写入此 buf
 
     // 事务
     bool in_multi = false;
