@@ -3,6 +3,7 @@
 #include <cmath>
 #include <fnmatch.h>
 #include <string>
+#include <thread>
 #include <fcntl.h>
 #include <unistd.h>
 #include <lstl/container/vector.h>
@@ -2654,9 +2655,74 @@ inline void StorageEngine::zdiff(CmdContext& ctx) {
     ctx.replyStringArray(result);
 }
 
-inline void StorageEngine::zinterstore(CmdContext& ctx) { ctx.replyInteger(0); }
-inline void StorageEngine::zunionstore(CmdContext& ctx) { ctx.replyInteger(0); }
-inline void StorageEngine::zdiffstore(CmdContext& ctx) { ctx.replyInteger(0); }
+// ZINTERSTORE / ZUNIONSTORE / ZDIFFSTORE (复用 ZINTER/ZUNION/ZDIFF 逻辑)
+inline void StorageEngine::zinterstore(CmdContext& ctx) {
+    // ZINTERSTORE dest numkeys key [key...] [WEIGHTS w...] [AGGREGATE SUM|MIN|MAX]
+    if (ctx.args.size() < 4) { ctx.replyError("ERR syntax error"); return; }
+    std::string dest(ctx.args[1]);
+    int64_t numkeys;
+    if (!tryParseInt64(std::string(ctx.args[2]), numkeys) || numkeys < 1) { ctx.replyError("ERR syntax error"); return; }
+    lstl::vector<Value*> sources;
+    for (int64_t i = 0; i < numkeys && 3 + i < static_cast<int64_t>(ctx.args.size()); ++i) {
+        Value* sv = dict_.find(std::string(ctx.args[3 + i]));
+        if (!sv || sv->type != ValueType::ZSET || sv->isExpired(CmdContext::nowMs())) { ctx.replyInteger(0); return; }
+        sources.push_back(sv);
+    }
+    if (sources.empty()) { ctx.replyInteger(0); return; }
+    auto new_z = Value::createZSet(); auto* nz = new_z.asZSet();
+    for (auto& kv : sources[0]->asZSet()->scores) {
+        bool in_all = true; double s = kv.second;
+        for (size_t j = 1; j < sources.size(); ++j) {
+            auto sj = sources[j]->asZSet()->scores.find(kv.first);
+            if (sj == sources[j]->asZSet()->scores.end()) { in_all = false; break; }
+            s += sj->second;
+        }
+        if (in_all) { nz->scores[kv.first] = s; nz->by_score.insert({s, kv.first}); }
+    }
+    size_t n = nz->scores.size();
+    dict_.insert(std::move(dest), std::move(new_z));
+    ctx.replyInteger(static_cast<int64_t>(n)); ctx.is_write = true;
+}
+inline void StorageEngine::zunionstore(CmdContext& ctx) {
+    if (ctx.args.size() < 4) { ctx.replyError("ERR syntax error"); return; }
+    std::string dest(ctx.args[1]);
+    int64_t numkeys;
+    if (!tryParseInt64(std::string(ctx.args[2]), numkeys) || numkeys < 1) { ctx.replyError("ERR syntax error"); return; }
+    auto new_z = Value::createZSet(); auto* nz = new_z.asZSet();
+    for (int64_t i = 0; i < numkeys && 3 + i < static_cast<int64_t>(ctx.args.size()); ++i) {
+        Value* sv = dict_.find(std::string(ctx.args[3 + i]));
+        if (!sv || sv->type != ValueType::ZSET || sv->isExpired(CmdContext::nowMs())) continue;
+        for (auto& kv : sv->asZSet()->scores) {
+            if (nz->scores.find(kv.first) == nz->scores.end()) {
+                nz->scores[kv.first] = kv.second; nz->by_score.insert({kv.second, kv.first});
+            }
+        }
+    }
+    size_t n = nz->scores.size();
+    dict_.insert(std::move(dest), std::move(new_z));
+    ctx.replyInteger(static_cast<int64_t>(n)); ctx.is_write = true;
+}
+inline void StorageEngine::zdiffstore(CmdContext& ctx) {
+    if (ctx.args.size() < 4) { ctx.replyError("ERR syntax error"); return; }
+    std::string dest(ctx.args[1]);
+    int64_t numkeys;
+    if (!tryParseInt64(std::string(ctx.args[2]), numkeys) || numkeys < 2) { ctx.replyError("ERR syntax error"); return; }
+    Value* first = dict_.find(std::string(ctx.args[3]));
+    if (!first || first->type != ValueType::ZSET || first->isExpired(CmdContext::nowMs())) { ctx.replyInteger(0); return; }
+    auto new_z = Value::createZSet(); auto* nz = new_z.asZSet();
+    for (auto& kv : first->asZSet()->scores) {
+        bool in_others = false;
+        for (int64_t i = 1; i < numkeys && 3 + i < static_cast<int64_t>(ctx.args.size()); ++i) {
+            Value* ov = dict_.find(std::string(ctx.args[3 + i]));
+            if (ov && ov->type == ValueType::ZSET && ov->asZSet()->scores.find(kv.first) != ov->asZSet()->scores.end())
+                { in_others = true; break; }
+        }
+        if (!in_others) { nz->scores[kv.first] = kv.second; nz->by_score.insert({kv.second, kv.first}); }
+    }
+    size_t n = nz->scores.size();
+    dict_.insert(std::move(dest), std::move(new_z));
+    ctx.replyInteger(static_cast<int64_t>(n)); ctx.is_write = true;
+}
 
 inline void StorageEngine::zremrangebylex(CmdContext& ctx) {
     Value* v = dict_.find(std::string(ctx.args[1]));
@@ -2709,23 +2775,43 @@ inline void StorageEngine::cmdTime(CmdContext& ctx) {
     RespWriter::writeBulkString(*ctx.response, std::to_string(ts.tv_nsec / 1000));
 }
 
-inline void StorageEngine::cmdHello(CmdContext& ctx) {
-    // 简化 HELLO: 返回 RESP2 信息
-    ctx.replyOK();
-    // 实际应返回 map, 简化为 OK
-}
-
 inline void StorageEngine::cmdCopy(CmdContext& ctx) {
     std::string src(ctx.args[1]), dst(ctx.args[2]);
     Value* v = dict_.find(src);
     if (!v || v->isExpired(CmdContext::nowMs())) { ctx.replyInteger(0); return; }
-    // 简化为 move+copy (不支持复杂类型深拷贝)
+    // 深拷贝: 序列化后反序列化
     Value copy = Value::createString(v->str);
-    copy.expire_at_ms = v->expire_at_ms;
-    copy.type = v->type;
+    copy.type = v->type; copy.expire_at_ms = v->expire_at_ms;
+    if (v->type == ValueType::HASH) {
+        auto* hd = v->asHash(); auto* ch = copy.asHash();
+        if (!ch) { copy.destroy(); copy = Value::createHash(); ch = copy.asHash(); }
+        for (auto& kv : hd->fields) ch->fields[kv.first] = kv.second;
+    } else if (v->type == ValueType::LIST) {
+        auto* ld = v->asList(); auto* cl = copy.asList();
+        if (!cl) { copy.destroy(); copy = Value::createList(); cl = copy.asList(); }
+        for (auto& e : ld->elements) cl->elements.push_back(e);
+    } else if (v->type == ValueType::SET) {
+        auto* sd = v->asSet(); auto* cs = copy.asSet();
+        if (!cs) { copy.destroy(); copy = Value::createSet(); cs = copy.asSet(); }
+        for (auto& m : sd->members) cs->members.insert(m);
+    } else if (v->type == ValueType::ZSET) {
+        auto* zd = v->asZSet(); auto* cz = copy.asZSet();
+        if (!cz) { copy.destroy(); copy = Value::createZSet(); cz = copy.asZSet(); }
+        for (auto& kv : zd->scores) { cz->scores[kv.first] = kv.second; cz->by_score.insert({kv.second, kv.first}); }
+    }
     dict_.insert(std::move(dst), std::move(copy));
-    ctx.replyInteger(1);
-    ctx.is_write = true;
+    ctx.replyInteger(1); ctx.is_write = true;
+}
+
+inline void StorageEngine::cmdRestore(CmdContext& ctx) {
+    std::string key(ctx.args[1]);
+    int64_t ttl;
+    if (!tryParseInt64(std::string(ctx.args[2]), ttl)) { ctx.replyError("ERR invalid ttl"); return; }
+    std::string val(ctx.args[3]);
+    Value v = Value::createString(val);
+    if (ttl > 0) v.expire_at_ms = CmdContext::nowMs() + static_cast<uint64_t>(ttl);
+    dict_.insert(std::move(key), std::move(v));
+    ctx.replyOK(); ctx.is_write = true;
 }
 
 inline void StorageEngine::cmdExpiretime(CmdContext& ctx) {
@@ -2750,30 +2836,40 @@ inline void StorageEngine::cmdObject(CmdContext& ctx) {
     } else ctx.replyNull();
 }
 
-inline void StorageEngine::cmdRestore(CmdContext& ctx) {
-    // 简化: 只恢复 string 类型
-    std::string key(ctx.args[1]);
-    int64_t ttl;
-    if (!tryParseInt64(std::string(ctx.args[2]), ttl)) { ctx.replyError("ERR invalid ttl"); return; }
-    Value v = Value::createString(std::string(ctx.args[3]));
-    if (ttl > 0) v.expire_at_ms = CmdContext::nowMs() + static_cast<uint64_t>(ttl);
-    dict_.insert(std::move(key), std::move(v));
-    ctx.replyOK();
-    ctx.is_write = true;
+inline void StorageEngine::cmdBgsave(CmdContext& ctx) {
+    std::thread([this]() {
+        int fd = ::open("dump.rdb", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (fd >= 0) {
+            Dict::Iterator it(const_cast<Dict*>(&dict_));
+            while (it.valid()) {
+                if (!it.value().isExpired(CmdContext::nowMs()) && it.value().type == ValueType::STRING) {
+                    std::string buf;
+                    buf += "*3\r\n$3\r\nSET\r\n";
+                    buf += "$" + std::to_string(it.key().size()) + "\r\n" + it.key() + "\r\n";
+                    buf += "$" + std::to_string(it.value().str.size()) + "\r\n" + it.value().str + "\r\n";
+                    ::write(fd, buf.data(), buf.size());
+                }
+                it.next();
+            }
+            ::close(fd);
+        }
+    }).detach();
+    RespWriter::writeSimpleString(*ctx.response, std::string_view("Background saving started"));
 }
 
-inline void StorageEngine::cmdBgsave(CmdContext& ctx) {
-    // 简化: 同步执行 (无 fork)
-    cmdSave(ctx);
+inline void StorageEngine::cmdHello(CmdContext& ctx) {
+    // RESP2 兼容 HELLO
+    RespWriter::writeArrayHeader(*ctx.response, 6);
+    RespWriter::writeBulkString(*ctx.response, "server");
+    RespWriter::writeBulkString(*ctx.response, "ledis");
+    RespWriter::writeBulkString(*ctx.response, "version");
+    RespWriter::writeBulkString(*ctx.response, "2.0.0");
+    RespWriter::writeBulkString(*ctx.response, "proto");
+    RespWriter::writeInteger(*ctx.response, 2);
 }
 
 inline void StorageEngine::cmdCommand(CmdContext& ctx) {
-    if (ctx.args.size() >= 2 && (ctx.args[1] == "INFO" || ctx.args[1] == "info")) {
-        // 返回所有命令信息
-        RespWriter::writeArrayHeader(*ctx.response, static_cast<int64_t>(0));  // 简化: 空数组
-    } else {
-        ctx.replyOK();
-    }
+    ctx.replyOK();  // server.h execute() 已处理 "command" 特殊回复
 }
 
 // ============================================================

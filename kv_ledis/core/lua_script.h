@@ -224,50 +224,88 @@ private:
         int nargs = lua_gettop(L);
         if (nargs < 1) { lua_pushnil(L); return 1; }
 
-        // 获取命令名
-        size_t len;
-        const char* cmd = lua_tolstring(L, 1, &len);
-        std::string cmd_str(cmd, len);
-        for (char& c : cmd_str) c |= 0x20;
-
-        // 直接用 StorageEngine 执行简单命令
-        try {
-            if (cmd_str == "set" && nargs >= 3) {
-                size_t kl; const char* k = lua_tolstring(L, 2, &kl);
-                size_t vl; const char* v = lua_tolstring(L, 3, &vl);
-                engine->insert(std::string(k, kl), Value::createString(std::string(v, vl)));
-                lua_pushstring(L, "OK");
-            } else if (cmd_str == "get" && nargs >= 2) {
-                size_t kl; const char* k = lua_tolstring(L, 2, &kl);
-                Value* v = engine->find(std::string(k, kl));
-                if (v && v->type == ValueType::STRING && !v->isExpired(CmdContext::nowMs()))
-                    lua_pushstring(L, v->str.c_str());
-                else
-                    lua_pushboolean(L, 0);  // false = nil in Lua
-            } else if (cmd_str == "del" && nargs >= 2) {
-                size_t kl; const char* k = lua_tolstring(L, 2, &kl);
-                engine->remove(std::string(k, kl));
-                lua_pushinteger(L, 1);
-            } else if (cmd_str == "incr" && nargs >= 2) {
-                size_t kl; const char* k = lua_tolstring(L, 2, &kl);
-                Value* v = engine->find(std::string(k, kl));
-                int64_t val = 1;
-                if (v && v->type == ValueType::STRING && !v->isExpired(CmdContext::nowMs())) {
-                    val = std::stoll(v->str) + 1;
-                    v->str = std::to_string(val);
-                } else {
-                    engine->insert(std::string(k, kl), Value::createInt(val));
-                }
-                lua_pushinteger(L, val);
-            } else {
-                lua_pushstring(L, "OK");
-            }
-        } catch (const std::exception& e) {
-            if (!pcall) luaL_error(L, e.what());
+        // 收集所有参数到持久化存储
+        lua_args_.clear();
+        for (int i = 1; i <= nargs; ++i) {
+            size_t len;
+            const char* s = lua_tolstring(L, i, &len);
+            lua_args_.push_back(std::string(s, len));
         }
 
+        // 构建 CmdContext
+        lstl::vector<std::string_view> sv;
+        for (auto& a : lua_args_) sv.push_back(a);
+
+        std::string rsp;
+        CmdContext ctx;
+        ctx.engine = engine;
+        ctx.args = sv;
+        ctx.response = &rsp;
+        dispatchCommand(ctx);
+
+        // 解析 RESP 响应转为 Lua 值
+        respToLua(L, rsp);
         return 1;
     }
+
+    static void respToLua(lua_State* L, const std::string& resp) {
+        if (resp.empty()) { lua_pushnil(L); return; }
+        char type = resp[0];
+        switch (type) {
+        case '+': case '-': {
+            // Simple string / Error
+            size_t end = resp.find("\r\n");
+            lua_pushstring(L, resp.substr(1, end - 1).c_str());
+            break;
+        }
+        case ':': {
+            // Integer
+            size_t end = resp.find("\r\n");
+            lua_pushinteger(L, std::stoll(resp.substr(1, end - 1)));
+            break;
+        }
+        case '$': {
+            // Bulk string
+            if (resp == "$-1\r\n") { lua_pushboolean(L, 0); break; }
+            size_t nend = resp.find("\r\n");
+            int64_t len = std::stoll(resp.substr(1, nend - 1));
+            if (len < 0) { lua_pushboolean(L, 0); break; }
+            lua_pushstring(L, resp.substr(nend + 2, static_cast<size_t>(len)).c_str());
+            break;
+        }
+        case '*': {
+            // Array
+            if (resp == "*-1\r\n") { lua_pushboolean(L, 0); break; }
+            size_t nend = resp.find("\r\n");
+            int64_t count = std::stoll(resp.substr(1, nend - 1));
+            lua_newtable(L);
+            size_t pos = nend + 2;
+            for (int64_t i = 0; i < count; ++i) {
+                // 递归解析子元素
+                std::string sub;
+                char st = resp[pos];
+                if (st == '$') {
+                    size_t sl = resp.find("\r\n", pos);
+                    int64_t slen = std::stoll(resp.substr(pos + 1, sl - pos - 1));
+                    sub = resp.substr(pos, sl + 2 + static_cast<size_t>(slen) + 2);
+                } else if (st == ':' || st == '+' || st == '-') {
+                    size_t sl = resp.find("\r\n", pos);
+                    sub = resp.substr(pos, sl - pos + 2);
+                } else if (st == '*') {
+                    // 嵌套数组: 简化跳过
+                    sub = "$-1\r\n";
+                }
+                respToLua(L, sub);
+                lua_rawseti(L, -2, i + 1);
+            }
+            break;
+        }
+        default:
+            lua_pushstring(L, resp.c_str());
+        }
+    }
+
+    static thread_local lstl::vector<std::string> lua_args_;
 
     lua_State* lua_ = nullptr;
     StorageEngine* engine_;
@@ -275,5 +313,7 @@ private:
     CmdContext current_ctx_;
     lstl::unordered_map<std::string, std::string> scripts_;
 };
+
+thread_local lstl::vector<std::string> LuaScriptEngine::lua_args_;
 
 } // namespace ledis
