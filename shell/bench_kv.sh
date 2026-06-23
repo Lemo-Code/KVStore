@@ -30,10 +30,10 @@ fi
 if [ ! -x "${BIN}/ledis-server" ]; then
     echo ">>> ledis-server 未找到，正在编译..."
     mkdir -p "${BIN}"
-    cmake -B "${ROOT}/build-stress" -DCMAKE_BUILD_TYPE=Release \
+    /usr/bin/cmake -B "${ROOT}/build-ledis-bench" -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_STRESS_TESTS=OFF -DBUILD_TESTS=OFF 2>&1 | tail -3
-    cmake --build "${ROOT}/build-stress" -j$(nproc) --target ledis-server 2>&1 | tail -5
-    find "${ROOT}/build-stress" -name ledis-server -exec cp {} "${BIN}/" \; 2>/dev/null
+    /usr/bin/cmake --build "${ROOT}/build-ledis-bench" -j$(nproc) --target ledis-server 2>&1 | tail -5
+    find "${ROOT}/build-ledis-bench" -name ledis-server -exec cp {} "${BIN}/" \; 2>/dev/null
 fi
 
 if [ ! -x "${BIN}/ledis-server" ]; then

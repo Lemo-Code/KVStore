@@ -154,14 +154,14 @@ BIN_DIR="${ROOT}/bin"
 mkdir -p "${BIN_DIR}"
 
 cd "${ROOT}"
-cmake -B "${STRESS_BUILD}" \
+/usr/bin/cmake -B "${STRESS_BUILD}" \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_STRESS_TESTS=ON \
     -DBUILD_TESTS=OFF \
     -DBUILD_EXAMPLES=ON \
     2>&1 | tail -5
 
-cmake --build "${STRESS_BUILD}" -j${NCORES} 2>&1 | tail -10
+/usr/bin/cmake --build "${STRESS_BUILD}" -j${NCORES} 2>&1 | tail -10
 
 # 复制二进制
 for bin in ledis-server stress_log_matrix stress_lstl_bench \
