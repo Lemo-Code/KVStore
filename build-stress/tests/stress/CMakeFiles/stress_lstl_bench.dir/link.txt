@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/stress_lstl_bench.dir/lstl/stress_lstl_bench.cpp.o -o /home/wangmaosen/app/cpp/KVStore/bin/stress_lstl_bench  -lpthread 

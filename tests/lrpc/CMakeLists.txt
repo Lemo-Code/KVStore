@@ -1,0 +1,4 @@
+kvstore_add_test(test_lrpc_protocol SOURCES test_protocol.cpp)
+kvstore_add_test(test_lrpc_boundary_fault SOURCES test_boundary_fault.cpp)
+kvstore_add_test(test_lrpc_api_coverage SOURCES test_api_coverage.cpp)
+kvstore_add_test(test_lrpc_bug_regression SOURCES test_bug_regression.cpp)

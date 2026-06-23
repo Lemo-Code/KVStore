@@ -1,0 +1,55 @@
+
+================================================================
+[2026-06-23 00:33:51] LSTL vs STL 性能对比
+单位: ops/s (QPS) | CPU 核心: 5 | 线程轴: 1, 2, 4, 8, 10
+----------------------------------------------------------------
+对比项 \ 线程数    |        t=1 |        t=2 |        t=4 |        t=8 |       t=10 |
+------------------------ | ---------- | ---------- | ---------- | ---------- | ---------- |
+vector lstl              |      1.17G |      2.39G |      4.44G |      8.35G |      8.05G |
+vector std               |      1.00G |      1.92G |      2.86G |      4.98G |      6.06G |
+map lstl                 |     93.04M |    163.93M |    289.18M |    221.41M |    251.94M |
+map std                  |     64.40M |    129.47M |    251.95M |    275.33M |    242.62M |
+pool lstl                |     45.73M |     81.87M |    124.75M |    126.00M |     72.87M |
+pool malloc              |     21.35M |     38.24M |     75.53M |     87.72M |    110.78M |
+================================================================
+
+可扩展性 (相对 t=1, 倍数):
+                         |        t=1 |        t=2 |        t=4 |        t=8 |       t=10 |
+vector lstl              |      1.00x |      2.04x |      3.80x |      7.13x |      6.88x |
+vector std               |      1.00x |      1.92x |      2.85x |      4.96x |      6.04x |
+map lstl                 |      1.00x |      1.76x |      3.11x |      2.38x |      2.71x |
+map std                  |      1.00x |      2.01x |      3.91x |      4.28x |      3.77x |
+pool lstl                |      1.00x |      1.79x |      2.73x |      2.76x |      1.59x |
+pool malloc              |      1.00x |      1.79x |      3.54x |      4.11x |      5.19x |
+
+明细 (raw):
+  [vector lstl] threads=1 ops=500000 sec=0.0004 qps=1.17G (ops/s (QPS)) rss=3476KB
+  [vector lstl] threads=2 ops=1000000 sec=0.0004 qps=2.39G (ops/s (QPS)) rss=7532KB
+  [vector lstl] threads=4 ops=2000000 sec=0.0004 qps=4.44G (ops/s (QPS)) rss=11872KB
+  [vector lstl] threads=8 ops=4000000 sec=0.0005 qps=8.35G (ops/s (QPS)) rss=12596KB
+  [vector lstl] threads=10 ops=5000000 sec=0.0006 qps=8.05G (ops/s (QPS)) rss=13496KB
+  [vector std ] threads=1 ops=500000 sec=0.0005 qps=1.00G (ops/s (QPS)) rss=15528KB
+  [vector std ] threads=2 ops=1000000 sec=0.0005 qps=1.92G (ops/s (QPS)) rss=17560KB
+  [vector std ] threads=4 ops=2000000 sec=0.0007 qps=2.86G (ops/s (QPS)) rss=19592KB
+  [vector std ] threads=8 ops=4000000 sec=0.0008 qps=4.98G (ops/s (QPS)) rss=19592KB
+  [vector std ] threads=10 ops=5000000 sec=0.0008 qps=6.06G (ops/s (QPS)) rss=21624KB
+  [map lstl   ] threads=1 ops=250000 sec=0.0027 qps=93.04M (ops/s (QPS)) rss=23060KB
+  [map lstl   ] threads=2 ops=500000 sec=0.0031 qps=163.93M (ops/s (QPS)) rss=24500KB
+  [map lstl   ] threads=4 ops=1000000 sec=0.0035 qps=289.18M (ops/s (QPS)) rss=27376KB
+  [map lstl   ] threads=8 ops=2000000 sec=0.0090 qps=221.41M (ops/s (QPS)) rss=49168KB
+  [map lstl   ] threads=10 ops=2500000 sec=0.0099 qps=251.94M (ops/s (QPS)) rss=60064KB
+  [map std    ] threads=1 ops=250000 sec=0.0039 qps=64.40M (ops/s (QPS)) rss=59880KB
+  [map std    ] threads=2 ops=500000 sec=0.0039 qps=129.47M (ops/s (QPS)) rss=59696KB
+  [map std    ] threads=4 ops=1000000 sec=0.0040 qps=251.95M (ops/s (QPS)) rss=59328KB
+  [map std    ] threads=8 ops=2000000 sec=0.0073 qps=275.33M (ops/s (QPS)) rss=58776KB
+  [map std    ] threads=10 ops=2500000 sec=0.0103 qps=242.62M (ops/s (QPS)) rss=58224KB
+  [pool lstl  ] threads=1 ops=500000 sec=0.0109 qps=45.73M (ops/s (QPS)) rss=88164KB
+  [pool lstl  ] threads=2 ops=1000000 sec=0.0122 qps=81.87M (ops/s (QPS)) rss=149404KB
+  [pool lstl  ] threads=4 ops=2000000 sec=0.0160 qps=124.75M (ops/s (QPS)) rss=271880KB
+  [pool lstl  ] threads=8 ops=4000000 sec=0.0317 qps=126.00M (ops/s (QPS)) rss=516828KB
+  [pool lstl  ] threads=10 ops=5000000 sec=0.0686 qps=72.87M (ops/s (QPS)) rss=827092KB
+  [pool malloc] threads=1 ops=500000 sec=0.0234 qps=21.35M (ops/s (QPS)) rss=827220KB
+  [pool malloc] threads=2 ops=1000000 sec=0.0261 qps=38.24M (ops/s (QPS)) rss=827348KB
+  [pool malloc] threads=4 ops=2000000 sec=0.0265 qps=75.53M (ops/s (QPS)) rss=860244KB
+  [pool malloc] threads=8 ops=4000000 sec=0.0456 qps=87.72M (ops/s (QPS)) rss=898728KB
+  [pool malloc] threads=10 ops=5000000 sec=0.0451 qps=110.78M (ops/s (QPS)) rss=895412KB

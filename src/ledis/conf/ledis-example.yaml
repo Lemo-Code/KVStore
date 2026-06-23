@@ -1,0 +1,258 @@
+# ============================================================
+# Ledis — Redis-Compatible KV Store 配置文件 (YAML)
+# ============================================================
+# 使用方式:
+#   ./ledis-server --config conf/ledis.yaml
+#   ./ledis-server --config conf/ledis.yaml --port 6380  (CLI 覆盖)
+#
+# 优先级: CLI 参数 > YAML 文件 > 约定默认值 (约定优于配置)
+#
+# 顶级键:
+#   log:   日志配置 (由 zero::LogConfig 解析, 遵循 zero 内置约定)
+#   ledis: 应用配置 (由 zero::Config 解析, 注册为 ConfigVar)
+# ============================================================
+
+# ============================================================
+# 日志配置 (zero 内置约定: LogConfig 自动解析)
+# ============================================================
+# 最小配置 (开箱即用, ConsoleAppender + INFO):
+#   log:
+#     root_level: INFO
+#
+# 生产配置 (文件 + 控制台 + 子 logger):
+log:
+  root_level: INFO
+
+  # root logger 的 appender (输出到控制台 + 文件)
+  appenders:
+    - type: console
+      color: true
+      pattern: "%d{%H:%M:%S} [%p] [%N] %m%n"
+
+    - type: file
+      file: /var/log/ledis/ledis.log
+      max_size: 104857600     # 100MB 自动滚动
+      max_files: 10
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%t] [%F:%l] %m%n"
+
+    - type: daily_file        # 按天滚动的文件
+      file: /var/log/ledis/daily.log
+      pattern: "%d [%p] %m%n"
+
+  # 命名 logger: 独立级别 + 独立 appender
+  loggers:
+    - name: ledis.cluster
+      level: DEBUG
+      appenders:
+        - type: file
+          file: /var/log/ledis/cluster.log
+          max_size: 52428800   # 50MB
+          max_files: 3
+          pattern: "%d{%H:%M:%S} [%p] %m%n"
+
+    - name: ledis.access
+      level: INFO
+      appenders:
+        - type: daily_file
+          file: /var/log/ledis/access.log
+          pattern: "%d{%Y-%m-%d %H:%M:%S} %m%n"
+
+    - name: zero.reactor
+      level: WARN
+
+# ============================================================
+# Ledis 应用配置
+# ============================================================
+ledis:
+
+  # ============================================================
+  # 服务器
+  # ============================================================
+  server:
+    # 监听端口
+    port: 6379
+
+    # 绑定地址 (0.0.0.0 = 所有网卡)
+    bind: 0.0.0.0
+
+    # I/O 工作线程数
+    #   1    = v2 fiber 单线程 (推荐, 简单可靠, 无锁)
+    #   >=2  = v5 多线程 epoll + SpinLock (高并发)
+    io_threads: 1
+
+    # I/O 引擎 (空 = 自动)
+    #   ""      = auto: io_threads=1→fiber, >1→epoll
+    #   "epoll" = 强制 epoll
+    #   "uring" = io_uring 批量 I/O (需 liburing)
+    engine: ""
+
+    # 认证密码 — "default" 用户的密码 (空 = 无密码)
+    # requirepass: ""
+
+    # 客户端接收缓冲区大小 (字节)
+    recv_buf_size: 65536
+
+  # ============================================================
+  # ACL 多用户认证
+  # ============================================================
+  acl:
+    # "default" 用户密码 → 见上面 requirepass
+    # 额外用户: {username: password, ...}
+    # users:
+    #   alice: "alice123"
+    #   bob:   "bob456"
+
+  # ============================================================
+  # AOF 持久化
+  # ============================================================
+  aof:
+    # AOF 文件路径 (空 = 禁用持久化)
+    path: ""
+
+    # fsync 策略
+    #   always   - 每次写都 fsync (最安全, 最慢)
+    #   everysec - 每秒 fsync (推荐, 最多丢 1 秒数据)
+    #   no       - 操作系统决定何时 fsync (最快)
+    mode: everysec
+
+  # ============================================================
+  # 慢日志
+  # ============================================================
+  slowlog:
+    # 最大条目数 (超过后淘汰旧条目)
+    max_len: 128
+
+    # 慢查询阈值 (微秒)
+    threshold_us: 10000
+
+  # ============================================================
+  # 内存淘汰
+  # ============================================================
+  eviction:
+    # 最大内存 (字节, 0 = 不限制)
+    maxmemory: 0
+
+    # 淘汰策略
+    #   noeviction       - 不淘汰, 写满拒绝 (默认)
+    #   allkeys-lru      - 所有 key LRU 淘汰
+    #   volatile-lru     - 有过期时间的 key LRU 淘汰
+    #   allkeys-random   - 所有 key 随机淘汰
+    #   volatile-random  - 有过期时间的 key 随机淘汰
+    #   volatile-ttl     - 有过期时间的 key TTL 最短优先
+    policy: noeviction
+
+    # 每次淘汰采样数 (越大越精确, 越慢)
+    samples: 20
+
+  # ============================================================
+  # 过期键清理
+  # ============================================================
+  # 主动过期扫描: 每次触发最多扫描 N 轮 (每轮采样 20 个 key)
+  active_expire_cycles: 16
+
+  # ============================================================
+  # 集群
+  # ============================================================
+  cluster:
+    # 是否启用集群模式
+    enabled: false
+
+    # 集群总线端口 (0 = server.port + port_offset)
+    port: 0
+
+    # 集群端口偏移量
+    port_offset: 10000
+
+    # Gossip 心跳间隔 (毫秒)
+    gossip_interval_ms: 1000
+
+    # 节点故障超时 (毫秒, 超过此时间未收到 PONG 判定为 PFAIL)
+    node_timeout_ms: 15000
+
+    # 种子节点 (加入已有集群时)
+    # 格式: "ip1:port1,ip2:port2,..."
+    # seeds: ""
+
+    # 每个槽位的副本数 (0 = 无复制)
+    replicas: 0
+
+
+# ============================================================
+# 场景示例
+# ============================================================
+
+# --- 1. 单机开发 (开箱即用) ---
+# ledis:
+#   server:
+#     port: 6379
+#   aof:
+#     path: ./data/ledis.aof
+
+# --- 2. 生产环境 (多用户 + AOF + 2GB内存限制) ---
+# ledis:
+#   log:
+#     level: WARN
+#   server:
+#     port: 6379
+#     bind: 192.168.1.100
+#     requirepass: "AdminStr0ngP@ss!"
+#   acl:
+#     users:
+#       readonly: "reader123"
+#       app1:     "app1_secret"
+#   aof:
+#     path: /data/ledis/appendonly.aof
+#     mode: everysec
+#   eviction:
+#     maxmemory: 2147483648   # 2GB
+#     policy: volatile-lru
+#   slowlog:
+#     max_len: 256
+#     threshold_us: 5000
+
+# --- 3. 集群节点 1 (首个节点, 自建集群) ---
+# ledis:
+#   server:
+#     port: 6379
+#     io_threads: 1
+#   cluster:
+#     enabled: true
+#     port: 16379
+#     gossip_interval_ms: 1000
+#     node_timeout_ms: 15000
+
+# --- 4. 集群节点 2 (加入已有集群) ---
+# ledis:
+#   server:
+#     port: 6380
+#   cluster:
+#     enabled: true
+#     port: 16380
+#     seeds: "192.168.1.100:16379"
+
+# --- 5. 高性能模式 (多线程 epoll) ---
+# ledis:
+#   server:
+#     port: 6379
+#     io_threads: 4
+#     engine: epoll
+#     recv_buf_size: 131072
+#   aof:
+#     path: /data/ledis.aof
+#     mode: everysec
+#   eviction:
+#     maxmemory: 4294967296   # 4GB
+#     policy: allkeys-lru
+#     samples: 10
+#   slowlog:
+#     threshold_us: 3000
+
+# --- 6. 低延迟模式 (io_uring + 激进过期) ---
+# ledis:
+#   server:
+#     port: 6379
+#     engine: uring
+#     recv_buf_size: 65536
+#   active_expire_cycles: 8   # 减少 CPU 占用
+#   slowlog:
+#     threshold_us: 1000

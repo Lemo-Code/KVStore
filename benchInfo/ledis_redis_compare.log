@@ -1,0 +1,73 @@
+
+================================================================
+[2026-06-23 00:28:30] Ledis vs Redis 高并发命令 QPS
+单位: req/s (QPS) | CPU 核心: 5 | 线程轴: 5, 8, 10
+----------------------------------------------------------------
+对比项 \ 线程数    |        t=5 |        t=8 |       t=10 |
+------------------------ | ---------- | ---------- | ---------- |
+ledis SET                |    203.38K |    200.08K |    194.25K |
+redis SET                |    156.95K |    230.79K |    281.94K |
+ledis GET                |    206.92K |    206.78K |    233.06K |
+redis GET                |    140.50K |    240.01K |    299.77K |
+ledis INCR               |    200.73K |    204.95K |    229.30K |
+redis INCR               |    152.19K |    249.38K |    298.59K |
+ledis LPUSH              |    206.74K |    198.14K |    239.34K |
+redis LPUSH              |    155.86K |    237.99K |    291.06K |
+ledis HSET               |    204.66K |    209.53K |    227.60K |
+redis HSET               |    163.25K |    238.12K |    283.55K |
+ledis ZADD               |    202.68K |    202.93K |    233.57K |
+redis ZADD               |    163.99K |    233.18K |    292.96K |
+================================================================
+
+可扩展性 (相对 t=5, 倍数):
+                         |        t=5 |        t=8 |       t=10 |
+ledis SET                |      1.00x |      0.98x |      0.96x |
+redis SET                |      1.00x |      1.47x |      1.80x |
+ledis GET                |      1.00x |      1.00x |      1.13x |
+redis GET                |      1.00x |      1.71x |      2.13x |
+ledis INCR               |      1.00x |      1.02x |      1.14x |
+redis INCR               |      1.00x |      1.64x |      1.96x |
+ledis LPUSH              |      1.00x |      0.96x |      1.16x |
+redis LPUSH              |      1.00x |      1.53x |      1.87x |
+ledis HSET               |      1.00x |      1.02x |      1.11x |
+redis HSET               |      1.00x |      1.46x |      1.74x |
+ledis ZADD               |      1.00x |      1.00x |      1.15x |
+redis ZADD               |      1.00x |      1.42x |      1.79x |
+
+明细 (raw):
+  [ledis SET] threads=5 ops=100000 sec=0.4917 qps=203.38K (req/s (QPS)) rss=3356KB
+  [ledis SET] threads=8 ops=100000 sec=0.4998 qps=200.08K (req/s (QPS)) rss=3368KB
+  [ledis SET] threads=10 ops=100000 sec=0.5148 qps=194.25K (req/s (QPS)) rss=3380KB
+  [redis SET] threads=5 ops=100000 sec=0.6372 qps=156.95K (req/s (QPS)) rss=3380KB
+  [redis SET] threads=8 ops=100000 sec=0.4333 qps=230.79K (req/s (QPS)) rss=3380KB
+  [redis SET] threads=10 ops=100000 sec=0.3547 qps=281.94K (req/s (QPS)) rss=3380KB
+  [ledis GET] threads=5 ops=100000 sec=0.4833 qps=206.92K (req/s (QPS)) rss=3380KB
+  [ledis GET] threads=8 ops=100000 sec=0.4836 qps=206.78K (req/s (QPS)) rss=3380KB
+  [ledis GET] threads=10 ops=100000 sec=0.4291 qps=233.06K (req/s (QPS)) rss=3380KB
+  [redis GET] threads=5 ops=100000 sec=0.7117 qps=140.50K (req/s (QPS)) rss=3380KB
+  [redis GET] threads=8 ops=100000 sec=0.4167 qps=240.01K (req/s (QPS)) rss=3380KB
+  [redis GET] threads=10 ops=100000 sec=0.3336 qps=299.77K (req/s (QPS)) rss=3380KB
+  [ledis INCR] threads=5 ops=100000 sec=0.4982 qps=200.73K (req/s (QPS)) rss=3380KB
+  [ledis INCR] threads=8 ops=100000 sec=0.4879 qps=204.95K (req/s (QPS)) rss=3380KB
+  [ledis INCR] threads=10 ops=100000 sec=0.4361 qps=229.30K (req/s (QPS)) rss=3380KB
+  [redis INCR] threads=5 ops=100000 sec=0.6571 qps=152.19K (req/s (QPS)) rss=3380KB
+  [redis INCR] threads=8 ops=100000 sec=0.4010 qps=249.38K (req/s (QPS)) rss=3380KB
+  [redis INCR] threads=10 ops=100000 sec=0.3349 qps=298.59K (req/s (QPS)) rss=3380KB
+  [ledis LPUSH] threads=5 ops=100000 sec=0.4837 qps=206.74K (req/s (QPS)) rss=3380KB
+  [ledis LPUSH] threads=8 ops=100000 sec=0.5047 qps=198.14K (req/s (QPS)) rss=3380KB
+  [ledis LPUSH] threads=10 ops=100000 sec=0.4178 qps=239.34K (req/s (QPS)) rss=3380KB
+  [redis LPUSH] threads=5 ops=100000 sec=0.6416 qps=155.86K (req/s (QPS)) rss=3380KB
+  [redis LPUSH] threads=8 ops=100000 sec=0.4202 qps=237.99K (req/s (QPS)) rss=3380KB
+  [redis LPUSH] threads=10 ops=100000 sec=0.3436 qps=291.06K (req/s (QPS)) rss=3380KB
+  [ledis HSET] threads=5 ops=100000 sec=0.4886 qps=204.66K (req/s (QPS)) rss=3380KB
+  [ledis HSET] threads=8 ops=100000 sec=0.4772 qps=209.53K (req/s (QPS)) rss=3380KB
+  [ledis HSET] threads=10 ops=100000 sec=0.4394 qps=227.60K (req/s (QPS)) rss=3380KB
+  [redis HSET] threads=5 ops=100000 sec=0.6126 qps=163.25K (req/s (QPS)) rss=3380KB
+  [redis HSET] threads=8 ops=100000 sec=0.4200 qps=238.12K (req/s (QPS)) rss=3380KB
+  [redis HSET] threads=10 ops=100000 sec=0.3527 qps=283.55K (req/s (QPS)) rss=3380KB
+  [ledis ZADD] threads=5 ops=100000 sec=0.4934 qps=202.68K (req/s (QPS)) rss=3380KB
+  [ledis ZADD] threads=8 ops=100000 sec=0.4928 qps=202.93K (req/s (QPS)) rss=3380KB
+  [ledis ZADD] threads=10 ops=100000 sec=0.4281 qps=233.57K (req/s (QPS)) rss=3380KB
+  [redis ZADD] threads=5 ops=100000 sec=0.6098 qps=163.99K (req/s (QPS)) rss=3380KB
+  [redis ZADD] threads=8 ops=100000 sec=0.4289 qps=233.18K (req/s (QPS)) rss=3380KB
+  [redis ZADD] threads=10 ops=100000 sec=0.3413 qps=292.96K (req/s (QPS)) rss=3380KB

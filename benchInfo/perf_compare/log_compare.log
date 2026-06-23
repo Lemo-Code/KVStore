@@ -1,0 +1,27 @@
+
+================================================================
+[2026-06-23 00:33:56] zeroLog vs spdlog 异步 QPS
+单位: lines/s (QPS) | CPU 核心: 5 | 线程轴: 1, 2, 4, 8, 10
+----------------------------------------------------------------
+对比项 \ 线程数    |        t=1 |        t=2 |        t=4 |        t=8 |       t=10 |
+------------------------ | ---------- | ---------- | ---------- | ---------- | ---------- |
+zero   async             |      2.24M |      3.73M |      6.13M |      6.18M |      6.62M |
+spdlog async             |      2.63M |      1.93M |      1.22M |    864.92K |    875.31K |
+================================================================
+
+可扩展性 (相对 t=1, 倍数):
+                         |        t=1 |        t=2 |        t=4 |        t=8 |       t=10 |
+zero   async             |      1.00x |      1.67x |      2.74x |      2.76x |      2.96x |
+spdlog async             |      1.00x |      0.73x |      0.46x |      0.33x |      0.33x |
+
+明细 (raw):
+  [zero   async] threads=1 ops=100000 sec=0.0447 qps=2.24M (lines/s (QPS)) rss=3796KB
+  [zero   async] threads=2 ops=200000 sec=0.0537 qps=3.73M (lines/s (QPS)) rss=3812KB
+  [zero   async] threads=4 ops=400000 sec=0.0652 qps=6.13M (lines/s (QPS)) rss=3832KB
+  [zero   async] threads=8 ops=800000 sec=0.1295 qps=6.18M (lines/s (QPS)) rss=3852KB
+  [zero   async] threads=10 ops=1000000 sec=0.1511 qps=6.62M (lines/s (QPS)) rss=3868KB
+  [spdlog async] threads=1 ops=100000 sec=0.0380 qps=2.63M (lines/s (QPS)) rss=5468KB
+  [spdlog async] threads=2 ops=200000 sec=0.1035 qps=1.93M (lines/s (QPS)) rss=9368KB
+  [spdlog async] threads=4 ops=400000 sec=0.3276 qps=1.22M (lines/s (QPS)) rss=9980KB
+  [spdlog async] threads=8 ops=800000 sec=0.9249 qps=864.92K (lines/s (QPS)) rss=11592KB
+  [spdlog async] threads=10 ops=1000000 sec=1.1425 qps=875.31K (lines/s (QPS)) rss=13508KB

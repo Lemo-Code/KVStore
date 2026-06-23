@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG -flto=auto -fno-fat-lto-objects CMakeFiles/stress_libevent_http.dir/net/stress_libevent_http.c.o -o /home/wangmaosen/app/cpp/KVStore/bin/stress_libevent_http  /usr/lib/aarch64-linux-gnu/libevent.so 

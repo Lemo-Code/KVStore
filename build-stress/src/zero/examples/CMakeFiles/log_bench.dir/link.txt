@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/log_bench.dir/log_bench.cc.o -o log_bench  ../libzero.a -lpthread -ldl -lyaml-cpp 

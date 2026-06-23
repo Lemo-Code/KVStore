@@ -1,0 +1,2 @@
+"/usr/bin/gcc-ar-13" cr libledis.a CMakeFiles/ledis.dir/core/command.cc.o CMakeFiles/ledis.dir/cluster/cluster_manager.cc.o
+"/usr/bin/gcc-ranlib-13" libledis.a

@@ -1,0 +1,142 @@
+# ============================================================
+# Zero — High-Performance Network Library 配置文件 (YAML)
+# ============================================================
+# 约定优于配置:
+#   - zero::InitConfig() 已注册所有默认值
+#   - 此文件只需覆盖需要修改的部分
+#   - 未匹配到 ConfigVar 的 key 会被静默忽略
+#   - 顶层 key 直接对应 ConfigVar 的命名空间前缀
+#
+# 加载方式:
+#   ./ledis-server --config conf/        # 自动加载目录下所有 .yaml
+#   ./ledis-server --config conf/zero.yaml  # 单独加载此文件
+# ============================================================
+
+# ============================================================
+# 日志系统 (zero::LogConfig 读取 log.*)
+# ============================================================
+log:
+  # 根 Logger 级别: TRACE | DEBUG | INFO | WARN | ERROR | FATAL
+  root_level: INFO
+
+  # 异步日志策略: off | thread | coroutine
+  async:
+    policy: off
+
+  # 日志输出器
+  appenders:
+    # ---- 控制台输出 ----
+    console:
+      enabled: true
+      color: true
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%t] [%F:%l] %m%n"
+
+    # ---- 文件输出 (默认关闭) ----
+    file:
+      path: ""
+      max_size: 104857600     # 100MB 后滚动
+      max_files: 10           # 保留最近 10 个文件
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%p] [%t] [%F:%l] %m%n"
+
+# ============================================================
+# 协程 (zero::Fiber / zero::FiberPool)
+# ============================================================
+fiber:
+  # 默认栈大小 (字节)
+  stack_size: 131072
+
+  # FiberPool 预分配数量 (减少运行时分配开销)
+  pool_size: 1024
+
+# ============================================================
+# 调度器 (zero::Scheduler)
+# ============================================================
+scheduler:
+  # 工作线程数 (ledis 单线程模式会覆盖为 1)
+  threads: 4
+
+  # 是否将调用线程也用作工作线程
+  use_caller: false
+
+  # 调度器名称 (调试用)
+  name: zero
+
+# ============================================================
+# Socket (zero::Socket)
+# ============================================================
+socket:
+  # TCP 连接超时 (毫秒)
+  connect_timeout_ms: 5000
+
+  # TCP 接收超时 (毫秒, 0 = 无限)
+  recv_timeout_ms: 5000
+
+  # TCP 发送超时 (毫秒, 0 = 无限)
+  send_timeout_ms: 5000
+
+  # 禁用 Nagle 算法 (TCP_NODELAY)
+  tcp_no_delay: true
+
+  # 端口复用 (SO_REUSEADDR)
+  so_reuseaddr: true
+
+  # listen() backlog
+  listen_backlog: 128
+
+# ============================================================
+# Reactor (zero::Reactor) — epoll 事件循环
+# ============================================================
+reactor:
+  # epoll_wait 超时 (毫秒, -1 = 无限)
+  poll_timeout_ms: 10
+
+  # 每次 epoll_wait 最大返回事件数
+  max_events: 256
+
+# ============================================================
+# TcpServer (zero::TcpServer)
+# ============================================================
+tcpserver:
+  # SO_KEEPALIVE (0 = 关闭, 1 = 开启)
+  keepalive: 1
+
+  # 连接空闲超时 (毫秒, 0 = 不超时)
+  timeout_ms: 120000
+
+
+# ============================================================
+# 场景示例
+# ============================================================
+
+# --- 开发环境: 详细日志 + 小协程池 ---
+# log:
+#   root_level: DEBUG
+# fiber:
+#   pool_size: 256
+
+# --- 生产环境: 仅 WARN + 文件日志 ---
+# log:
+#   root_level: WARN
+#   appenders:
+#     console:
+#       enabled: false
+#     file:
+#       path: /var/log/zero.log
+#       max_size: 104857600
+#       max_files: 30
+
+# --- 低延迟: 无 Nagle + 短超时 ---
+# socket:
+#   tcp_no_delay: true
+#   connect_timeout_ms: 1000
+#   recv_timeout_ms: 1000
+#   send_timeout_ms: 1000
+
+# --- 高性能: 大协程池 + 多线程调度 ---
+# fiber:
+#   stack_size: 65536
+#   pool_size: 4096
+# scheduler:
+#   threads: 8
+# reactor:
+#   max_events: 512
