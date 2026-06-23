@@ -26,7 +26,21 @@ else
     echo "⚠️  redis-server 未安装，仅测试 ledis"
 fi
 
-# 启动 ledis
+# 确保 ledis-server 存在（自动编译）
+if [ ! -x "${BIN}/ledis-server" ]; then
+    echo ">>> ledis-server 未找到，正在编译..."
+    mkdir -p "${BIN}"
+    cmake -B "${ROOT}/build-stress" -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_STRESS_TESTS=OFF -DBUILD_TESTS=OFF 2>&1 | tail -3
+    cmake --build "${ROOT}/build-stress" -j$(nproc) --target ledis-server 2>&1 | tail -5
+    find "${ROOT}/build-stress" -name ledis-server -exec cp {} "${BIN}/" \; 2>/dev/null
+fi
+
+if [ ! -x "${BIN}/ledis-server" ]; then
+    echo "❌ ledis-server 编译失败，请手动执行: bash shell/setup.sh --build-only"
+    exit 1
+fi
+
 echo ">>> 启动 ledis-server (port ${LEDIS_PORT}) ..."
 "${BIN}/ledis-server" --port ${LEDIS_PORT} --loglevel ERROR &
 LEDIS_PID=$!

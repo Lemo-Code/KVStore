@@ -44,7 +44,7 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/yourname/KVStore.git
+git clone https://github.com/Lemo-Code/KVStore.git
 cd KVStore
 
 # 2. 一键环境配置 + 编译 + 压测
