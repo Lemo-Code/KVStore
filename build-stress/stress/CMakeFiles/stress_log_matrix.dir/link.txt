@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/stress_log_matrix.dir/log/stress_log_matrix.cpp.o -o /home/wangmaosen/app/cpp/KVStore/bin/stress_log_matrix  /home/wangmaosen/app/cpp/KVStore/lib/libzero.a -lpthread /home/wangmaosen/app/cpp/KVStore/lib/libspdlog.a -ldl -lyaml-cpp 

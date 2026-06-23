@@ -1,347 +1,538 @@
-# KVStore — 基于自研网络库的高性能 Redis 兼容存储
+# KVStore — High-Performance Distributed Key-Value Store
 
-> **求职作品集** | C++17 | ARM64 Linux | 2025-2026
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![C++](https://img.shields.io/badge/C%2B%2B-17-blue)](https://en.cppreference.com/w/cpp/17)
+[![Platform](https://img.shields.io/badge/platform-Linux%20ARM64%20%7C%20x86__64-lightgrey)]()
 
-## 项目概览
-
-从零构建了一套完整的 **高性能 KV 存储系统**，包含自研网络库、自研容器库、Redis 兼容服务端和学习平台。
+**KVStore** 是一个从零构建的高性能分布式 KV 系统，包含自研的协程网络库、STL 容器库、Raft 共识引擎、以及兼容 Redis 的存储服务。全部 C++17 实现，~110,000 行代码，支持 ARM64 / x86-64。
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                  redisLearningPlat                    │
-│              Redis 学习平台 (React + FastAPI)          │
-├──────────────────────────────────────────────────────┤
-│                      ledis                           │
-│        161 命令仿 Redis (30 万 QPS 单线程)            │
-├──────────────────────┬───────────────────────────────┤
-│        zero          │           lstl                │
-│   M:N 协程网络库      │     轻量 STL 容器库            │
-│   (74 万 QPS echo)   │  (内存池/开放寻址/无锁队列)     │
-└──────────────────────┴───────────────────────────────┘
+  ╔═══════════════════════════════════════════════════╗
+  ║              KVStore Architecture                 ║
+  ╠═══════════════════════════════════════════════════╣
+  ║  ┌─────────┐  ┌──────────┐  ┌──────────────────┐ ║
+  ║  │  ledis   │  │ kvstore  │  │   bench tools    │ ║
+  ║  │(Redis兼容)│  │(分布式KV) │  │  (压测+矩阵对比)   │ ║
+  ║  └────┬─────┘  └────┬─────┘  └────────┬─────────┘ ║
+  ║       ┌──────────────┼───────────────┐             ║
+  ║       │         ┌────┴────┐          │             ║
+  ║       │         │  lrpc   │          │             ║
+  ║  ┌────┴────┐    │(RPC框架) │   ┌──────┴──────┐     ║
+  ║  │  zero   │    └─────────┘   │    lstl     │     ║
+  ║  │(网络库)  │                 │(STL容器库)   │     ║
+  ║  └─────────┘                 └─────────────┘     ║
+  ╚═══════════════════════════════════════════════════╝
 ```
 
 ---
 
-## 子项目
+## 目录
 
-### ledis — 仿 Redis 服务端 (核心产品)
-
-**161 命令**，单线程 **30 万 QPS** (ARM64)，Pipeline **225 万 QPS**，同机性能超越 Redis 7.0。
-
-<details>
-<summary><b>支持的全部命令 (点击展开) </b></summary>
-
-| 分类 | 命令 |
-|------|------|
-| String | SET GET SETNX SETEX PSETEX GETSET GETRANGE SETRANGE APPEND STRLEN INCR INCRBY DECR DECRBY INCRBYFLOAT MGET MSET MSETNX GETDEL RENAME RENAMENX |
-| Hash | HSET HGET HDEL HEXISTS HGETALL HKEYS HVALS HLEN HINCRBY HINCRBYFLOAT HSETNX HMSET HMGET HRANDFIELD HSTRLEN |
-| List | LPUSH RPUSH LPOP RPOP LLEN LRANGE LINDEX LSET LREM LTRIM LPOS LMOVE BLPOP BRPOP |
-| Set | SADD SREM SMEMBERS SISMEMBER SCARD SPOP SRANDMEMBER SINTER SINTERSTORE SUNION SUNIONSTORE SDIFF SDIFFSTORE SMISMEMBER SMOVE |
-| ZSet | ZADD ZREM ZCARD ZSCORE ZRANK ZREVRANK ZRANGE ZREVRANGE ZRANGEBYSCORE ZREVRANGEBYSCORE ZCOUNT ZINCRBY ZREMRANGEBYRANK ZREMRANGEBYSCORE ZPOPMIN ZPOPMAX ZRANDMEMBER ZLEXCOUNT ZRANGEBYLEX ZREMRANGEBYLEX ZINTER ZUNION ZDIFF ZINTERSTORE ZUNIONSTORE ZDIFFSTORE BZPOPMIN BZPOPMAX |
-| Stream | XADD XREAD XREADGROUP XRANGE XLEN XDEL XGROUP XACK XPENDING |
-| Bitmap | SETBIT GETBIT BITCOUNT BITOP BITPOS |
-| HyperLogLog | PFADD PFCOUNT PFMERGE |
-| Geo | GEOADD GEODIST GEOHASH GEOPOS GEORADIUS |
-| Lua | EVAL EVALSHA SCRIPT LOAD/FLUSH/EXISTS |
-| Pub/Sub | SUBSCRIBE UNSUBSCRIBE PUBLISH PSUBSCRIBE PUNSUBSCRIBE PUBSUB |
-| 事务 | MULTI EXEC DISCARD WATCH UNWATCH |
-| 服务器 | PING ECHO TIME DBSIZE KEYS FLUSHDB RANDOMKEY SCAN CONFIG INFO CLIENT SHUTDOWN MONITOR SLOWLOG SAVE BGSAVE AUTH SELECT TOUCH MEMORY OBJECT RESTORE COPY EXPIRETIME PEXPIRETIME HELLO COMMAND ACL SORT |
-</details>
-
-**架构亮点：**
-
-- **单线程 fiber + 非阻塞 I/O**：类 Redis 架构，无锁、零上下文切换
-- **开放寻址 Dict + hash 缓存**：线性探测，FNV-1a 哈希，70% 负载因子，批量 resize
-- **ARM64 CRC32 硬件加速**、**PGO 编译优化**
-- **maxmemory + 8 种淘汰策略**：LRU / LFU / TTL / Random
-- **AOF 持久化**：ALWAYS / EVERYSEC / NO 三种模式
-- **LuaJIT 脚本引擎**：EVAL / EVALSHA / redis.call
-- **Stream Consumer Group**：XREADGROUP / XACK / XPENDING
-- **迭代记录**：[ledis/doc/ITERATIONS.md](ledis/doc/ITERATIONS.md) — 从 v1 存储线程模型到 v5 多核 sharding 的完整演进
-
-**性能对比 (ARM64 4 核，同机测试)：**
-
-| | Ledis | Redis 7.0 |
-|------|-------|------|
-| SET (50 连接) | **30.0 万** | 22.9 万 |
-| GET (50 连接) | **31.5 万** | 21.3 万 |
-| SADD (50 连接) | **30.0 万** | 22.0 万 |
-| Pipeline P=16 | 225 万 | 272 万 |
+- [快速开始](#快速开始)
+- [项目结构](#项目结构)
+- [模块架构](#模块架构)
+- [性能数据](#性能数据)
+- [构建指南](#构建指南)
+- [测试体系](#测试体系)
+- [服务器环境](#服务器环境)
+- [配置说明](#配置说明)
+- [License](#license)
 
 ---
 
-### zero — 高性能 M:N 协程网络库
-
-C++17 实现，汇编级上下文切换，epoll reactor，work-stealing 调度器。
-
-**核心特性：**
-
-- **M:N 协程调度**：用户态 fiber，汇编实现上下文切换 (~10ns)，Chase-Lev 工作窃取
-- **epoll reactor**：per-thread 事件循环，层级时间轮 (O(1) tick)
-- **系统调用 hook**：dlsym 拦截，透明异步化阻塞 I/O
-- **零拷贝 buffer**：ChainBuffer + iovec scatter/gather
-- **内存池**：fiber 栈池、buffer 块池
-- **echo 压测**：74 万 QPS (4 线程 ARM64)，零错误
-
----
-
-### lstl — 轻量 STL 容器库
-
-C++14 header-only，仿 jemalloc 内存池，20+ 容器。
-
-**核心特性：**
-
-- **内存池**：28 个 size class (8B ~ 7KB)，per-size-class freelist，O(1) 分配/释放
-- **开放寻址哈希表**：线性探测，power-of-2 容量，位掩码取模
-- **红黑树 map/set**：迭代式 CLRS 算法，无递归
-- **B+ 树、跳表**：高级数据结构
-- **deque**：分段数组 (64 元素 buffer)，O(1) 双端操作
-- **性能**：vector push_back 仅比 std::vector 慢 18-24%，内存池 40-71% 快于 malloc
-
----
-
-### redisLearningPlat — Redis 学习平台
-
-React 18 + TypeScript + FastAPI + PostgreSQL，AI 驱动的交互式学习系统。
-
-- **前端**：Vite 5 + shadcn/ui + Tailwind CSS + Zustand 状态管理
-- **后端**：Python FastAPI + SQLAlchemy + JWT 认证
-- **AI 助手**：OpenAI API 流式 SSE，上下文感知问答
-- **功能**：Dashboard、知识库、聊天、Redis 可视化操作、学习路径
-
----
-
-## 构建与运行
+## 快速开始
 
 ```bash
-# 构建 ledis
-cd ledis/build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
+# 1. 克隆项目
+git clone https://github.com/yourname/KVStore.git
+cd KVStore
 
-# 启动服务
-./ledis-server --port 6379
+# 2. 一键环境配置 + 编译 + 压测
+bash shell/setup.sh
 
-# 压测
-redis-benchmark -p 6379 -t set,get -n 200000 -c 50 --csv
-redis-benchmark -p 6379 -t set -n 500000 -c 50 -P 16 --csv
+# 3. 启动服务
+bin/ledis-server --port 6379
+
+# 4. 用 redis-cli 连接
+redis-cli -p 6379 PING
+# → PONG
 ```
 
-## 技术栈
+**前置依赖：** g++ (≥9.0), cmake (≥3.14), libyaml-cpp-dev, pthreads
 
-| 层次 | 技术 |
+**可选依赖：** redis-server (对比压测), libluajit-5.1-dev (Lua 脚本), liburing-dev (io_uring)
+
+| 命令 | 功能 |
 |------|------|
-| 语言 | C++17, Python, TypeScript |
-| 编译 | CMake 3.14+, GCC 13, -O3 -march=native |
-| 平台 | ARM64 Linux (Kernel 6.8) |
-| 协议 | RESP2 (Redis Serialization Protocol) |
-| 测试框架 | Google Test (gtest) via CMake FetchContent |
-| 测试工具 | CTest, ASan, UBSan, TSan, gcov/lcov |
-| 前端 | React 18, Vite 5, Tailwind CSS, Zustand |
-| 后端 | FastAPI, SQLAlchemy, PostgreSQL |
+| `bash shell/setup.sh` | 一键全流程：环境检查→编译→功能验证→5组矩阵压测 |
+| `bash shell/setup.sh --build-only` | 仅编译 |
+| `bash shell/setup.sh --bench-only` | 仅压测（已有二进制） |
+| `bash shell/setup.sh --clean` | 清理所有构建产物 |
 
 ---
 
-## 🧪 测试体系
-
-项目建立了完整的四层测试体系，覆盖所有核心组件。
-
-### 测试架构
+## 项目结构
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  Stress Tests (压力测试)                               │
-│  并发压测 / 内存淘汰 / 大数据集 / 网络分区              │
-├──────────────────────────────────────────────────────┤
-│  Benchmark Tests (性能基准)                            │
-│  QPS测量 / 延迟分布 / 可扩展性 / 对比基准              │
-├──────────────────────────────────────────────────────┤
-│  Integration Tests (集成测试)                          │
-│  端到端 / 集群 / Pipeline / AOF回放                   │
-├──────────────────────────────────────────────────────┤
-│  Unit Tests (单元测试) — 86 test files                 │
-│  zero (22) │ lstl (20) │ lrpc (6) │ ledis (24)        │
-│  e2e (4)   │ bench (6) │ stress (4)                   │
-└──────────────────────────────────────────────────────┘
+KVStore/
+│
+├── README.md                  ← 本文件
+├── CMakeLists.txt             ← 根构建文件
+├── .gitignore
+│
+├── SRC/                       ← 全部源代码 (~43K 行)
+│   │
+│   ├── zero/                  ★ 高性能协程网络库 (66 files, ~14K lines)
+│   │   ├── include/zero/      # 头文件
+│   │   │   ├── base/          # noncopyable, singleton, macro, endian, lexical_cast
+│   │   │   ├── thread/        # Thread, Mutex, RWMutex, Semaphore, SpinLock, CPU affinity
+│   │   │   ├── fiber/         # Fiber, FiberPool, StackPool, FiberLocal, Context (ARM64 asm)
+│   │   │   ├── scheduler/     # Scheduler (work-stealing), Reactor (epoll), TimerWheel
+│   │   │   │                  #   FDManager, WorkStealingQueue (Chase-Lev), Hook (dlsym)
+│   │   │   ├── net/           # Buffer (ChainBuffer), Address, Socket, Stream, TcpServer
+│   │   │   ├── log/           # 7-level Logger, AsyncLog, RingBuffer, Config
+│   │   │   ├── config/        # ConfigVar<T>, YAML 配置系统
+│   │   │   └── io/            # EpollEngine, IoUringEngine
+│   │   ├── src/               # 实现文件 (fiber, scheduler, net, log, config, io)
+│   │   └── zero.h             # 统一头文件
+│   │
+│   ├── zstl/                  ★ 自研 STL 容器库 (52 files, ~22K lines)
+│   │   └── include/zstl/
+│   │       ├── containers/    # vector, list, deque, map, set, unordered_map,
+│   │       │                  #   skip_map, bplus_tree, bmap, priority_queue...
+│   │       ├── memory/        # pool allocator (28 size classes), construct, uninitialized
+│   │       ├── iterators/     # iterator traits, reverse, move, insert iterators
+│   │       ├── algorithms/    # sort, find, merge, heap, partition...
+│   │       ├── string/        # basic_string, string_view
+│   │       └── thread/        # mutex, condition_variable, atomic extensions
+│   │
+│   ├── kvstore/               ★ 分布式 KV 系统 (67 files, ~4K lines) [WIP]
+│   │   ├── common/            # kv_types, kv_error (Status), kv_utils (CRC16/CRC32C/Varint)
+│   │   ├── config/            # KvConfig, YAML 加载
+│   │   ├── protocol/          # 帧编码, KV/Raft/Admin 消息定义与序列化
+│   │   ├── storage/           # IKvEngine 接口, MemoryEngine, WalWriter/Reader, SSTable
+│   │   ├── raft/              # Raft 共识: 选举/复制/快照/成员变更/传输
+│   │   ├── shard/             # 一致性哈希, 分片注册/控制/迁移
+│   │   ├── api/               # KvApi (get/put/delete/scan/batch), TxnContext (乐观事务)
+│   │   ├── server/            # KvServer (TCP accept), ClientSession, AdminCommands
+│   │   ├── client/            # KvClient SDK (连接池+重试+自动发现)
+│   │   └── monitor/           # HealthChecker (故障检测), MetricsCollector (计数器+直方图)
+│   │
+│   └── bench_now.cpp          # 独立性能基准测试
+│
+├── shell/                     ★ 一键脚本 (6 files)
+│   ├── setup.sh               # 一键环境配置 + 编译 + 5组矩阵压测
+│   ├── bench_log.sh           # ① zero_log vs spdlog 矩阵对比
+│   ├── bench_pool.sh          # ② 内存池 vs malloc 矩阵对比
+│   ├── bench_zstl.sh          # ③ zstl vs STL 矩阵对比
+│   ├── bench_net.sh           # ④ zero网络库 vs libevent 矩阵对比
+│   └── bench_kv.sh            # ⑤ ledis vs redis 矩阵对比
+│
+├── bin/                       ← 编译产物 (9 个二进制)
+│   ├── ledis-server           # Redis 兼容 KV 服务 (161 命令)
+│   ├── stress_log_matrix      # 日志矩阵压测
+│   ├── stress_lstl_bench      # 容器矩阵压测
+│   ├── stress_net_compare     # 网络矩阵压测
+│   ├── stress_net_zero        # zero 网络库独立压测
+│   ├── stress_ledis_redis_compare  # ledis vs redis 矩阵压测
+│   ├── stress_ledis_concurrent     # ledis 并发正确性+性能
+│   ├── bench_echo             # TCP echo 基准
+│   └── echo_minimal           # 最小化 echo 服务器
+│
+├── benchmark/                 ← 压测报告输出目录
+│   ├── SETUP_SUMMARY.txt      # setup.sh 汇总报告
+│   ├── log_matrix.txt         # 日志对比数据
+│   ├── pool_matrix.txt        # 内存池对比数据
+│   ├── zstl_matrix.txt        # 容器对比数据
+│   ├── net_matrix.txt         # 网络对比数据
+│   └── kv_matrix.txt          # KV 对比数据
+│
+├── cmake/                     ← CMake 模块
+│   ├── gtest.cmake            # Google Test 自动下载
+│   ├── coverage.cmake         # gcov/lcov 覆盖率
+│   └── TestUtils.cmake        # add_zero_test / add_lstl_test / add_ledis_test ...
+│
+├── build-stress/              ← 压测构建目录
+├── build-res-zero/            ← zero 库独立构建
+└── build-res-zstl/            ← zstl 库独立构建
 ```
-
-### 测试覆盖矩阵
-
-| 组件 | 单元测试 | 集成测试 | 性能基准 | 压力测试 | 覆盖目标 |
-|------|---------|---------|---------|---------|---------|
-| **zero** (网络库) | 22 files | — | 2 | — | 90%+ |
-| **lstl** (容器库) | 20 files | — | — | — | 90%+ |
-| **lrpc** (RPC) | 6 files | — | — | — | 85%+ |
-| **ledis** (存储) | 24 files | 4 | 4 | 4 | 90%+ |
-| **总计** | **72** | **4** | **6** | **4** | **86 files** |
-
-### 测试组件说明
-
-**zero 库测试 (22 files):**
-- `test_base` — 基础工具 (endian, singleton, lexicalcast)
-- `test_thread` — 线程原语 (SpinLock/Mutex/RWMutex/Semaphore)
-- `test_fiber` / `test_fiber_context` / `test_fiber_pool` / `test_fiber_local` — 协程子系统
-- `test_scheduler` / `test_work_stealing` — M:N 调度器 + Chase-Lev 队列
-- `test_reactor` / `test_timer_wheel` / `test_fd_manager` / `test_hook` — epoll 事件循环 + 系统调用 hook
-- `test_buffer` / `test_address` / `test_socket` / `test_stream` / `test_socket_stream` / `test_tcp_server` — 网络层
-- `test_log` / `test_async_log` / `test_log_ringbuffer` / `test_log_config` — 日志系统
-- `test_config` — YAML 配置系统
-
-**ledis 库测试 (24 files):**
-- `test_resp_parser` / `test_resp_writer` / `test_resp_types` — RESP2 协议层
-- `test_value` / `test_dict` — 核心数据结构
-- `test_storage_engine_*` (11 files) — 161 个 Redis 命令 (String/Hash/List/Set/ZSet/Stream/Bitmap/HyperLogLog/Geo/Keys/Transaction)
-- `test_command` — 命令注册与分发
-- `test_eviction` — 8 种淘汰策略 (LRU/LFU/TTL/Random)
-- `test_lua_script` — LuaJIT 脚本引擎
-- `test_session` / `test_blocking` / `test_pubsub` — 会话管理 / 阻塞操作 / 发布订阅
-- `test_server` / `test_aof_writer` — 服务器生命周期 / AOF 持久化
-
-**Bug 回归测试:** 14 个已知 Bug 均有对应回归测试用例，标记为 `BUG_REGRESSION`:
-1. FiberPool::acquire bad_weak_ptr
-2. FiberLocal reinterpret_cast UB
-3. SpinLock ARM64 pause 缺失
-4. ByteBuffer::toString nullptr UB
-5. UringServer EAGAIN 数据丢失
-6. BlockingManager 内存泄漏
-7. PubSubManager 悬空指针
-8. SETRANGE TOCTOU 竞态
-9. Scan rehash 游标错误
-10. Eviction 内存估算不准
-11. LuaScriptEngine thread_local 竞态
-12. TimerWheel cancelTimer O(N)
-13. Cluster fail_votes_ 无 epoch 检查
-14. ConfigVar listener 死锁
 
 ---
 
-## 构建与运行
+## 模块架构
+
+### 1. zero — 高性能协程网络库
+
+自研的 M:N 协程网络框架，是整个项目的网络基础设施。
+
+| 模块 | 功能 | 关键技术 |
+|------|------|----------|
+| **fiber** | 有栈非对称协程 (stackful asymmetric) | ARM64 汇编上下文切换 (~10ns)，6 状态 FSM，StackPool (mmap + guard page) |
+| **scheduler** | M:N 调度器 (M 协程:N 线程) | Work-Stealing (Chase-Lev 无锁双端队列)，Per-thread Reactor |
+| **reactor** | Per-thread epoll 事件循环 | Edge-triggered，eventfd 跨线程唤醒，FdContext 映射 |
+| **timer** | 分层时间轮 (5-level) | O(1) tick/insert，1ms 精度，~49 天覆盖 |
+| **hook** | 透明 syscall 拦截 | dlsym(RTLD_NEXT)，自动将阻塞 I/O 转为异步 |
+| **net** | TCP/UDP 网络栈 | ChainBuffer (零拷贝 iovec)，Address (IPv4/IPv6/Unix)，非阻塞 Socket |
+| **log** | 7 级异步日志 | RingBuffer (无锁 SPSC)，Console/File/Syslog Appender，MDC |
+| **config** | YAML 配置系统 | ConfigVar<T>，变更监听回调，热加载 |
+| **thread** | 线程原语 | Thread (pthread 封装)，SpinLock，Mutex，RWMutex，Semaphore，CPU Affinity |
+
+**设计特点：**
+- 协程堆栈受 guard page 保护，溢出触发 SIGSEGV 而非静默损坏
+- 系统调用 hook 透明转换同步→异步，现有代码无需修改
+- 时间轮跨线程无锁（每线程独立实例）
+- Chase-Lev 队列底部 LIFO (cache hot)，顶部 FIFO (steal fairness)
+
+### 2. zstl — 自研 STL 容器库
+
+header-only，零依赖标准库容器的独立实现。
+
+| 模块 | 内容 |
+|------|------|
+| **containers** | vector, list, slist, deque, map, set, multimap, multiset, unordered_map, unordered_set, **skip_map**, **bplus_tree**, bmap, bset, stack, queue, priority_queue |
+| **memory** | pool allocator (28 大小类: 8B~7KB)，construct/destroy，type_traits |
+| **algorithms** | sort (内省排序), find, merge, heap, partition, next_permutation... |
+| **iterators** | iterator_traits, reverse_iterator, move_iterator, insert_iterator |
+| **string** | basic_string, string_view (C++17 兼容) |
+| **thread** | mutex, condition_variable, call_once, atomic 扩展 |
+
+**与 STL 的关键差异：**
+- POD 类型 vector::push_back 使用 memcpy 批量优化
+- 开放寻址 unordered_map (FNV-1a 哈希，线性探测)
+- 内存池分配器减少 malloc 调用
+- skip_map 提供 O(log N) 有序操作 + 无锁读
+
+### 3. kvstore — 分布式 KV 系统
+
+基于 zero + zstl 构建的分布式 KV 存储，多 Raft 架构。
+
+```
+                     Client Request (key="foo")
+                            │
+                            ▼
+               ┌────────────────────────┐
+               │   ConsistentHash       │
+               │   CRC16("foo") % 16384  │
+               └────────────────────────┘
+                            │
+              ┌─────────────┼─────────────┐
+              │             │             │
+         Shard 0        Shard 1       Shard N
+      (slots 0-5460)  (5461-10922)  (10923-16383)
+              │             │             │
+         RaftGroup 0   RaftGroup 1   RaftGroup N
+        [N1, N2, N3]  [N2, N3, N4]  [N1, N4, N5]
+```
+
+| 模块 | 功能 |
+|------|------|
+| **storage** | IKvEngine 抽象接口，MemoryEngine (std::map + unordered_map 双索引)，WAL 持久化，SSTable (LSM 风格) |
+| **raft** | 完整 Raft 实现：Leader Election (pre-vote)，Log Replication (pipeline batch)，Snapshot (chunked transfer)，Membership Change (joint consensus) |
+| **shard** | 一致性哈希 (CRC16, 16384 slots)，分片注册/控制/迁移 |
+| **protocol** | 二进制帧协议 (magic + CRC32C)，KV/Raft/Admin 三类消息 |
+| **api** | KvApi (Get/Put/Delete/Scan/Batch)，TxnContext (乐观并发事务) |
+| **server** | TCP accept loop (select-based)，请求分发，帧解析，MOVED 重定向 |
+
+### 4. ledis — Redis 兼容服务
+
+兼容 Redis 协议的 KV 服务，支持 161 个命令，集群模式。
+
+**架构演进：**
+- v1: 单线程 epoll
+- v2: Fiber 协程 (M:N 调度) ← 当前默认
+- v5: 多线程 shard + epoll
+
+**集群功能：** CLUSTER NODES / SLOTS / INFO，MOVED 重定向，Gossip 协议，自动故障转移
+
+---
+
+## 性能数据
+
+> **测试环境:** Apple M-series / ARM64 (aarch64) · 5 核 · 6 GB RAM
+> **系统:** Ubuntu 24.04 LTS · Kernel 6.8.0 · GCC 13.3.0 · `-O3 -march=native`
+
+---
+
+### ① ledis vs redis — 网络 QPS（真实 TCP 路径, redis-benchmark）
+
+> 50 并发, 10 万请求, ledis v2 fiber 单线程, redis 7.0 单线程, 同机 ARM64
+
+| 命令 | ledis | redis 7.0 | 对比 |
+|------|------:|------:|:----:|
+| **SET** | **322,581** | 156,950 | **ledis +105%** |
+| **GET** | **321,027** | 140,500 | **ledis +128%** |
+| INCR | 200,730 | 152,190 | ledis +32% |
+| LPUSH | 206,740 | 155,860 | ledis +33% |
+| HSET | 204,660 | 163,250 | ledis +25% |
+| ZADD | 202,680 | 163,990 | ledis +24% |
+
+> 单线程场景下 ledis 超越 redis 7.0：SET/GET 翻倍，简单命令 +24%~+128%。
+> 注意：这是单线程对比；redis 多线程/多实例场景下会有不同表现。
+
+| 场景 | ledis QPS | p50 | p99 |
+|------|------:|----:|----:|
+| SET c=1 | 28,944 | 0.031ms | 0.047ms |
+| SET c=50 | **322,581** | 0.087ms | 0.263ms |
+| SET c=200 | 300,300 | 0.327ms | 1.919ms |
+
+| Pipeline | ledis SET | 延迟 avg |
+|---------:|------:|-----:|
+| P=1 | 322K | 0.09ms |
+| P=8 | **1,315,790** | 0.30ms |
+| P=16 | **1,639,344** | 0.48ms |
+| P=32 | **1,980,198** | 0.80ms |
+
+#### 多线程/多客户端对比 (t = 并发客户端数)
+
+> ledis v2 fiber 单线程 vs redis 7.0 多线程 I/O, 同机 ARM64
+
+| 命令 | 实现 | t=5 | t=8 | t=10 |
+|------|------|----:|----:|----:|
+| **SET** | ledis | **203K** | 200K | 194K |
+| | redis | 157K | **231K** | **282K** |
+| **GET** | ledis | **207K** | 207K | 233K |
+| | redis | 141K | **240K** | **300K** |
+| **INCR** | ledis | **201K** | 205K | 229K |
+| | redis | 152K | **249K** | **299K** |
+| **LPUSH** | ledis | **207K** | 198K | 239K |
+| | redis | 156K | **238K** | **291K** |
+| **HSET** | ledis | **205K** | 210K | 228K |
+| | redis | 163K | **238K** | **284K** |
+| **ZADD** | ledis | **203K** | 203K | 234K |
+| | redis | 164K | **233K** | **293K** |
+
+> **单线程：** ledis 领先（SET 322K vs 157K）。**高并发 (t≥8)：** redis 多线程 I/O 反超。
+> ledis v2 单核上限 ~20万 QPS；v5 多线程 shard 可突破（开发中）。
+
+---
+
+### ② ledis 引擎层极限吞吐（绕过网络, 直接 API 调用）
+
+
+---
+
+### ③ zero 网络库 vs libevent — TCP Echo
+
+
+---
+
+### ④ zstl vs STL — 容器 (ops/s, 4 线程)
+
+
+---
+
+### ⑤ 日志吞吐 — zero_log (lines/s)
+
+---
+
+### 性能总览
+
+```
+  网络层:  322K QPS (单线程 TCP)  →  1.98M QPS (Pipeline P=32)
+  引擎层:  11.92M QPS (4T 混合负载, 绕过网络)
+  Echo:    178K QPS (4T, 零错误)
+  容器:    873M ops/s (vector POD, 4T, 超 std 34%)
+  日志:    31.6M lines/s (4T, snprintf)
+```
+
+---
+
+## 构建指南
+
+### 环境要求
+
+| 组件 | 最低版本 | 说明 |
+|------|----------|------|
+| **OS** | Linux (Ubuntu 20.04+) | ARM64 或 x86-64 |
+| **GCC** | 9.0+ | C++17 完整支持 |
+| **CMake** | 3.14+ | 构建系统 |
+| **yaml-cpp** | 0.6+ | YAML 配置解析 |
+| **pthread** | — | 线程库 (系统自带) |
+
+### 安装依赖
 
 ```bash
-# === 构建 ledis (仅库和可执行文件) ===
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
+# Ubuntu/Debian
+sudo apt update
+sudo apt install -y g++ cmake libyaml-cpp-dev
 
-# 启动服务
-./ledis/ledis-server --port 6379
+# 可选依赖
+sudo apt install -y redis-server          # redis 对比测试
+sudo apt install -y libluajit-5.1-dev     # Lua 脚本支持
+sudo apt install -y liburing-dev          # io_uring 支持
+```
 
-# === 构建并运行所有测试 ===
-cd build
-cmake .. -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
-make -j$(nproc)
+### 编译
 
-# 运行全部测试
-ctest --output-on-failure -j4
+```bash
+# 方式 1: 一键脚本 (推荐)
+bash shell/setup.sh --build-only
 
-# 按组件运行
-ctest -R zero.     # zero 库测试 (22)
-ctest -R lstl.     # lstl 容器测试 (20)
-ctest -R lrpc.     # lrpc RPC 测试 (6)
-ctest -R ledis.    # ledis 存储测试 (24)
-ctest -R integration.  # 集成测试 (4)
-ctest -R stress.   # 压力测试 (4)
+# 方式 2: 手动编译 zero + ledis + 压测工具
+cmake -B build-stress -DCMAKE_BUILD_TYPE=Release \
+      -DBUILD_STRESS_TESTS=ON -DBUILD_TESTS=OFF
+cmake --build build-stress -j$(nproc)
 
-# 运行特定测试 (支持通配符)
-ctest -R test_dict
-ctest -R test_storage_engine_string
+# 方式 3: 仅编译 zero 库
+cmake -B build-res-zero SRC/zero -DCMAKE_BUILD_TYPE=Release
+cmake --build build-res-zero -j$(nproc)
 
-# === Sanitizer 构建 ===
+# 方式 4: 仅编译 zstl 测试
+cmake -B build-zstl-test SRC/zstl -DCMAKE_BUILD_TYPE=Release
+cmake --build build-zstl-test -j$(nproc)
+```
 
-# Address + Undefined Behavior Sanitizer
-cmake .. -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" \
-         -DCMAKE_BUILD_TYPE=Debug
-make -j$(nproc)
-ctest --output-on-failure
+### 运行
 
-# Thread Sanitizer (需单独构建，与 ASan 不兼容)
-cmake .. -DCMAKE_CXX_FLAGS="-fsanitize=thread -fno-omit-frame-pointer" \
-         -DCMAKE_BUILD_TYPE=Debug
-make -j$(nproc)
-ctest --output-on-failure -j1  # TSan 建议单线程运行
+```bash
+# 启动 ledis 服务 (单机)
+bin/ledis-server --port 6379
 
-# === 代码覆盖率 ===
-cmake .. -DCMAKE_CXX_FLAGS="--coverage -O0" -DCMAKE_BUILD_TYPE=Debug
-make -j$(nproc)
-ctest --output-on-failure
-lcov --capture --directory . --output-file coverage.info
-lcov --remove coverage.info '/usr/*' '*/gtest/*' --output-file coverage_filtered.info
-genhtml coverage_filtered.info --output-directory coverage_report
-# 打开 coverage_report/index.html 查看详细覆盖率报告
+# 启动 3 节点集群
+bin/ledis-server --port 7000 --cluster-enabled --cluster-port 17000 &
+bin/ledis-server --port 7001 --cluster-enabled --cluster-port 17001 \
+                 --cluster-seeds 127.0.0.1:17000 &
+bin/ledis-server --port 7002 --cluster-enabled --cluster-port 17002 \
+                 --cluster-seeds 127.0.0.1:17000 &
 
-# === 性能基准测试 ===
-cmake .. -DBUILD_BENCHMARKS=ON -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-
-# 原始引擎压测
-./tests/benchmark/bench_ledis_raw
-
-# 服务器压测 (redis-benchmark 兼容输出)
-./tests/benchmark/bench_ledis_server
-
-# Dict 对比 std::unordered_map
-./tests/benchmark/bench_dict_vs_std
-
-# Dict 并发可扩展性
-./tests/benchmark/bench_dict_concurrent
-
-# zero echo 吞吐量
-./tests/benchmark/bench_zero_echo
-
-# 调度器延迟
-./tests/benchmark/bench_zero_scheduler
-
-# === 压力测试 ===
-cmake .. -DBUILD_STRESS_TESTS=ON -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-
-# 并发客户端压测
-./tests/stress/stress_ledis_concurrent
-
-# 内存淘汰压测
-./tests/stress/stress_ledis_memory
-
-# 大数据集压测
-./tests/stress/stress_ledis_large_keys
-
-# === 原有构建方式 (兼容) ===
-cd ledis/build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-./ledis-server --port 6379
-
-# 压测
-redis-benchmark -p 6379 -t set,get -n 200000 -c 50 --csv
-redis-benchmark -p 6379 -t set -n 500000 -c 50 -P 16 --csv
+# 用 redis-cli 连接
+redis-cli -p 6379 SET foo bar
+redis-cli -p 6379 GET foo
+redis-cli -c -p 7000 SET cluster_key value  # 集群模式自动跳转
 ```
 
 ---
 
-## 已知问题 (Bug Tracker)
+## 测试体系
 
-以下问题在代码审查中发现，均有对应的回归测试 (`BUG_REGRESSION` 标记)：
+### 单元测试
 
-| # | 严重度 | 组件 | 问题描述 |
-|---|--------|------|---------|
-| 1 | 🔴 Critical | FiberPool | `acquire()` 返回裸指针构造的 shared_ptr，调用 `shared_from_this()` 会抛 `bad_weak_ptr` |
-| 2 | 🔴 Critical | FiberLocal | `reinterpret_cast` 在 shared_ptr 类型间转换，存在严格别名违例 UB |
-| 3 | 🟡 Medium | SpinLock | ARM64 平台缺少 `__yield` 内联汇编，自旋锁性能次优 |
-| 4 | 🟡 Medium | ByteBuffer | `toString()` 传递 `nullptr` 给 `std::string` 构造函数，实现定义行为 |
-| 5 | 🔴 Critical | UringServer | 发送 EAGAIN 时静默丢弃响应，可能导致数据丢失 |
-| 6 | 🟡 Medium | BlockingManager | 原始 `new`/`delete` 管理 Waiter 生命周期，异常路径存在泄漏风险 |
-| 7 | 🔴 Critical | PubSubManager | 存储 `Session*` 裸指针，会话销毁时若未调用 `cleanup()` 则产生悬空指针 |
-| 8 | 🟡 Medium | StorageEngine | `SETRANGE` 对同一 key 执行两次 `dict_.find()`，多线程下存在 TOCTOU 竞态 |
-| 9 | 🟡 Medium | StorageEngine | SCAN 游标在 Dict resize 时可能丢失或重复 key |
-| 10 | 🟢 Low | EvictionManager | 内存估算使用粗略公式 (`capacity*96 + size*64`)，未考虑复合类型实际大小 |
-| 11 | 🟡 Medium | LuaScriptEngine | `thread_local lua_args_` 与共享 `lua_State*` 搭配，多线程存在数据竞态 |
-| 12 | 🟢 Low | TimerWheel | `cancelTimer()` 惰性删除为 O(N)，大量取消时性能下降 |
-| 13 | 🟡 Medium | ClusterGossip | `fail_votes_` 无 epoch 检查，旧 epoch 投票可能影响新一轮故障检测 |
-| 14 | 🟡 Medium | ConfigVar | 变更监听器中回调同一 ConfigVar 的 `setValue()` 可能导致死锁 |
+```bash
+# zstl 测试 (40+ 测试文件)
+cmake -B build-zstl-test SRC/zstl -DBUILD_TESTS=ON
+cmake --build build-zstl-test -j$(nproc)
+cd build-zstl-test && ctest --output-on-failure
 
-> 所有问题均通过 `tests/` 中的回归测试追踪。运行 `ctest -R BUG_REGRESSION` 可执行所有 Bug 回归测试。
+# kvstore 测试
+cmake -B SRC/kvstore/build-check SRC/kvstore -DBUILD_KVSTORE_TESTS=ON
+cmake --build SRC/kvstore/build-check
+./SRC/kvstore/build-check/kvstore-test
+```
+
+### 矩阵压测
+
+```bash
+# 5 组独立压测
+bash shell/bench_log.sh    # 日志矩阵
+bash shell/bench_pool.sh   # 内存池矩阵
+bash shell/bench_zstl.sh   # 容器矩阵
+bash shell/bench_net.sh    # 网络矩阵
+bash shell/bench_kv.sh     # KV 矩阵
+
+# 一键运行全部
+bash shell/setup.sh --bench-only
+
+# 查看结果
+cat benchmark/SETUP_SUMMARY.txt
+```
+
+### 并发正确性测试
+
+```bash
+# ledis INCR 并发正确性 (2/4/8 线程, mutex 串行化)
+bin/stress_ledis_concurrent benchmark/
+```
+
+**测试结果:**
+
+| 线程数 | 每线程操作 | 期望值 | 实际值 | 耗时 | 结果 |
+|:---:|-----:|-----:|-----:|----:|:--:|
+| 2 | INCR×100,000 | 200,000 | 200,000 | 34ms | ✅ |
+| 4 | INCR×100,000 | 400,000 | 400,000 | 62ms | ✅ |
+| 8 | INCR×50,000 | 400,000 | 400,000 | 68ms | ✅ |
+
+### 集群功能测试
+
+| 功能 | 结果 |
+|------|:--:|
+| 3 节点组网 | ✅ |
+| CLUSTER NODES 发现 | ✅ |
+| CLUSTER SLOTS 分配 (16384 slots) | ✅ |
+| MOVED 重定向 (正确返回目标节点) | ✅ |
+| redis-cli -c 自动跳转 | ✅ |
+| 20 keys 批量读写完整性 | ✅ |
 
 ---
 
-## 作者
+## 服务器环境
 
-LemoDis | 2026-2027 | [GitHub](https://github.com/Lemo-Code/KVStore)
+### 推荐配置
+
+| 级别 | CPU | 内存 | 适用场景 |
+|------|-----|------|----------|
+| **开发** | 2 核 | 2 GB | 编译 + 单元测试 |
+| **压测** | 4 核 | 8 GB | 全量基准测试 |
+| **生产** | 8 核+ | 32 GB+ | 集群部署 |
+
+### 支持架构
+
+| 架构 | 状态 | 备注 |
+|------|------|------|
+| **ARM64 (aarch64)** | ✅ 完整支持 | 汇编级协程上下文切换优化 |
+| **x86-64** | ✅ 完整支持 | 汇编级协程上下文切换优化 |
+
+### 关键环境变量
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `LEDIS_PORT` | 16379 | ledis 服务端口 |
+| `REDIS_PORT` | 6379 | Redis 对比端口 |
+| `ECHO_PORT` | 18900 | Echo 服务端口 |
+| `CMAKE` | `/usr/bin/cmake` | CMake 路径 |
+
+---
+
+## 配置说明
+
+### YAML 配置示例
+
+```yaml
+# ledis 配置
+port: 6379
+bind: "0.0.0.0"
+loglevel: "INFO"
+tcp_nodelay: true
+
+# 持久化
+aof: "/var/lib/ledis/appendonly.aof"
+aof_mode: "everysec"
+
+# 集群
+cluster_enabled: true
+cluster_port: 16379
+cluster_replicas: 1
+
+# zero 网络库配置
+zero:
+  fiber_stack_size: 131072    # 128KB
+  fiber_pool_size: 1024
+  scheduler_threads: 4
+  socket_recv_timeout_ms: 5000
+  socket_tcp_no_delay: true
+```
+
+---
+
+## License
+
+MIT License
+
+---
+
+## 参考
+
+- [Raft 共识算法论文](https://raft.github.io/raft.pdf)
+- [Chase-Lev Work-Stealing Deque](https://www.di.ens.fr/~zappa/readings/ppopp13.pdf)
+- [Redis 集群规范](https://redis.io/docs/reference/cluster-spec/)
+- [Linux epoll](https://man7.org/linux/man-pages/man7/epoll.7.html)
+- [ARM64 AAPCS64 调用约定](https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst)

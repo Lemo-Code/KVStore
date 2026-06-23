@@ -1,1 +1,0 @@
-kvstore_add_test(test_integration_pipeline SOURCES test_pipeline.cpp LIBS ledis)

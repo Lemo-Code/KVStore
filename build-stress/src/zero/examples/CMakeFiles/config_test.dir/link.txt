@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/config_test.dir/config_test.cc.o -o config_test  ../libzero.a -lpthread -ldl -lyaml-cpp 

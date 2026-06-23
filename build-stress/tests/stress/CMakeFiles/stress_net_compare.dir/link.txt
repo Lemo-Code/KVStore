@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/stress_net_compare.dir/net/stress_net_compare.cpp.o -o /home/wangmaosen/app/cpp/KVStore/bin/stress_net_compare  ../../src/zero/libzero.a /usr/lib/aarch64-linux-gnu/libevent.so -lpthread -ldl -lyaml-cpp 

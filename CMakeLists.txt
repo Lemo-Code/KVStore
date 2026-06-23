@@ -49,8 +49,13 @@ endif()
 # ============================================================
 # Fetch gtest if building tests
 # ============================================================
-if(BUILD_TESTS OR BUILD_BENCHMARKS OR BUILD_STRESS_TESTS)
+if(BUILD_TESTS OR BUILD_BENCHMARKS)
     include(cmake/gtest.cmake)
+    enable_testing()
+endif()
+
+# Stress tests don't need gtest (use self-contained matrix.h)
+if(BUILD_STRESS_TESTS)
     enable_testing()
 endif()
 

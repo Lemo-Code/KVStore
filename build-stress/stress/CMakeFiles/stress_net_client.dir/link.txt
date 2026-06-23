@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/stress_net_client.dir/net/stress_net_client.cpp.o -o /home/wangmaosen/app/cpp/KVStore/bin/stress_net_client  -lpthread 

@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/fiber_test.dir/fiber_test.cc.o -o fiber_test  ../libzero.a -lpthread -ldl -lyaml-cpp 

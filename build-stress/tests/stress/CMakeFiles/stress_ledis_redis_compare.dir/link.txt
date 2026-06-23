@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/stress_ledis_redis_compare.dir/ledis/stress_ledis_redis_compare.cpp.o -o /home/wangmaosen/app/cpp/KVStore/bin/stress_ledis_redis_compare  -lpthread 

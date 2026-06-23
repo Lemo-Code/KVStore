@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/test_zero_boundary_fault.dir/test_boundary_fault.cpp.o -o /home/wangmaosen/app/cpp/KVStore/bin/test_zero_boundary_fault  ../../lib/libgtest_main.a /home/wangmaosen/app/cpp/KVStore/lib/libzero.a -lyaml-cpp ../../lib/libgtest.a -lpthread -ldl -lyaml-cpp 

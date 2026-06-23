@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -march=native -mtune=native -flto=auto -fno-fat-lto-objects CMakeFiles/test_lstl_type_traits.dir/test_type_traits.cpp.o -o /home/wangmaosen/app/cpp/KVStore/bin/test_lstl_type_traits  ../../lib/libgtest_main.a ../../lib/libgtest.a 
